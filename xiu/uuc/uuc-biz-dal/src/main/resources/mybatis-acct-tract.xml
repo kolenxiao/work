@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="">
+
+    <!-- ===================================账目信息表======================================= -->
+	<!-- 新增账目信息 -->
+	<insert id="uuc_acct_item_tract_insert" parameterType="AcctItemPO">
+		insert into x_uuc_acct_item_info(
+			ACCT_ITEM_ID,
+			ACCT_TYPE_CODE,	
+			ACCT_ID,
+			TOTAL_AMOUNT,
+			FREEZE_AMOUNT,
+			DATA_VERSION,		
+			ACCT_ITEM_STATE,
+			OPER_ID,
+			CREATE_TIME)
+		values(
+			#{acctItemId},
+			#{acctTypeCode},	
+			#{acctId},
+			#{totalAmount, jdbcType=VARCHAR},
+			0,
+			0,
+			#{acctItemState, jdbcType=VARCHAR},		
+			#{operId, jdbcType=VARCHAR},
+			sysdate)
+  	</insert>
+
+	<!-- 新增账目轨迹信息 -->
+	<insert id="uuc_acct_tract_insert" parameterType="TractPO">
+		INSERT INTO X_UUC_ACCT_TRACT_INFO ( 
+		  ACCT_TRACT_ID,
+		  ACCT_CHANGE_ID,
+		  OLD_RLT_ID,
+		  NEW_RLT_ID,
+		  IO_TYPE, 
+		  IO_AMOUNT,
+		  CREATE_TIME,
+		  REFUND_ID,
+		  PAY_MODE, 
+		  REMARK,
+		  RLT_SEQ,
+		  RES_CODE) 
+		VALUES ( 
+		  #{acctTractId, jdbcType=VARCHAR},
+		  #{accountChangeId, jdbcType=VARCHAR},
+		  #{oldRltId, jdbcType=VARCHAR}, 
+		  #{newRltId, jdbcType=VARCHAR}, 
+		  #{ioType, jdbcType=VARCHAR}, 
+		  #{ioAmount, jdbcType=VARCHAR},
+		  sysdate,
+		  #{refundId, jdbcType=VARCHAR}, 
+		  #{payMode, jdbcType=VARCHAR},
+		  #{remark, jdbcType=VARCHAR},
+		  #{rltSeq, jdbcType=VARCHAR},
+		  #{resCode, jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 查询账目轨迹信息 -->
+	<resultMap id="uuc_acct_tract_list_resultMap" type="TractPO">
+		<result property="acctTractId" column="ACCT_TRACT_ID" />
+		<result property="accountChangeId" column="ACCT_CHANGE_ID" />
+		<result property="oldRltId" column="OLD_RLT_ID" />
+		<result property="newRltId" column="NEW_RLT_ID" />
+		<result property="ioType" column="IO_TYPE" />
+		<result property="ioAmount" column="IO_AMOUNT" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="refundId" column="REFUND_ID" />
+		<result property="payMode" column="PAY_MODE" />
+		<result property="remark" column="REMARK" />
+		<result property="sumIoAmount" column="SUM_IO_AMOUNT" />
+		<result property="rltSeq" column="RLT_SEQ" />
+		<result property="resCode" column="RES_CODE" />
+	</resultMap>
+	<!-- 查询老订单出入虚拟账户轨迹明细 -->
+	<select id="uuc_acct_tract_refund_detail_list" resultMap="uuc_acct_tract_list_resultMap" parameterType="TractParam">
+		SELECT 
+		      ACCT_TRACT_ID, 
+		      ACCT_CHANGE_ID, 
+		      OLD_RLT_ID, 
+		      NEW_RLT_ID,
+		      IO_TYPE, 
+		      IO_AMOUNT, 
+		      CREATE_TIME, 
+		      UPDATE_TIME,
+		      REFUND_ID,
+		      PAY_MODE,
+		      REMARK,
+		      RLT_SEQ,
+		      RES_CODE
+  		FROM (SELECT A.*, rownum r
+          	  FROM (SELECT
+          	              ACCT_TRACT_ID, 
+					      ACCT_CHANGE_ID, 
+					      OLD_RLT_ID, 
+					      NEW_RLT_ID,
+					      IO_TYPE, 
+					      IO_AMOUNT, 
+					      CREATE_TIME, 
+					      UPDATE_TIME,
+					      REFUND_ID,
+					      PAY_MODE,
+					      REMARK,
+					      RLT_SEQ,
+					      RES_CODE
+        			FROM X_UUC_ACCT_TRACT_INFO t1
+        			<where>
+        			      <if test="oldRltId != null and oldRltId !=''">
+							  AND t1.OLD_RLT_ID = #{oldRltId}
+						  </if>
+						  <if test="newRltId != null and newRltId !=''">
+							  AND t1.NEW_RLT_ID = #{newRltId}
+						  </if>
+						  <if test="ioType != null and ioType !=''">
+							  AND t1.IO_TYPE = #{ioType}
+						  </if>
+						  <if test="ioAmount != null and ioAmount !=''">
+							  AND t1.IO_AMOUNT = #{ioAmount}
+						  </if>
+						  <if test="begTime != null and begTime!=''">
+							  AND t1.CREATE_TIME >= #{begTime}
+						  </if>
+				          <if test="endTime != null and endTime!=''">
+							  AND #{endTime} >= t1.CREATE_TIME
+						  </if>
+						  <if test="refundId != null and refundId !=''">
+							  AND t1.REFUND_ID = #{refundId}
+						  </if>
+						  <if test="payMode != null and payMode !=''">
+							  AND t1.PAY_MODE = #{payMode}
+						  </if>
+						  <if test="rltSeq != null and rltSeq !=''">
+							  AND t1.RLT_SEQ = #{rltSeq}
+						  </if>
+						  <if test="resCode != null and resCode !=''">
+							  AND t1.RES_CODE = #{resCode}
+						  </if>
+					</where>
+					<choose>
+					    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+						    ORDER BY ${sort} ${order} 
+						</when>
+					    <when test="sort != null and sort != ''">
+						    ORDER BY #{sort} 
+						</when>
+						<otherwise>
+						    ORDER BY CREATE_TIME DESC
+						</otherwise>
+					</choose> 
+        			) A
+       		   WHERE #{lastRow} >= rownum )
+		WHERE r >= #{firstRow}
+	</select>
+	
+	<!-- 查询老订单出入虚拟账户轨迹明细统计查询 -->
+	<select id="uuc_acct_tract_refund_detail_list_count" resultType="int" parameterType="TractParam">
+		SELECT 
+		      COUNT(1)
+  		FROM X_UUC_ACCT_TRACT_INFO t1
+  		<where>
+  			  <if test="oldRltId != null and oldRltId !=''">
+	              AND t1.OLD_RLT_ID = #{oldRltId}
+			  </if>
+			  <if test="newRltId != null and newRltId !=''">
+				  AND t1.NEW_RLT_ID = #{newRltId}
+			  </if>
+			  <if test="ioType != null and ioType !=''">
+				  AND t1.IO_TYPE = #{ioType}
+			  </if>
+			  <if test="ioAmount != null and ioAmount !=''">
+				  AND t1.IO_AMOUNT = #{ioAmount}
+			  </if>
+			  <if test="begTime != null and begTime!=''">
+				  AND t1.CREATE_TIME >= #{begTime}
+			  </if>
+	          <if test="endTime != null and endTime!=''">
+				  AND #{endTime} >= t1.CREATE_TIME
+			  </if>
+			  <if test="refundId != null and refundId !=''">
+				  AND t1.REFUND_ID = #{refundId}
+			  </if>
+			  <if test="payMode != null and payMode !=''">
+				  AND t1.PAY_MODE = #{payMode}
+			  </if>
+			  <if test="rltSeq != null and rltSeq !=''">
+				  AND t1.RLT_SEQ = #{rltSeq}
+			  </if>
+			  <if test="resCode != null and resCode !=''">
+				  AND t1.RES_CODE = #{resCode}
+			  </if>
+		</where>
+	</select>
+	
+	<!-- 查询未完结退款列表 -->
+	<select id="uuc_acct_tract_refund_not_end_detail_list" resultMap="uuc_acct_tract_list_resultMap" parameterType="TractParam">
+		SELECT 
+		      OLD_RLT_ID,
+              REFUND_ID,
+              PAY_MODE,
+              SUM_IO_AMOUNT,
+			  RLT_SEQ,
+			  RES_CODE
+  		FROM (SELECT A.*, rownum r
+          	  FROM (SELECT
+          	              t2.OLD_RLT_ID                                               as OLD_RLT_ID,
+			              t2.REFUND_ID                                                as REFUND_ID,
+			              t2.PAY_MODE                                                 as PAY_MODE,
+			              t2.SUM_IO_AMOUNT                                            as SUM_IO_AMOUNT,
+			              t2.RLT_SEQ                                                  as RLT_SEQ,
+					      t2.RES_CODE                                                 as RES_CODE
+        			FROM 
+        			      (SELECT
+		        			      t1.OLD_RLT_ID                                                 as OLD_RLT_ID,
+					              t1.REFUND_ID                                                  as REFUND_ID,
+					              t1.PAY_MODE                                                   as PAY_MODE,
+					              SUM(DECODE(t1.IO_TYPE,'01',t1.IO_AMOUNT,'02',-t1.IO_AMOUNT))  as SUM_IO_AMOUNT,
+					              t1.RLT_SEQ                                                    as RLT_SEQ,
+							      t1.RES_CODE                                                   as RES_CODE
+		        		   FROM   X_UUC_ACCT_TRACT_INFO t1
+		        		   <where>
+								  <if test="oldRltId != null and oldRltId !=''">
+									  AND t1.OLD_RLT_ID = #{oldRltId}
+								  </if>
+								  <if test="refundId != null and refundId !=''">
+									  AND t1.REFUND_ID = #{refundId}
+								  </if>
+								  <if test="begTime != null and begTime!=''">
+									  AND t1.CREATE_TIME >= #{begTime}
+								  </if>
+						          <if test="endTime != null and endTime!=''">
+									  AND ((t1.IO_TYPE='01' and #{endTime} >= t1.CREATE_TIME) or t1.IO_TYPE='02')
+								  </if>
+						    </where>
+					        GROUP BY t1.OLD_RLT_ID ,t1.REFUND_ID , t1.PAY_MODE , t1.RLT_SEQ ,t1.RES_CODE
+					        ORDER BY t1.OLD_RLT_ID DESC , t1.REFUND_ID DESC
+        			      ) t2
+        			  WHERE t2.SUM_IO_AMOUNT > '0'
+        			) A
+       		   WHERE #{lastRow} >= rownum )
+		WHERE r >= #{firstRow}
+	</select>
+	
+	<!-- 未完结退款列表统计查询 -->
+	<select id="uuc_acct_tract_refund_not_end_detail_count" resultType="int" parameterType="TractParam">
+		SELECT 
+		      COUNT(1)
+  		FROM  
+  		      (SELECT
+  		              SUM(DECODE(t1.IO_TYPE,'01',t1.IO_AMOUNT,'02',-t1.IO_AMOUNT))  as SUM_IO_AMOUNT 
+  		       FROM
+  		              X_UUC_ACCT_TRACT_INFO t1
+  		       <where>
+					  <if test="oldRltId != null and oldRltId !=''">
+						  AND t1.OLD_RLT_ID = #{oldRltId}
+					  </if>
+					  <if test="refundId != null and refundId !=''">
+						  AND t1.REFUND_ID = #{refundId}
+					  </if>
+					  <if test="begTime != null and begTime!=''">
+						  AND t1.CREATE_TIME >= #{begTime}
+					  </if>
+			          <if test="endTime != null and endTime!=''">
+						  AND ((t1.IO_TYPE='01' and #{endTime} >= t1.CREATE_TIME) or t1.IO_TYPE='02')
+					  </if>
+				</where>
+			    GROUP BY t1.OLD_RLT_ID ,t1.REFUND_ID , t1.PAY_MODE , t1.RLT_SEQ ,t1.RES_CODE
+  		       ) t2
+  		WHERE t2.SUM_IO_AMOUNT > '0'
+	</select>
+	
+</mapper>

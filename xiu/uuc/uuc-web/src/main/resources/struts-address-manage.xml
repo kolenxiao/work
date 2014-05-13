@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="address" namespace="/" extends="struts-default">
+
+		<global-results>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</global-results>	
+ 		
+ 		<action name="rcvAddressManage" class="com.xiu.uuc.web.action.AddressManageAction">
+		</action>
+			 									
+		<action name="searchModifyRcvAddressInfo" method="getRcvAddressInfo" class="com.xiu.uuc.web.action.AddressManageAction">
+			<result name="success">/test/address/modifyRcvAddressInfo.jsp</result>
+		</action>
+						
+		<action name="getRcvAddressList" method="getRcvAddressList" class="com.xiu.uuc.web.action.AddressManageAction">
+			<result name="success">/test/address/getRcvAddressList.jsp</result>
+		</action>
+								
+		<action name="getRcvAddressInfo" method="getRcvAddressInfo" class="com.xiu.uuc.web.action.AddressManageAction">
+			<result name="success">/test/address/getRcvAddressInfo.jsp</result>
+		</action>
+										
+		<action name="getRcvAddressCount" method="getRcvAddressCount" class="com.xiu.uuc.web.action.AddressManageAction">
+			<result name="success">/test/address/getRcvAddressCount.jsp</result>
+		</action>
+
+		
+	</package>
+</struts>

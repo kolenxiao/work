@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+     
+     	
+	<!-- 定义环境变量配置 -->
+	<bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:/config.properties</value>
+				<value>classpath:/dbconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- IOC注解 -->
+	<context:annotation-config/>	
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
+
+	<!-- 数据源配置 -->
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<!-- 数据库驱动 -->
+		<property name="driverClass" value="${uuc.db.driverClass}" />
+		<!--相应驱动的jdbcUrl,你懂的 -->
+		<property name="jdbcUrl" value="${uuc.db.url}" />
+		<!-- 数据库的用户名 -->
+		<property name="username" value="${uuc.db.username}" />
+		<!-- 数据库的密码 -->
+		<property name="password" value="${uuc.db.pwd}" />
+		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+		<property name="idleConnectionTestPeriod" value="${uuc.db.idleConnectionTestPeriod}" />
+		<!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+		<property name="idleMaxAge" value="${uuc.db.idleMaxAge}" />
+		<!-- 每个分区最大的连接数-->
+		<property name="maxConnectionsPerPartition" value="${uuc.db.maxConnectionsPerPartition}" />
+		<!-- 每个分区最小的连接数 -->
+		<property name="minConnectionsPerPartition" value="${uuc.db.minConnectionsPerPartition}" />
+		<!-- 分区数 ，默认值2，最小1，推荐3-4，视应用而定-->
+		<property name="partitionCount" value="${uuc.db.partitionCount}"/>
+		<!-- 当连接池中的连接耗尽的时候 BoneCP一次同时获取的连接数，每次去拿数据库连接的时候一次性要拿几个,默认值：2 -->
+		<property name="acquireIncrement" value="${uuc.db.acquireIncrement}" />
+		<!-- 缓存prepared statements的大小，默认值：0 -->
+		<property name="statementsCacheSize" value="${uuc.db.statementsCacheSize}" />
+		<!-- 每个分区释放链接助理进程的数量，默认值：3，除非你的一个数据库连接的时间内做了很多工作，不然过多的助理进程会影响你的性能 -->
+		<property name="releaseHelperThreads" value="${uuc.db.releaseHelperThreads}" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+
+	<!-- 配置事务管理器,使用jdbc事务 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+		
+	<!-- 申明式事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="create*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="register*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="edit*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="del*" propagation="REQUIRED" rollback-for="Exceptionn"/>
+			<tx:method name="remove*" propagation="REQUIRED" rollback-for="Exceptionn"/>			
+			<tx:method name="*" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut id="allManagerMethod" expression="execution(* com.xiu.uuc.manager.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
+	</aop:config>
+
+
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="bankAcct" namespace="/" extends="struts-default">
+	
+	    <global-results>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</global-results>
+
+<!-- 		<action name="bankAcctManager" class="com.xiu.uuc.web.action.BankAcctAction">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action> -->
+						
+		<action name="getBankAcctListInfo" method="getBankAcctListInfo" class="com.xiu.uuc.web.action.BankAcctAction">
+			<result name="success">/test/bankAcct/getBankAcctList.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+								
+		<action name="findBankAcctDetailInfo" method="findBankAcctDetailInfo" class="com.xiu.uuc.web.action.BankAcctAction">
+			<result name="success">/test/bankAcct/getBankAcctInfo.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+										
+		<action name="searchModifyBankAcctInfo" method="findBankAcctDetailInfo" class="com.xiu.uuc.web.action.BankAcctAction">
+			<result name="success">/test/bankAcct/modifyBankAcctInfo.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,1267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="userManage">
+
+	<!-- ===================================客户信息表======================================= -->
+	<!-- 新增客户信息 -->
+	<insert id="uuc_cust_info_insert" parameterType="CustInfoPO">
+		insert into x_uuc_cust_info(
+			CUST_ID,
+			CHANNEL_ID,
+			CUST_STATE,
+			CUST_TYPE,
+			PARTNER_ID,
+			PARTNER_CHANNEL_ID,
+			CUST_LEVEL,
+			CUST_NAME,
+			REGISTER_TYPE,
+			BIRTHDAY,
+			LAST_LOGON_IP,
+			LAST_LOGON_CHANNEL_ID,
+			LAST_LOGON_TIME,			
+			OPER_ID)
+		values(
+			#{custId},
+			#{channelId},
+			#{custState, jdbcType=VARCHAR},
+			#{custType, jdbcType=VARCHAR},
+			lower(#{partnerId, jdbcType=VARCHAR}),
+			#{partnerChannelId, jdbcType=VARCHAR},
+			#{custLevel, jdbcType=VARCHAR},
+			#{custName, jdbcType=VARCHAR},
+			#{registerType, jdbcType=VARCHAR},
+			#{birthday, jdbcType=DATE},
+			#{lastLogonIp, jdbcType=VARCHAR},
+			#{lastLogonChannelId, jdbcType=VARCHAR},
+			SYSDATE,
+			#{operId, jdbcType=VARCHAR})
+  </insert>
+  
+	<!-- 查询客户信息 -->
+	<resultMap id="uuc_cust_info_query_resultMap" type="CustInfoPO">
+		<id property="custId" column="cust_id" />
+		<result property="channelId" column="channel_id" />
+		<result property="custState" column="cust_state" />
+		<result property="custType" column="cust_type" />
+		<result property="partnerId" column="partner_id" />
+		<result property="partnerChannelId" column="partner_channel_id" />
+		<result property="custLevel" column="cust_level" />
+		<result property="custName" column="cust_name" />
+		<result property="registerType" column="register_type" />
+		<result property="birthday" column="birthday" />
+		<result property="lastLogonIp" column="LAST_LOGON_IP" />
+		<result property="lastLogonTime" column="LAST_LOGON_TIME" />
+		<result property="lastLogonChannelId" column="LAST_LOGON_CHANNEL_ID" />		
+	</resultMap>	
+	<select id="uuc_cust_info_query" parameterType="UserInfoParam" resultMap="uuc_cust_info_query_resultMap">
+		SELECT CUST_ID,
+		       CHANNEL_ID,
+		       CUST_STATE,
+		       CUST_TYPE,
+		       lower(PARTNER_ID) PARTNER_ID,
+		       PARTNER_CHANNEL_ID,
+		       CUST_LEVEL,
+		       CUST_NAME,
+		       REGISTER_TYPE,
+		       BIRTHDAY,
+		       LAST_LOGON_IP,
+		       LAST_LOGON_TIME,
+		       LAST_LOGON_CHANNEL_ID
+		  FROM X_UUC_CUST_INFO
+		  <where>
+		  	<if test="custId != null and custId !='' ">
+				AND CUST_ID = #{custId}
+			</if>
+			<if test="partnerId != null and partnerId !='' ">
+				AND lower(PARTNER_ID) = lower(#{partnerId})
+			</if>
+			<if test="partnerChannelId != null and partnerChannelId !='' ">
+				AND PARTNER_CHANNEL_ID = #{partnerChannelId}
+			</if>
+		  </where>
+	</select>
+	
+	<!-- 修改客户信息 -->
+	<update id="uuc_cust_info_modify" parameterType="CustInfoPO">
+		UPDATE X_UUC_CUST_INFO SET
+            <if test="custState != null and custState !='' ">
+                CUST_STATE = #{custState},
+            </if>
+			<if test="custLevel != null and custLevel !='' ">
+				CUST_LEVEL = #{custLevel},
+			</if>
+			<if test="custName != null">
+				CUST_NAME = #{custName},
+			</if>
+			<if test="birthday != null">
+				BIRTHDAY = #{birthday},
+			</if>
+			<if test="lastLogonIp != null">
+				LAST_LOGON_IP = #{lastLogonIp},
+			</if>
+			<if test="lastLogonTime != null">
+				LAST_LOGON_TIME = #{lastLogonTime},
+			</if>
+			<if test="lastLogonChannelId != null">
+				LAST_LOGON_CHANNEL_ID = #{lastLogonChannelId},
+			</if>
+			UPDATE_TIME = sysdate
+		WHERE CUST_ID = #{custId}
+	</update>
+        
+    <!-- 引导联盟注册时修改客户表 -->
+    <update id="uuc_cust_info_leadregister_modify" parameterType="CustInfoPO">
+        UPDATE X_UUC_CUST_INFO SET          
+            CUST_TYPE = #{custType},
+            REGISTER_TYPE = #{registerType},
+            UPDATE_TIME = sysdate
+        WHERE CUST_ID = #{custId}
+    </update>
+
+
+
+
+	<!-- ===================================用户信息表======================================= -->
+	<!-- 新增用户信息 -->
+	<insert id="uuc_user_info_insert" parameterType="UserInfoPO">
+		insert into x_uuc_user_info(
+			USER_ID,
+			CUST_ID,
+			PASSWORD,
+			CHANNEL_ID,
+			USER_LEVEL,
+			IS_MASTER,
+			USER_STATE,
+			PET_NAME,
+			MOBILE,
+			E_MAIL,
+			MOBILE_AUTHEN_STATUS,
+			EMAIL_AUTHEN_STATUS,
+			EBAY_USER_AGREEMENT,
+			OPER_ID)
+		values(
+			#{userId},
+			#{custId},
+			#{password, jdbcType=VARCHAR},
+			#{channelId},
+			#{userLevel},
+			#{isMaster},
+			#{userState},
+			lower(#{petName, jdbcType=VARCHAR}),
+			#{mobile, jdbcType=VARCHAR},
+			lower(#{email, jdbcType=VARCHAR}),
+			#{mobileAuthenStatus, jdbcType=VARCHAR},
+			#{emailAuthenStatus, jdbcType=VARCHAR},
+			#{ebayUserAgreement, jdbcType=VARCHAR},
+			#{operId, jdbcType=VARCHAR})
+  	</insert>
+  		
+	<!-- 修改用户信息 -->
+	<update id="uuc_user_info_modify" parameterType="UserInfoPO">
+		UPDATE x_uuc_user_info SET
+			<if test="userLevel != null and userLevel !='' ">
+				USER_LEVEL = #{userLevel},
+			</if>
+			<if test="userState != null and userState !='' ">
+				USER_STATE = #{userState},
+			</if>
+			<if test="petName != null">
+				PET_NAME = lower(#{petName}),
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile},
+			</if>
+			<if test="email != null">
+				E_MAIL = lower(#{email}),
+			</if>
+			<if test="operId != null and operId !='' ">
+				OPER_ID = #{operId},
+			</if>
+			UPDATE_TIME = sysdate
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<!-- 修改邮箱和手机的认证状态 -->
+	<update id="uuc_user_authentic_modify" parameterType="UserInfoPO">
+		UPDATE x_uuc_user_info SET
+			<if test="mobile != null and mobile !='' ">
+				MOBILE = #{mobile},
+			</if>
+			<if test="email != null and email !='' ">
+				E_MAIL = #{email},
+			</if>
+			<if test="mobileAuthenStatus != null and mobileAuthenStatus !='' ">
+				MOBILE_AUTHEN_STATUS = #{mobileAuthenStatus},
+			</if>
+			<if test="emailAuthenStatus != null and emailAuthenStatus !='' ">
+				EMAIL_AUTHEN_STATUS = #{emailAuthenStatus},
+			</if>
+			UPDATE_TIME = sysdate
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<!-- 修改eBay用户协议是否同意标志 -->
+	<update id="uuc_user_ebay_agreement_modify" parameterType="UserInfoPO">
+		UPDATE x_uuc_user_info 
+		SET EBAY_USER_AGREEMENT = #{ebayUserAgreement}
+		WHERE USER_ID = #{userId}
+	</update>
+		
+	<!-- 修改用户密码 -->
+	<update id="uuc_user_info_modify_password" parameterType="UserInfoPO">
+		UPDATE x_uuc_user_info
+		   SET PASSWORD = #{password},
+		       <if test="operId != null and operId !='' ">
+		       	OPER_ID = #{operId},
+		       </if>		       
+		       UPDATE_TIME = sysdate
+		WHERE USER_ID = #{userId}
+	</update>
+            
+    <!-- 引导联盟注册时修改用户表 -->
+    <update id="uuc_user_info_leadregister_modify" parameterType="UserInfoPO">
+        UPDATE x_uuc_user_info SET            
+            PET_NAME = '',
+            PASSWORD = #{password},
+            <if test="mobile != null and mobile !='' ">
+                MOBILE = #{mobile},
+            </if>
+            <if test="email != null and email !='' ">
+                E_MAIL = #{email},
+            </if>
+            <if test="mobileAuthenStatus != null and mobileAuthenStatus !='' ">
+				MOBILE_AUTHEN_STATUS = #{mobileAuthenStatus},
+			</if>
+			<if test="emailAuthenStatus != null and emailAuthenStatus !='' ">
+				EMAIL_AUTHEN_STATUS = #{emailAuthenStatus},
+			</if>
+            UPDATE_TIME = sysdate
+        WHERE USER_ID = #{userId}
+    </update>
+  	
+	<!-- 查询用户表信息 -->
+	<resultMap id="uuc_user_info_query_resultMap" type="UserInfoPO">
+		<id property="userId" column="USER_ID" />
+		<result property="custId" column="CUST_ID" />
+		<result property="channelId" column="CHANNEL_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="userState" column="USER_STATE" />
+		<result property="userLevel" column="USER_LEVEL" />
+		<result property="petName" column="PET_NAME" />
+		<result property="mobile" column="MOBILE" />
+		<result property="email" column="E_MAIL" />
+		<result property="mobileAuthenStatus" column="MOBILE_AUTHEN_STATUS" />
+		<result property="emailAuthenStatus" column="EMAIL_AUTHEN_STATUS" />
+		<result property="ebayUserAgreement" column="EBAY_USER_AGREEMENT" />
+		<result property="isMaster" column="IS_MASTER" />
+		<result property="operId" column="OPER_ID" />
+	</resultMap>
+	<select id="uuc_user_info_query" parameterType="UserInfoParam" resultMap="uuc_user_info_query_resultMap">
+		SELECT ui.USER_ID,
+		       ci.CUST_ID,
+		       ui.CHANNEL_ID,
+		       ui.PASSWORD,
+		       ui.USER_STATE,
+		       ui.USER_LEVEL,
+		       lower(ui.PET_NAME) PET_NAME,
+		       ui.MOBILE,
+		       lower(ui.E_MAIL) E_MAIL,
+		       ui.MOBILE_AUTHEN_STATUS,
+		       ui.EMAIL_AUTHEN_STATUS,
+		       ui.EBAY_USER_AGREEMENT,
+		       ui.IS_MASTER,
+		       ui.OPER_ID
+		  FROM X_UUC_USER_INFO ui, X_UUC_CUST_INFO ci
+		 WHERE ui.CUST_ID = ci.CUST_ID
+			<if test="userId != null">
+				AND ui.USER_ID = #{userId} 
+			</if>
+			<if test="custId != null">
+				AND ci.CUST_ID = #{custId} 
+			</if>
+			<if test="password != null and password != ''">
+				AND ui.PASSWORD = #{password}
+			</if>
+			<if test="channelId != null">
+				AND ui.CHANNEL_ID = #{channelId}
+			</if>
+			<if test="petName != null and petName != '' ">
+				AND lower(ui.PET_NAME) = lower(#{petName})
+			</if>
+			<if test="mobile != null and mobile != '' ">
+				AND ui.MOBILE = #{mobile}
+			</if>
+			<if test="email != null and email != '' ">
+				AND lower(ui.E_MAIL) = lower(#{email})
+			</if>
+			<if test="logonName != null and logonName != '' ">
+				AND (   lower(ui.PET_NAME) = lower(#{logonName})
+				     or ui.MOBILE = #{logonName}
+				     or lower(ui.E_MAIL) = lower(#{logonName})
+					)
+			</if>
+			<if test="partnerId != null and partnerId != '' ">
+				AND lower(ci.PARTNER_ID) = lower(#{partnerId})
+			</if>
+			<if test="partnerChannelId != null and partnerChannelId != '' ">
+				AND ci.PARTNER_CHANNEL_ID = #{partnerChannelId}
+			</if>
+	</select>
+
+
+
+	<!-- ===================================用户账户信息表======================================= -->
+	<!-- 新增用户账户信息 -->
+	<insert id="uuc_user_acct_insert" parameterType="UserAcctPO">
+		insert into x_uuc_user_acct_info(
+			ACCT_ID,
+			USER_ID,
+			ACCT_NAME,
+			ACCT_STATE,
+			OPER_ID)
+		values(
+			#{acctId},
+			#{userId},
+			#{acctName, jdbcType=VARCHAR},
+			#{acctState},
+			#{operId, jdbcType=VARCHAR})
+  </insert>
+
+	<!-- ===================================账目信息表======================================= -->
+	<!-- 新增账目信息 -->
+	<insert id="uuc_acct_item_insert" parameterType="AcctItemPO">
+		insert into x_uuc_acct_item_info(
+			ACCT_ITEM_ID,
+			ACCT_ID,
+			ACCT_TYPE_CODE,			
+			ACCT_ITEM_STATE,
+			OPER_ID)
+		values(
+			#{acctItemId},
+			#{acctId},
+			#{acctTypeCode},			
+			#{acctItemState},
+			#{operId, jdbcType=VARCHAR})
+  	</insert>
+  
+	<!-- ===================================客户扩展信息表======================================= -->
+	<!-- 新增客户扩展信息 -->
+	<insert id="uuc_cust_ext_info_insert" parameterType="CustExtInfoPO">
+		INSERT INTO X_UUC_CUST_EXT_INFO(
+			CUST_ID,
+			ATTR_TYPE,
+			PROVINCE_CODE,
+			REGION_CODE,
+			CITY_CODE,
+			ADDRESS_INFO,
+			WORK_TYPE_STYLE,
+			WORK_TYPE,
+			SEX,
+			DEGREE,
+			MONTHIN_COME,
+			MARRY,
+			RECOMMEND_ID,
+			ID_CARD,
+			INTEREST,
+			FROM_ID,
+			SOURCE_TYPE,
+			SUBSCIBE_INFO
+			)
+		values(
+			#{custId},
+			#{attrType},
+			#{provinceCode, jdbcType=VARCHAR},
+			#{regionCode, jdbcType=VARCHAR},
+			#{cityCode, jdbcType=VARCHAR},
+			#{addressInfo, jdbcType=VARCHAR},
+			#{workTypeStyle, jdbcType=VARCHAR},
+			#{workType, jdbcType=VARCHAR},
+			#{sex, jdbcType=VARCHAR},
+			#{degree, jdbcType=VARCHAR},
+			#{monthIncome, jdbcType=VARCHAR},
+			#{marry, jdbcType=VARCHAR},
+			#{recommendId, jdbcType=VARCHAR},
+			#{idCard, jdbcType=VARCHAR},
+			#{interest, jdbcType=VARCHAR},
+			#{fromId, jdbcType=VARCHAR},
+			#{sourceType, jdbcType=VARCHAR},
+			#{subscibeInfo, jdbcType=VARCHAR})
+  	</insert>
+  				
+	<!-- 修改客户扩展信息-->
+	<update id="uuc_cust_ext_info_modify" parameterType="CustExtInfoPO">
+		UPDATE X_UUC_CUST_EXT_INFO SET
+			<if test="provinceCode != null">
+				PROVINCE_CODE = #{provinceCode},
+			</if>
+			<if test="regionCode != null">
+				REGION_CODE = #{regionCode},
+			</if>
+			<if test="cityCode != null">
+				CITY_CODE = #{cityCode},
+			</if>
+			<if test="addressInfo != null">
+				ADDRESS_INFO = #{addressInfo},
+			</if>
+			<if test="workType != null">
+				WORK_TYPE = #{workType},
+			</if>
+			<if test="workTypeStyle != null">
+				WORK_TYPE_STYLE = #{workTypeStyle},
+			</if>
+			<if test="sex != null">
+				SEX = #{sex},
+			</if>
+			<if test="degree != null">
+				DEGREE = #{degree},
+			</if>
+			<if test="monthIncome != null">
+				MONTHIN_COME = #{monthIncome},
+			</if>
+			<if test="marry != null">
+				MARRY = #{marry},
+			</if>
+			<if test="recommendId != null">
+				RECOMMEND_ID = #{recommendId},
+			</if>
+			<if test="idCard != null">
+				ID_CARD = #{idCard},
+			</if>
+			<if test="interest != null">
+				INTEREST = #{interest},
+			</if>
+			<if test="fromId != null">
+				FROM_ID = #{fromId},
+			</if>
+			<if test="subscibeInfo != null">
+				SUBSCIBE_INFO = #{subscibeInfo},
+			</if>
+			UPDATE_TIME = sysdate
+		WHERE CUST_ID = #{custId}
+	</update>
+
+
+	<!-- ===================================用户注册IP信息表======================================= -->
+	<!-- 新增用户注册IP信息 -->
+	<insert id="uuc_register_ip_insert" parameterType="com.xiu.uuc.dal.po.RegisterIpPO">
+		INSERT INTO X_UUC_REGISTER_IP(
+			IP_ID,
+			CUST_ID,
+			REGISTER_IP)
+		values(
+			#{ipId},
+			#{custId},
+			#{registerIp, jdbcType=VARCHAR})
+  	</insert>
+
+	<!-- 查询用户注册IP数目 -->
+	<select id="uuc_register_ip_count" parameterType="string" resultType="Integer">
+		SELECT count(*) FROM X_UUC_REGISTER_IP
+		  <where>
+		  	<if test="registerIp != null and registerIp != '' ">
+				AND REGISTER_IP = #{registerIp}
+			</if>
+			<if test="interval != null and interval != 0 ">
+				AND SYSDATE >= CREATE_TIME
+		   		AND CREATE_TIME >= (SYSDATE - #{interval}/(24*3600))
+			</if>
+		  </where>	   
+	</select>
+	
+	  
+	<!-- 通知SSO-->
+	<insert id="uuc_sso_schedule_task_insert" parameterType="map">
+		insert into X_SSO_SCHEDULE_TASK(
+			TASK_TYPE,
+			TASK_PARAM,
+			TASK_PRIORITY,
+			CREATE_TIME)
+		values(#{taskType},
+			#{taskParam},
+			#{taskPriority},
+			#{createTime})
+	</insert>
+	
+		
+	<!-- 用户基本信息查询 -->
+	<resultMap id="uuc_user_base_info_query_resultMap" type="UserBaseInfo">
+		<id property="userId" column="USER_ID" />
+		<result property="custId" column="CUST_ID" />
+		<result property="channelId" column="CHANNEL_ID" />
+		<result property="userState" column="USER_STATE" />
+		<result property="userLevel" column="USER_LEVEL" />
+		<result property="isMaster" column="IS_MASTER" />
+		<result property="registerTime" column="CREATE_TIME" />
+		<result property="custState" column="CUST_STATE" />
+		<result property="custType" column="CUST_TYPE" />
+		<result property="partnerId" column="PARTNER_ID" />
+		<result property="partnerChannelId" column="PARTNER_CHANNEL_ID" />
+		<result property="custLevel" column="CUST_LEVEL" />
+		<result property="custName" column="CUST_NAME" />
+		<result property="petName" column="PET_NAME" />
+		<result property="registerType" column="REGISTER_TYPE" />
+		<result property="mobile" column="MOBILE" />
+		<result property="email" column="E_MAIL" />
+		<result property="mobileAuthenStatus" column="MOBILE_AUTHEN_STATUS" />
+		<result property="emailAuthenStatus" column="EMAIL_AUTHEN_STATUS" />
+		<result property="ebayUserAgreement" column="EBAY_USER_AGREEMENT" />
+		<result property="birthday" column="BIRTHDAY" />
+		<result property="lastLogonIp" column="LAST_LOGON_IP" />
+		<result property="lastLogonTime" column="LAST_LOGON_TIME" />
+		<result property="lastLogonChannelId" column="LAST_LOGON_CHANNEL_ID" />
+	</resultMap>
+	<select id="uuc_user_base_info_query" parameterType="UserInfoParam" resultMap="uuc_user_base_info_query_resultMap">
+		SELECT  ui.USER_ID,
+                ui.CUST_ID,
+				ui.CHANNEL_ID,
+				ui.USER_STATE,
+				ui.USER_LEVEL,
+				lower(ui.PET_NAME) PET_NAME,
+				ui.MOBILE,
+				lower(ui.E_MAIL) E_MAIL,
+				ui.MOBILE_AUTHEN_STATUS,
+				ui.EMAIL_AUTHEN_STATUS,
+				ui.EBAY_USER_AGREEMENT,
+				ui.IS_MASTER,
+				ui.CREATE_TIME,
+				ci.CUST_STATE,
+				ci.CUST_TYPE,
+				lower(ci.PARTNER_ID) PARTNER_ID,
+				ci.PARTNER_CHANNEL_ID,
+				ci.CUST_LEVEL,
+				ci.CUST_NAME,
+				ci.REGISTER_TYPE,
+				ci.BIRTHDAY,
+			    ci.LAST_LOGON_IP,
+		        ci.LAST_LOGON_TIME,
+		        ci.LAST_LOGON_CHANNEL_ID
+		  FROM x_uuc_user_info ui, x_uuc_cust_info ci
+		 WHERE ui.cust_id = ci.cust_id
+			<if test="userId != null">
+				AND ui.USER_ID = #{userId} 
+			</if>
+			<if test="custId != null">
+				AND ci.CUST_ID = #{custId} 
+			</if>
+			<if test="logonName != null and logonName != '' ">
+				AND (   lower(ui.PET_NAME) = lower(#{logonName})
+				     or ui.MOBILE = #{logonName}
+				     or lower(ui.E_MAIL) = lower(#{logonName})
+					)
+			</if>
+			<if test="channelId != null">
+				AND ui.CHANNEL_ID = #{channelId}
+			</if>
+			<if test="password != null and password != ''">
+				AND ui.PASSWORD = #{password}
+			</if>
+			<if test="petName != null and petName != '' ">
+				AND lower(ui.PET_NAME) = lower(#{petName})
+			</if>
+			<if test="mobile != null and mobile != '' ">
+				AND ui.MOBILE = #{mobile}
+			</if>
+			<if test="email != null and email != '' ">
+				AND lower(ui.E_MAIL) = lower(#{email})
+			</if>
+			<if test="partnerId != null and partnerId != '' ">
+				AND lower(ci.PARTNER_ID) = lower(#{partnerId})
+			</if>
+			<if test="partnerChannelId != null">
+				AND ci.PARTNER_CHANNEL_ID = #{partnerChannelId}
+			</if>			
+	</select>
+	
+	<select id="uuc_user_base_list_query" parameterType="UserInfoParam" resultMap="uuc_user_base_info_query_resultMap">
+		SELECT *
+		  FROM( SELECT A.*, rownum r
+				  FROM( SELECT  ui.USER_ID,
+				                ui.CUST_ID,                  
+								ui.CHANNEL_ID,
+								ui.USER_STATE,
+								ui.USER_LEVEL,
+								lower(ui.PET_NAME) PET_NAME,
+								ui.MOBILE,
+								lower(ui.E_MAIL) E_MAIL,
+								ui.IS_MASTER,
+								ui.CREATE_TIME,
+								ci.CUST_STATE,
+								ci.CUST_TYPE,
+								lower(ci.PARTNER_ID) PARTNER_ID,
+								ci.PARTNER_CHANNEL_ID,
+								ci.CUST_LEVEL,
+								ci.CUST_NAME,
+								ci.REGISTER_TYPE,
+								ci.BIRTHDAY,
+							    ci.LAST_LOGON_IP,
+						        ci.LAST_LOGON_TIME,
+						        ci.LAST_LOGON_CHANNEL_ID
+						  FROM x_uuc_user_info ui, x_uuc_cust_info ci
+						 WHERE ui.cust_id = ci.cust_id
+							<if test="userId != null">
+								AND ui.USER_ID = #{userId} 
+							</if>
+							<if test="custId != null">
+								AND ci.CUST_ID = #{custId} 
+							</if>
+							<if test="channelId != null">
+								AND ui.CHANNEL_ID = #{channelId}
+							</if>
+							<if test="password != null and password != ''">
+								AND ui.PASSWORD = #{password}
+							</if>
+							<if test='exactQuery == "N"'>
+								<if test="logonName != null and logonName != '' ">
+									AND (   lower(ui.PET_NAME) like '%' || lower(#{logonName}) || '%'
+									     or ui.MOBILE like '%' || #{logonName} || '%'
+									     or lower(ui.E_MAIL) like '%' || lower(#{logonName}) || '%'
+										)
+								</if>
+								<if test="petName != null and petName != '' ">
+									AND lower(ui.PET_NAME) like '%' || lower(#{petName}) || '%'
+								</if>
+								<if test="mobile != null and mobile != '' ">
+									AND ui.MOBILE like '%' || #{mobile} || '%'
+								</if>
+								<if test="email != null and email != '' ">
+									AND lower(ui.E_MAIL) like '%' || lower(#{email}) || '%'
+								</if>
+							</if>
+							<if test='exactQuery == "Y"'>
+								<if test="logonName != null and logonName != '' ">
+									AND (   lower(ui.PET_NAME) = lower(#{logonName})
+									     or ui.MOBILE = #{logonName}
+									     or lower(ui.E_MAIL) = lower(#{logonName})
+										)
+								</if>
+								<if test="petName != null and petName != '' ">
+									AND lower(ui.PET_NAME) = lower(#{petName})
+								</if>
+								<if test="mobile != null and mobile != '' ">
+									AND ui.MOBILE = #{mobile}
+								</if>
+								<if test="email != null and email != '' ">
+									AND lower(ui.E_MAIL) = lower(#{email})
+								</if>
+							</if>							
+							<if test="partnerId != null and partnerId != '' ">
+								AND lower(ci.PARTNER_ID) = lower(#{partnerId})
+							</if>
+							<if test="partnerChannelId != null">
+								AND ci.PARTNER_CHANNEL_ID = #{partnerChannelId}
+							</if>
+							<choose>
+							    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+								    ORDER BY ${sort} ${order} 
+								</when>
+							    <when test="sort != null and sort != ''">
+								    ORDER BY #{sort} 
+								</when>
+								<otherwise>
+								    ORDER BY ui.CREATE_TIME DESC
+								</otherwise>
+							</choose>
+					  	) A
+				  	WHERE #{lastRow} >= rownum )
+	    WHERE r >= #{firstRow}
+	</select>
+		
+	<!-- 用户基本信息条数目查询 -->
+	<select id="uuc_user_base_list_count" parameterType="UserInfoParam" resultType="long">
+		SELECT  count(*)
+		  FROM x_uuc_user_info ui,  x_uuc_cust_info ci
+		 WHERE ui.cust_id = ci.cust_id
+			<if test="userId != null">
+				AND ui.USER_ID = #{userId} 
+			</if>
+			<if test="custId != null">
+				AND ci.CUST_ID = #{custId} 
+			</if>
+			<if test="channelId != null">
+				AND ui.CHANNEL_ID = #{channelId}
+			</if>
+			<if test="password != null and password != ''">
+				AND ui.PASSWORD = #{password}
+			</if>
+			<if test='exactQuery == "N"'>
+				<if test="logonName != null and logonName != '' ">
+					AND (   lower(ui.PET_NAME) like '%' || lower(#{logonName}) || '%'
+					     or ui.MOBILE like '%' || #{logonName} || '%'
+					     or lower(ui.E_MAIL) like '%' || lower(#{logonName}) || '%'
+						)
+				</if>
+				<if test="petName != null and petName != '' ">
+					AND lower(ui.PET_NAME) like '%' || lower(#{petName}) || '%'
+				</if>
+				<if test="mobile != null and mobile != '' ">
+					AND ui.MOBILE like '%' || #{mobile} || '%'
+				</if>
+				<if test="email != null and email != '' ">
+					AND lower(ui.E_MAIL) like '%' || lower(#{email}) || '%'
+				</if>
+			</if>
+			<if test='exactQuery == "Y"'>
+				<if test="logonName != null and logonName != '' ">
+					AND (   lower(ui.PET_NAME) = lower(#{logonName})
+					     or ui.MOBILE = #{logonName}
+					     or lower(ui.E_MAIL) = lower(#{logonName})
+						)
+				</if>
+				<if test="petName != null and petName != '' ">
+					AND lower(ui.PET_NAME) = lower(#{petName})
+				</if>
+				<if test="mobile != null and mobile != '' ">
+					AND ui.MOBILE = #{mobile}
+				</if>
+				<if test="email != null and email != '' ">
+					AND lower(ui.E_MAIL) = lower(#{email})
+				</if>
+			</if>	
+			<if test="partnerId != null and partnerId != '' ">
+				AND lower(ci.PARTNER_ID) = lower(#{partnerId})
+			</if>
+			<if test="partnerChannelId != null">
+				AND ci.PARTNER_CHANNEL_ID = #{partnerChannelId}
+			</if>
+	</select>
+	
+	<!-- 查询客户详细信息 -->
+	<resultMap id="uuc_user_detail_info_query_resultMap" type="UserDetailInfo">
+		<id property="custId" column="CUST_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="channelId" column="CHANNEL_ID" />
+		<result property="userState" column="USER_STATE" />
+		<result property="userLevel" column="USER_LEVEL" />
+		<result property="petName" column="PET_NAME" />
+		<result property="mobile" column="MOBILE" />
+		<result property="email" column="E_MAIL" />
+		<result property="mobileAuthenStatus" column="MOBILE_AUTHEN_STATUS" />
+		<result property="emailAuthenStatus" column="EMAIL_AUTHEN_STATUS" />
+		<result property="ebayUserAgreement" column="EBAY_USER_AGREEMENT" />
+		<result property="isMaster" column="IS_MASTER" />
+		<result property="operId" column="OPER_ID" />
+		<result property="registerTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="custState" column="CUST_STATE" />
+		<result property="custType" column="cust_type" />
+		<result property="partnerId" column="partner_id" />
+		<result property="partnerChannelId" column="partner_channel_id" />
+		<result property="custLevel" column="CUST_LEVEL" />
+		<result property="custName" column="CUST_NAME" />
+		<result property="registerType" column="REGISTER_TYPE" />
+		<result property="birthday" column="BIRTHDAY" />
+		<result property="lastLogonIp" column="LAST_LOGON_IP" />
+		<result property="lastLogonTime" column="LAST_LOGON_TIME" />
+		<result property="lastLogonChannelId" column="LAST_LOGON_CHANNEL_ID" />
+		<result property="provinceCode" column="PROVINCE_CODE" />
+		<result property="regionCode" column="REGION_CODE" />
+		<result property="cityCode" column="CITY_CODE" />
+		<result property="addressInfo" column="ADDRESS_INFO" />
+		<result property="workTypeStyle" column="WORK_TYPE_STYLE" />
+		<result property="workType" column="WORK_TYPE" />
+		<result property="sex" column="SEX" />
+		<result property="degree" column="DEGREE" />
+		<result property="monthIncome" column="MONTHIN_COME" />
+		<result property="marry" column="MARRY" />
+		<result property="recommendId" column="RECOMMEND_ID" />
+		<result property="idCard" column="ID_CARD" />
+		<result property="interest" column="INTEREST" />
+		<result property="fromId" column="FROM_ID" />
+		<result property="sourceType" column="SOURCE_TYPE" />
+		<result property="subscibeInfo" column="SUBSCIBE_INFO" />
+		<result property="integral" column="INTEGRAL" />
+	</resultMap>
+	<select id="uuc_user_detail_info_query" parameterType="UserInfoParam" resultMap="uuc_user_detail_info_query_resultMap">
+		SELECT ui.CUST_ID,
+	    	   ui.USER_ID,
+		       ui.CHANNEL_ID,
+		       ui.USER_STATE,
+		       ui.USER_LEVEL,
+		       lower(ui.PET_NAME) PET_NAME,
+		       ui.MOBILE,
+		       lower(ui.E_MAIL) E_MAIL,
+		       ui.MOBILE_AUTHEN_STATUS,
+			   ui.EMAIL_AUTHEN_STATUS,
+			   ui.EBAY_USER_AGREEMENT,
+		       ui.IS_MASTER,
+		       ui.OPER_ID,
+		       ui.CREATE_TIME,	
+		       ui.UPDATE_TIME,		       	       
+		       ci.CUST_STATE,
+		       ci.CUST_TYPE,
+			   lower(ci.PARTNER_ID) PARTNER_ID,
+			   ci.PARTNER_CHANNEL_ID,
+		       ci.CUST_LEVEL,
+		       ci.CUST_NAME,
+		       ci.REGISTER_TYPE,
+		       ci.BIRTHDAY,
+		       ci.LAST_LOGON_IP,
+		       ci.LAST_LOGON_TIME,
+		       ci.LAST_LOGON_CHANNEL_ID,
+		       ce.PROVINCE_CODE,
+		       ce.REGION_CODE,
+		       ce.CITY_CODE,
+		       ce.ADDRESS_INFO,
+		       ce.WORK_TYPE_STYLE,
+		       ce.WORK_TYPE,
+		       ce.SEX,
+		       ce.DEGREE,
+		       ce.MONTHIN_COME,
+		       ce.MARRY,
+		       ce.RECOMMEND_ID,
+		       ce.ID_CARD,
+		       ce.INTEREST,
+		       ce.FROM_ID,
+		       ce.SOURCE_TYPE,
+		       ce.SUBSCIBE_INFO
+		  FROM X_UUC_USER_INFO ui, X_UUC_CUST_INFO ci, X_UUC_CUST_EXT_INFO ce
+		 WHERE ui.CUST_ID = ci.CUST_ID
+		   AND ci.CUST_ID = ce.CUST_ID
+	        <if test="custId != null">
+				AND ci.CUST_ID = #{custId}
+			</if>
+			<if test="userId != null">
+				AND ui.USER_ID = #{userId}
+			</if>
+			<if test="channelId != null">
+				AND ui.CHANNEL_ID = #{channelId}
+			</if>
+			<if test="userState != null and userState != '' ">
+				AND ui.USER_STATE = #{userState}
+			</if>
+			<if test='exactQuery == "N"'>
+				<if test="logonName != null and logonName != '' ">
+					AND (   lower(ui.PET_NAME) like '%' || lower(#{logonName}) || '%'
+					     or ui.MOBILE like '%' || #{logonName} || '%'
+					     or lower(ui.E_MAIL) like '%' || lower(#{logonName}) || '%'
+						)
+				</if>
+				<if test="petName != null and petName != '' ">
+					AND lower(ui.PET_NAME) like '%' || lower(#{petName}) || '%'
+				</if>
+				<if test="mobile != null and mobile != '' ">
+					AND ui.MOBILE like '%' || #{mobile} || '%'
+				</if>
+				<if test="email != null and email != '' ">
+					AND lower(ui.E_MAIL) like '%' || lower(#{email}) || '%'
+				</if>
+			</if>
+			<if test='exactQuery == "Y"'>
+				<if test="logonName != null and logonName != '' ">
+					AND (   lower(ui.PET_NAME) = lower(#{logonName})
+					     or ui.MOBILE = #{logonName}
+					     or lower(ui.E_MAIL) = lower(#{logonName})
+						)
+				</if>
+				<if test="petName != null and petName != '' ">
+					AND lower(ui.PET_NAME) = lower(#{petName})
+				</if>
+				<if test="mobile != null and mobile != '' ">
+					AND ui.MOBILE = #{mobile}
+				</if>
+				<if test="email != null and email != '' ">
+					AND lower(ui.E_MAIL) = lower(#{email})
+				</if>
+			</if>	
+			<if test="isMaster != null and isMaster != '' ">
+				AND ui.IS_MASTER = #{isMaster}
+			</if>
+			<if test="custName != null and custName != '' ">
+				AND ci.CUST_NAME = #{custName}
+			</if>
+	</select>
+	
+	<select id="uuc_user_detail_list_query" parameterType="UserInfoParam" resultMap="uuc_user_detail_info_query_resultMap">
+		SELECT *
+		  FROM( SELECT A.*, rownum r
+				  FROM( SELECT ui.CUST_ID,
+					    	   ui.USER_ID,
+						       ui.CHANNEL_ID,
+						       ui.USER_STATE,
+						       ui.USER_LEVEL,
+						       lower(ui.PET_NAME) PET_NAME,
+						       ui.MOBILE,
+						       lower(ui.E_MAIL) E_MAIL,
+						       ui.IS_MASTER,
+						       ui.OPER_ID,
+						       ui.CREATE_TIME,
+						       ui.UPDATE_TIME,			       	       
+						       ci.CUST_STATE,
+						       ci.CUST_TYPE,
+							   lower(ci.PARTNER_ID) PARTNER_ID,
+							   ci.PARTNER_CHANNEL_ID,
+						       ci.CUST_LEVEL,
+						       ci.CUST_NAME,
+						       ci.BIRTHDAY,
+						       ci.LAST_LOGON_IP,
+						       ci.LAST_LOGON_TIME,
+						       ci.LAST_LOGON_CHANNEL_ID,
+						       ce.PROVINCE_CODE,
+						       ce.REGION_CODE,
+						       ce.CITY_CODE,
+						       ce.ADDRESS_INFO,
+						       ce.WORK_TYPE_STYLE,
+						       ce.WORK_TYPE,
+						       ce.SEX,
+						       ce.DEGREE,
+						       ce.MONTHIN_COME,
+						       ce.MARRY,
+						       ce.RECOMMEND_ID,
+						       ce.ID_CARD,
+						       ce.INTEREST,
+						       ce.FROM_ID,
+						       ce.SOURCE_TYPE,
+						       ce.SUBSCIBE_INFO,
+						       item.TOTAL_AMOUNT INTEGRAL
+						  FROM X_UUC_USER_INFO ui, X_UUC_CUST_INFO ci, X_UUC_CUST_EXT_INFO ce, X_UUC_USER_ACCT_INFO ai, X_UUC_ACCT_ITEM_INFO item
+						 WHERE ui.CUST_ID = ci.CUST_ID
+						   AND ci.CUST_ID = ce.CUST_ID
+						   AND ui.user_id = ai.user_id
+               			   AND ai.acct_id = item.acct_id
+                           AND item.acct_type_code = '03'
+					        <if test="custId != null">
+								AND ci.CUST_ID = #{custId}
+							</if>
+							<if test="userId != null">
+								AND ui.USER_ID = #{userId}
+							</if>
+							<if test="channelId != null">
+								AND ui.CHANNEL_ID = #{channelId}
+							</if>
+							<if test="userState != null and userState != '' ">
+								AND ui.USER_STATE = #{userState}
+							</if>
+							<if test='exactQuery == "N"'>
+								<if test="logonName != null and logonName != '' ">
+									AND (   lower(ui.PET_NAME) like '%' || lower(#{logonName}) || '%'
+									     or ui.MOBILE like '%' || #{logonName} || '%'
+									     or lower(ui.E_MAIL) like '%' || lower(#{logonName}) || '%'
+										)
+								</if>
+								<if test="petName != null and petName != '' ">
+									AND lower(ui.PET_NAME) like '%' || lower(#{petName}) || '%'
+								</if>
+								<if test="mobile != null and mobile != '' ">
+									AND ui.MOBILE like '%' || #{mobile} || '%'
+								</if>
+								<if test="email != null and email != '' ">
+									AND lower(ui.E_MAIL) like '%' || lower(#{email}) || '%'
+								</if>
+							</if>
+							<if test='exactQuery == "Y"'>
+								<if test="logonName != null and logonName != '' ">
+									AND (   lower(ui.PET_NAME) = lower(#{logonName})
+									     or ui.MOBILE = #{logonName}
+									     or lower(ui.E_MAIL) = lower(#{logonName})
+										)
+								</if>
+								<if test="petName != null and petName != '' ">
+									AND lower(ui.PET_NAME) = lower(#{petName})
+								</if>
+								<if test="mobile != null and mobile != '' ">
+									AND ui.MOBILE = #{mobile}
+								</if>
+								<if test="email != null and email != '' ">
+									AND lower(ui.E_MAIL) = lower(#{email})
+								</if>
+							</if>	
+							<if test="userLevel != null and userLevel != '' ">
+								AND ui.USER_LEVEL = #{userLevel}
+							</if>
+							<if test="startTime != null">
+								AND ui.CREATE_TIME >= #{startTime}
+							</if>
+							<if test="endTime != null">
+								AND #{endTime} >= ui.CREATE_TIME
+							</if>
+							<if test="custName != null and custName != '' ">
+								AND ci.CUST_NAME like '%' || #{custName} || '%'
+							</if>
+							<if test="sex != null and sex != '' ">
+								AND ce.SEX = #{sex}
+							</if>
+							<if test="provinceCode != null and provinceCode != '' ">
+								AND ce.PROVINCE_CODE = #{provinceCode}
+							</if>
+							<if test="regionCode != null and regionCode != '' ">
+								AND ce.REGION_CODE = #{regionCode}
+							</if>
+							<if test="cityCode != null and cityCode != '' ">
+								AND ce.CITY_CODE = #{cityCode}
+							</if>
+							<if test="addressInfo != null and addressInfo != '' ">
+								AND ce.ADDRESS_INFO like '%' || #{addressInfo} || '%'
+							</if>
+							<if test="degree != null and degree != '' ">
+								AND ce.DEGREE = #{degree}
+							</if>
+							<if test="workTypeStyle != null and workTypeStyle != '' ">
+								AND ce.WORK_TYPE_STYLE = #{workTypeStyle}
+							</if>
+							<if test="workType != null and workType != '' ">
+								AND ce.WORK_TYPE = #{workType}
+							</if>
+							<if test="minIntegral != null and minIntegral != '' ">
+								AND item.TOTAL_AMOUNT >= #{minIntegral}
+							</if>
+							<if test="maxIntegral != null and maxIntegral != '' ">
+								AND #{maxIntegral} >= item.TOTAL_AMOUNT
+							</if>
+							<choose>
+							    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+								    ORDER BY ${sort} ${order} 
+								</when>
+							    <when test="sort != null and sort != ''">
+								    ORDER BY #{sort} 
+								</when>
+								<otherwise>
+								    ORDER BY ui.CREATE_TIME DESC
+								</otherwise>
+							</choose>
+					  	) A
+				  	WHERE #{lastRow} >= rownum )
+	    WHERE r >= #{firstRow}
+	</select>
+	
+	<!-- 查询客户详细信息数目 -->
+	<select id="uuc_user_detail_list_count" parameterType="UserInfoParam" resultType="long">
+		SELECT   count(*)
+		  FROM X_UUC_USER_INFO ui, X_UUC_CUST_INFO ci, X_UUC_CUST_EXT_INFO ce, X_UUC_USER_ACCT_INFO ai, X_UUC_ACCT_ITEM_INFO item
+		 WHERE ui.CUST_ID = ci.CUST_ID
+		   AND ci.CUST_ID = ce.CUST_ID
+		   AND ui.user_id = ai.user_id
+		   AND ai.acct_id = item.acct_id
+           AND item.acct_type_code = '03'
+	        <if test="custId != null">
+				AND ci.CUST_ID = #{custId}
+			</if>
+			<if test="userId != null">
+				AND ui.USER_ID = #{userId}
+			</if>
+			<if test="channelId != null">
+				AND ui.CHANNEL_ID = #{channelId}
+			</if>
+			<if test="userState != null and userState != '' ">
+				AND ui.USER_STATE = #{userState}
+			</if>
+			<if test='exactQuery == "N"'>
+				<if test="logonName != null and logonName != '' ">
+					AND (   lower(ui.PET_NAME) like '%' || lower(#{logonName}) || '%'
+					     or ui.MOBILE like '%' || #{logonName} || '%'
+					     or lower(ui.E_MAIL) like '%' || lower(#{logonName}) || '%'
+						)
+				</if>
+				<if test="petName != null and petName != '' ">
+					AND lower(ui.PET_NAME) like '%' || lower(#{petName}) || '%'
+				</if>
+				<if test="mobile != null and mobile != '' ">
+					AND ui.MOBILE like '%' || #{mobile} || '%'
+				</if>
+				<if test="email != null and email != '' ">
+					AND lower(ui.E_MAIL) like '%' || lower(#{email}) || '%'
+				</if>
+			</if>
+			<if test='exactQuery == "Y"'>
+				<if test="logonName != null and logonName != '' ">
+					AND (   lower(ui.PET_NAME) = lower(#{logonName})
+					     or ui.MOBILE = #{logonName}
+					     or lower(ui.E_MAIL) = lower(#{logonName})
+						)
+				</if>
+				<if test="petName != null and petName != '' ">
+					AND lower(ui.PET_NAME) = lower(#{petName})
+				</if>
+				<if test="mobile != null and mobile != '' ">
+					AND ui.MOBILE = #{mobile}
+				</if>
+				<if test="email != null and email != '' ">
+					AND lower(ui.E_MAIL) = lower(#{email})
+				</if>
+			</if>	
+			<if test="userLevel != null and userLevel != '' ">
+				AND ui.USER_LEVEL = #{userLevel}
+			</if>
+			<if test="startTime != null">
+				AND ui.CREATE_TIME >= #{startTime}
+			</if>
+			<if test="endTime != null">
+				AND #{endTime} >= ui.CREATE_TIME
+			</if>
+			<if test="custName != null and custName != '' ">
+				AND ci.CUST_NAME like '%' || #{custName} || '%'
+			</if>
+			<if test="sex != null and sex != '' ">
+				AND ce.SEX = #{sex}
+			</if>
+			<if test="provinceCode != null and provinceCode != '' ">
+				AND ce.PROVINCE_CODE = #{provinceCode}
+			</if>
+			<if test="regionCode != null and regionCode != '' ">
+				AND ce.REGION_CODE = #{regionCode}
+			</if>
+			<if test="cityCode != null and cityCode != '' ">
+				AND ce.CITY_CODE = #{cityCode}
+			</if>
+			<if test="addressInfo != null and addressInfo != '' ">
+				AND ce.ADDRESS_INFO like '%' || #{addressInfo} || '%'
+			</if>
+			<if test="degree != null and degree != '' ">
+				AND ce.DEGREE = #{degree}
+			</if>
+			<if test="workTypeStyle != null and workTypeStyle != '' ">
+				AND ce.WORK_TYPE_STYLE = #{workTypeStyle}
+			</if>
+			<if test="workType != null and workType != '' ">
+				AND ce.WORK_TYPE = #{workType}
+			</if>
+			<if test="minIntegral != null and minIntegral != '' ">
+				AND item.TOTAL_AMOUNT >= #{minIntegral}
+			</if>
+			<if test="maxIntegral != null and maxIntegral != '' ">
+				AND #{maxIntegral} > item.TOTAL_AMOUNT
+			</if>
+	</select>
+
+	<select id="uuc_user_channel_list_query" parameterType="UserInfoParam" resultMap="uuc_user_detail_info_query_resultMap">
+		SELECT *
+		  FROM( SELECT distinct A.*, rownum r
+				  FROM( SELECT  USER_ID,
+				                a.CUST_ID,                  
+								CHANNEL_ID,
+								USER_STATE,
+								USER_LEVEL,
+								lower(PET_NAME) PET_NAME,
+								MOBILE,
+								lower(E_MAIL) E_MAIL,
+								IS_MASTER,
+								CREATE_TIME,
+                                UPDATE_TIME
+						  FROM X_UUC_USER_INFO a,  
+						  (SELECT CUST_ID 
+ 							 FROM X_UUC_USER_INFO
+						    <where>
+						    	<if test="userId != null">
+									AND USER_ID = #{userId} 
+								</if>
+								<if test="custId != null">
+									AND CUST_ID = #{custId} 
+								</if>
+								<if test="channelId != null">
+									AND CHANNEL_ID = #{channelId}
+								</if>
+								<if test="userState != null and userState != '' ">
+									AND USER_STATE = #{userState}
+								</if>
+								<if test='exactQuery == "N"'>
+									<if test="logonName != null and logonName != '' ">
+										AND (   lower(PET_NAME) like '%' || lower(#{logonName}) || '%'
+										     or MOBILE like '%' || #{logonName} || '%'
+										     or lower(E_MAIL) like '%' || lower(#{logonName}) || '%'
+											)
+									</if>
+									<if test="petName != null and petName != '' ">
+										AND lower(PET_NAME) like '%' || lower(#{petName}) || '%'
+									</if>
+									<if test="mobile != null and mobile != '' ">
+										AND MOBILE like '%' || #{mobile} || '%'
+									</if>
+									<if test="email != null and email != '' ">
+										AND lower(E_MAIL) like '%' || lower(#{email}) || '%'
+									</if>
+								</if>
+								<if test='exactQuery == "Y"'>
+									<if test="logonName != null and logonName != '' ">
+										AND (   lower(PET_NAME) = lower(#{logonName})
+										     or MOBILE = #{logonName}
+										     or lower(E_MAIL) = lower(#{logonName})
+											)
+									</if>
+									<if test="petName != null and petName != '' ">
+										AND lower(PET_NAME) = lower(#{petName})
+									</if>
+									<if test="mobile != null and mobile != '' ">
+										AND MOBILE = #{mobile}
+									</if>
+									<if test="email != null and email != '' ">
+										AND lower(E_MAIL) = lower(#{email})
+									</if>
+								</if>
+								<if test="startTime != null">
+									AND CREATE_TIME >= #{startTime}
+								</if>
+								<if test="endTime != null">
+									AND #{endTime} >= CREATE_TIME
+								</if>
+						    </where>
+						    ) b
+						 WHERE a.CUST_ID = b.CUST_ID
+						 ORDER BY CUST_ID, IS_MASTER DESC, CREATE_TIME						
+					  	) A
+				  	WHERE #{lastRow} >= rownum )
+	    WHERE r >= #{firstRow}
+	</select>
+	
+	<select id="uuc_user_channel_list_count" parameterType="UserInfoParam" resultType="long">
+		SELECT count(*)
+		  FROM X_UUC_USER_INFO a,  
+		  (SELECT CUST_ID 
+			 FROM X_UUC_USER_INFO
+		    <where>
+		    	<if test="userId != null">
+					AND USER_ID = #{userId} 
+				</if>
+				<if test="custId != null">
+					AND CUST_ID = #{custId} 
+				</if>
+				<if test="channelId != null">
+					AND CHANNEL_ID = #{channelId}
+				</if>
+				<if test="userState != null and userState != '' ">
+					AND USER_STATE = #{userState}
+				</if>
+				<if test='exactQuery == "N"'>
+					<if test="logonName != null and logonName != '' ">
+						AND (   lower(PET_NAME) like '%' || lower(#{logonName}) || '%'
+						     or MOBILE like '%' || #{logonName} || '%'
+						     or lower(E_MAIL) like '%' || lower(#{logonName}) || '%'
+							)
+					</if>
+					<if test="petName != null and petName != '' ">
+						AND lower(PET_NAME) like '%' || lower(#{petName}) || '%'
+					</if>
+					<if test="mobile != null and mobile != '' ">
+						AND MOBILE like '%' || #{mobile} || '%'
+					</if>
+					<if test="email != null and email != '' ">
+						AND lower(E_MAIL) like '%' || lower(#{email}) || '%'
+					</if>
+				</if>
+				<if test='exactQuery == "Y"'>
+					<if test="logonName != null and logonName != '' ">
+						AND (   lower(PET_NAME) = lower(#{logonName})
+						     or MOBILE = #{logonName}
+						     or lower(E_MAIL) = lower(#{logonName})
+							)
+					</if>
+					<if test="petName != null and petName != '' ">
+						AND lower(PET_NAME) = lower(#{petName})
+					</if>
+					<if test="mobile != null and mobile != '' ">
+						AND MOBILE = #{mobile}
+					</if>
+					<if test="email != null and email != '' ">
+						AND lower(E_MAIL) = lower(#{email})
+					</if>
+				</if>
+				<if test="startTime != null">
+					AND CREATE_TIME >= #{startTime}
+				</if>
+				<if test="endTime != null">
+					AND #{endTime} >= CREATE_TIME
+				</if>
+		    </where>
+		    ) b
+		 WHERE a.CUST_ID = b.CUST_ID
+	</select>
+
+</mapper>

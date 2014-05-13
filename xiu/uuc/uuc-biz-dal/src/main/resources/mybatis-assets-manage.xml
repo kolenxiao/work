@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="">
+    
+    <!-- ===================================账目信息表======================================= -->
+	<!-- 修改账目信息 -->
+	<update id="uuc_acct_item_update" parameterType="AcctItemPO">
+		UPDATE X_UUC_ACCT_ITEM_INFO t1
+		<set>
+			<if test="totalAmount != null">
+			    TOTAL_AMOUNT = #{totalAmount},
+			</if>
+			<if test="freezeAmount != null">
+				FREEZE_AMOUNT = #{freezeAmount},
+			</if>
+			<if test="acctItemState != null and acctItemState != ''">
+				ACCT_ITEM_STATE = #{acctItemState},
+			</if>
+			<if test="operId != null and operId != ''">
+				OPER_ID = #{operId},
+			</if>
+				DATA_VERSION = #{dataVersion}+1,
+				
+				UPDATE_TIME = sysdate
+		</set>
+		<where>
+			<if test="acctItemId != null">
+				AND ACCT_ITEM_ID = #{acctItemId}
+			</if>
+			<if test="acctTypeCode != null and acctTypeCode != ''">
+				AND ACCT_TYPE_CODE = #{acctTypeCode}
+			</if>
+				AND DATA_VERSION = #{dataVersion}
+			<choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_USER_ACCT_INFO t2 WHERE t1.ACCT_ID = t2.ACCT_ID AND t2.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="acctId != null">
+				      AND ACCT_ID = #{acctId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+		</where>
+	</update>
+	
+	<!-- 账目详情信息查询 -->
+	<select id="uuc_acct_item_find" resultMap="uuc_acct_item_list_resultMap" parameterType="AcctItemParam">
+		SELECT
+       	      ACCT_ITEM_ID, 
+		      ACCT_TYPE_CODE, 
+		      ACCT_ID, 
+		      TOTAL_AMOUNT,
+		      FREEZE_AMOUNT, 
+		      ACCT_ITEM_STATE, 
+		      OPER_ID, 
+		      CREATE_TIME,
+		      UPDATE_TIME,
+		      DATA_VERSION 
+     	FROM X_UUC_ACCT_ITEM_INFO t1
+     	<where>
+		     <if test="acctItemId != null">
+				AND ACCT_ITEM_ID = #{acctItemId}
+			 </if>
+			 <if test="acctTypeCode != null and acctTypeCode != ''">
+				AND ACCT_TYPE_CODE = #{acctTypeCode}
+			</if>
+	        <choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_USER_ACCT_INFO t2 WHERE t1.ACCT_ID = t2.ACCT_ID AND t2.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="acctId != null">
+				      AND ACCT_ID = #{acctId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+		</where>
+	</select>
+
+	<!-- 查询账目列表信息 -->
+	<resultMap id="uuc_acct_item_list_resultMap" type="AcctItemPO">
+		<result property="acctItemId" column="ACCT_ITEM_ID" />
+		<result property="acctTypeCode" column="ACCT_TYPE_CODE" />
+		<result property="acctId" column="ACCT_ID" />
+		<result property="totalAmount" column="TOTAL_AMOUNT" />
+		<result property="freezeAmount" column="FREEZE_AMOUNT" />
+		<result property="acctItemState" column="ACCT_ITEM_STATE" />
+		<result property="operId" column="OPER_ID" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="dataVersion" column="DATA_VERSION" />
+	</resultMap>
+	<select id="uuc_acct_item_list" resultMap="uuc_acct_item_list_resultMap" parameterType="AcctItemParam">
+		SELECT 
+		      ACCT_ITEM_ID, 
+		      ACCT_TYPE_CODE, 
+		      ACCT_ID, 
+		      TOTAL_AMOUNT,
+		      FREEZE_AMOUNT, 
+		      ACCT_ITEM_STATE, 
+		      OPER_ID, 
+		      CREATE_TIME,
+		      UPDATE_TIME,
+		      DATA_VERSION 
+  		FROM (SELECT A.*, rownum r
+          	  FROM (SELECT
+          	              ACCT_ITEM_ID, 
+					      ACCT_TYPE_CODE, 
+					      ACCT_ID, 
+					      TOTAL_AMOUNT,
+					      FREEZE_AMOUNT, 
+					      ACCT_ITEM_STATE, 
+					      OPER_ID, 
+					      CREATE_TIME,
+					      UPDATE_TIME,
+					      DATA_VERSION 
+        			FROM X_UUC_ACCT_ITEM_INFO t1
+        			<where>
+					    <choose>
+					       <when test="acctItemIdList != null">
+						      AND ACCT_ITEM_ID in 
+							   <foreach item="acctItemId" index="index" collection="acctItemIdList" open="(" separator="," close=")">
+	                                #{acctItemId}
+	                           </foreach>
+						   </when>
+						   <otherwise>
+						       <if test="acctItemId != null">
+							     AND ACCT_ITEM_ID = #{acctItemId}
+						       </if>
+						   </otherwise>
+				        </choose> 
+				        <choose>
+					       <when test="acctTypeCodeList != null">
+						      AND ACCT_TYPE_CODE in 
+							   <foreach item="acctTypeCode" index="index" collection="acctTypeCodeList" open="(" separator="," close=")">
+	                                #{acctTypeCode}
+	                           </foreach>
+						   </when>
+						   <otherwise>
+						       <if test="acctTypeCode != null and acctTypeCode != ''">
+							      AND ACCT_TYPE_CODE = #{acctTypeCode}
+						       </if>
+						   </otherwise>
+				        </choose> 
+				        <choose>
+					       <when test="userId != null">
+						      AND EXISTS (SELECT 1 FROM X_UUC_USER_ACCT_INFO t2 WHERE t1.ACCT_ID = t2.ACCT_ID AND t2.USER_ID = #{userId})
+						   </when>
+						   <otherwise>
+						      <if test="acctId != null">
+							      AND ACCT_ID = #{acctId}
+						      </if>
+						   </otherwise>
+				        </choose> 
+						<if test="totalAmount != null">
+							AND TOTAL_AMOUNT = #{totalAmount}
+						</if>
+						<if test="freezeAmount != null">
+							AND FREEZE_AMOUNT = #{freezeAmount}
+						</if>
+						<if test="acctItemState != null and acctItemState != ''">
+							AND ACCT_ITEM_STATE = #{acctItemState}
+						</if>
+						<if test="operId != null and operId != ''">
+							AND OPER_ID = #{operId}
+						</if>
+						<if test="validTime != null">
+							AND CREATE_TIME >= #{validTime}
+						</if>
+						<if test="expireTime != null">
+						    AND #{expireTime} >= CREATE_TIME
+						</if>
+					</where>
+					<choose>
+					    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+						    ORDER BY ${sort} ${order} 
+						</when>
+					    <when test="sort != null and sort != ''">
+						    ORDER BY #{sort} 
+						</when>
+						<otherwise>
+						    ORDER BY CREATE_TIME DESC
+						</otherwise>
+					</choose> 
+        			) A
+       		   WHERE #{lastRow} >= rownum )
+		WHERE r >= #{firstRow}
+	</select>
+	
+	<!-- 账目信息总数统计查询 -->
+	<select id="uuc_acct_item_count" resultType="int" parameterType="AcctItemParam">
+		SELECT 
+		      COUNT(1)
+  		FROM  X_UUC_ACCT_ITEM_INFO t1
+		<where>
+			<choose>
+		       <when test="acctItemIdList != null">
+			       AND ACCT_ITEM_ID in 
+				   <foreach item="acctItemId" index="index" collection="acctItemIdList" open="(" separator="," close=")">
+                       #{acctItemId}
+                   </foreach>
+			   </when>
+			   <otherwise>
+			       <if test="acctItemId != null">
+				     AND ACCT_ITEM_ID = #{acctItemId}
+			       </if>
+			   </otherwise>
+	        </choose>
+	        <choose>
+		       <when test="acctTypeCodeList != null">
+			       AND ACCT_TYPE_CODE in 
+				   <foreach item="acctTypeCode" index="index" collection="acctTypeCodeList" open="(" separator="," close=")">
+                         #{acctTypeCode}
+                   </foreach>
+			   </when>
+			   <otherwise>
+			       <if test="acctTypeCode != null and acctTypeCode != ''">
+				      AND ACCT_TYPE_CODE = #{acctTypeCode}
+			       </if>
+			   </otherwise>
+	        </choose>  
+	        <choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_USER_ACCT_INFO t2 WHERE t1.ACCT_ID = t2.ACCT_ID AND t2.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="acctId != null">
+				      AND ACCT_ID = #{acctId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+			<if test="totalAmount != null">
+				AND TOTAL_AMOUNT = #{totalAmount}
+			</if>
+			<if test="freezeAmount != null">
+				AND FREEZE_AMOUNT = #{freezeAmount}
+			</if>
+			<if test="acctItemState != null and acctItemState != ''">
+				AND ACCT_ITEM_STATE = #{acctItemState}
+			</if>
+			<if test="operId != null and operId != ''">
+				AND OPER_ID = #{operId}
+			</if>
+			<if test="validTime != null">
+				AND CREATE_TIME >= #{validTime}
+			</if>
+			<if test="expireTime != null">
+			    AND #{expireTime} >= CREATE_TIME
+			</if>
+		</where>
+	</select>
+
+    <!-- ===================================账目变更历史信息表======================================= -->
+	<!-- 新增账目变更历史流水信息 -->
+	<insert id="uuc_acct_change_insert" parameterType="AcctChangePO">
+		INSERT INTO X_UUC_ACCT_CHANGE_INFO (
+		      ACCT_CHANGE_ID,
+		      ACCT_ITEM_ID, 
+		      RLT_ID, 
+		      RLT_CODE, 
+		      RLT_SEQ,
+		      IO_TYPE, 
+		      BUSI_TYPE, 
+		      IO_AMOUNT,
+		      CREATE_TIME,  
+		      RLT_CHANNEL_ID, 
+		      OPER_ID,
+		      ACCT_TYPE_CODE,
+		      HISTORY_IO_AMOUNT,
+		      LAST_IO_AMOUNT,
+		      REMARK,
+		      OPER_MODE) 
+		VALUES (
+		      #{accountChangeId}, 
+		      #{acctItemId}, 
+		      #{rltId, jdbcType=VARCHAR}, 
+		      #{rltCode, jdbcType=VARCHAR},
+		      #{rltSeq, jdbcType=VARCHAR}, 
+		      #{ioType, jdbcType=VARCHAR},
+		      #{busiType, jdbcType=VARCHAR}, 
+		      #{ioAmount}, 
+		      sysdate, 
+		      #{rltChannelId, jdbcType=VARCHAR}, 
+		      #{operId, jdbcType=VARCHAR},
+		      #{acctTypeCode, jdbcType=VARCHAR}, 
+		      #{historyIoAmount, jdbcType=NUMERIC},
+		      #{lastIoAmount, jdbcType=NUMERIC},
+		      #{remark, jdbcType=VARCHAR},
+		      #{operMode, jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 查询账目变更历史流水信息 -->
+	<resultMap id="uuc_acct_change_list_resultMap" type="AcctChangePO">
+	    <id property="accountChangeId" column="ACCT_CHANGE_ID" />
+		<result property="acctItemId" column="ACCT_ITEM_ID" />
+		<result property="rltId" column="RLT_ID" />
+		<result property="rltCode" column="RLT_CODE" />
+		<result property="rltSeq" column="RLT_SEQ" />
+		<result property="ioType" column="IO_TYPE" />
+		<result property="busiType" column="BUSI_TYPE" />
+		<result property="ioAmount" column="IO_AMOUNT" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="rltChannelId" column="RLT_CHANNEL_ID" />
+		<result property="operId" column="OPER_ID" />
+		<result property="acctTypeCode" column="ACCT_TYPE_CODE" />
+		<result property="historyIoAmount" column="HISTORY_IO_AMOUNT" />
+		<result property="lastIoAmount" column="LAST_IO_AMOUNT" />
+		<result property="remark" column="REMARK" />
+		<result property="operMode" column="OPER_MODE" />
+	</resultMap>
+	<select id="uuc_acct_change_list" resultMap="uuc_acct_change_list_resultMap" parameterType="AcctChangeParam">
+		SELECT 
+		      ACCT_CHANGE_ID, 
+		      ACCT_ITEM_ID, 
+		      RLT_ID, 
+		      RLT_CODE,
+		      RLT_SEQ,
+		      IO_TYPE, 
+		      BUSI_TYPE,
+		      IO_AMOUNT, 
+		      CREATE_TIME, 
+		      UPDATE_TIME, 
+		      RLT_CHANNEL_ID, 
+		      OPER_ID,
+		      ACCT_TYPE_CODE,
+		      HISTORY_IO_AMOUNT,
+		      LAST_IO_AMOUNT,
+		      REMARK,
+		      OPER_MODE
+  		FROM (SELECT A.*, rownum r
+          	  FROM (SELECT
+          	              ACCT_CHANGE_ID, 
+					      ACCT_ITEM_ID, 
+					      RLT_ID, 
+		                  RLT_CODE,
+		                  RLT_SEQ, 
+					      IO_TYPE, 
+					      BUSI_TYPE,
+					      IO_AMOUNT, 
+					      CREATE_TIME,
+					      UPDATE_TIME,  
+					      RLT_CHANNEL_ID, 
+					      OPER_ID,
+					      ACCT_TYPE_CODE,
+		                  HISTORY_IO_AMOUNT,
+		                  LAST_IO_AMOUNT,
+		                  REMARK,
+		                  OPER_MODE
+        			FROM X_UUC_ACCT_CHANGE_INFO t1
+        			<where>
+						<if test="accountChangeId != null">
+							AND ACCT_CHANGE_ID = #{accountChangeId}
+						</if>
+						<choose>
+					       <when test="userId != null">              
+						      AND EXISTS (SELECT 1 FROM X_UUC_ACCT_ITEM_INFO t2 , X_UUC_USER_ACCT_INFO t3
+						                  WHERE t1.ACCT_ITEM_ID = t2.ACCT_ITEM_ID AND t2.ACCT_ID = t3.ACCT_ID AND t3.USER_ID = #{userId})
+						   </when>
+						   <otherwise>
+						      <if test="acctItemId != null">
+							     AND ACCT_ITEM_ID = #{acctItemId}
+						      </if>
+						   </otherwise>
+				        </choose> 
+						<if test="rltId != null">
+							AND RLT_ID = #{rltId}
+						</if>
+						<if test="rltCode != null">
+							AND RLT_CODE = #{rltCode}
+						</if>
+						<if test="rltSeq != null">
+							AND RLT_SEQ = #{rltSeq}
+						</if>
+						<if test="ioType != null and ioType != ''">
+							AND IO_TYPE = #{ioType}
+						</if>
+						<if test="busiType != null and busiType != ''">
+							AND BUSI_TYPE = #{busiType}
+						</if>
+					    <if test="ioAmount != null">
+						    <choose>
+						       <when test="ioAmountOperType == 1">
+							      AND IO_AMOUNT > #{ioAmount}
+							   </when>
+							   <when test="ioAmountOperType == 2">
+							      AND #{ioAmount} > IO_AMOUNT
+							   </when>
+							   <when test="ioAmountOperType == 3">
+							      AND IO_AMOUNT = #{ioAmount}
+							   </when>
+							   <when test="ioAmountOperType == 4">
+							      AND IO_AMOUNT >= #{ioAmount}
+							   </when>
+							   <otherwise>
+							      <if test="ioAmountOperType == 5">
+								     AND #{ioAmount} >= IO_AMOUNT
+							      </if>
+							   </otherwise>
+				            </choose> 
+						</if>
+						<if test="rltChannelId != null and rltChannelId != ''">
+							AND RLT_CHANNEL_ID = #{rltChannelId}
+						</if>
+						<if test="operId != null and operId != ''">
+							AND OPER_ID = #{operId}
+						</if>
+						<if test="validTime != null">
+							AND CREATE_TIME >= #{validTime}
+						</if>
+						<if test="expireTime != null">
+						    AND #{expireTime} >= CREATE_TIME
+						</if>
+						<choose>
+					       <when test="acctTypeCodeList != null">
+						       AND ACCT_TYPE_CODE in 
+							   <foreach item="acctTypeCode" index="index" collection="acctTypeCodeList" open="(" separator="," close=")">
+			                         #{acctTypeCode}
+			                   </foreach>
+						   </when>
+						   <otherwise>
+						       <if test="acctTypeCode != null and acctTypeCode != ''">
+							      AND ACCT_TYPE_CODE = #{acctTypeCode}
+						       </if>
+						   </otherwise>
+				        </choose>
+				        <if test="timeSlot != null and timeSlot!='' ">
+						    <choose>
+						       <when test="timeSlot == 1">
+									AND CREATE_TIME >= (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL)
+							   </when>
+							   <when test="timeSlot == 2">
+									AND (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL) > CREATE_TIME
+							   </when>
+				            </choose> 
+						</if>
+						<if test="remark != null and remark!=''">
+						    AND REMARK LIKE  '%' ||  #{remark} || '%'
+						</if>  
+					</where> 
+        			<choose>
+					    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+						    ORDER BY ${sort} ${order} 
+						</when>
+					    <when test="sort != null and sort != ''">
+						    ORDER BY #{sort} 
+						</when>
+						<otherwise>
+						    ORDER BY CREATE_TIME DESC
+						</otherwise>
+					</choose> 
+                    ) A
+       		   WHERE #{lastRow} >= rownum )
+		WHERE r >= #{firstRow}
+	</select>
+	
+	<!-- 账目变更历史流水信息总数统计查询 -->
+	<select id="uuc_acct_change_count" resultType="int" parameterType="AcctChangeParam">
+		SELECT 
+		      COUNT(1)
+  		FROM  X_UUC_ACCT_CHANGE_INFO t1
+		<where>
+			<if test="accountChangeId != null">
+				AND ACCT_CHANGE_ID = #{accountChangeId}
+			</if>
+			<choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_ACCT_ITEM_INFO t2 , X_UUC_USER_ACCT_INFO t3
+						       WHERE t1.ACCT_ITEM_ID = t2.ACCT_ITEM_ID AND t2.ACCT_ID = t3.ACCT_ID AND t3.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="acctItemId != null">
+				     AND ACCT_ITEM_ID = #{acctItemId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+			<if test="rltId != null">
+				AND RLT_ID = #{rltId}
+			</if>
+			<if test="rltCode != null">
+				AND RLT_CODE = #{rltCode}
+			</if>
+			<if test="rltSeq != null">
+				AND RLT_SEQ = #{rltSeq}
+			</if>
+			<if test="ioType != null and ioType != ''">
+				AND IO_TYPE = #{ioType}
+			</if>
+			<if test="busiType != null and busiType != ''">
+				AND BUSI_TYPE = #{busiType}
+			</if>
+			<if test="ioAmount != null">
+			    <choose>
+			       <when test="ioAmountOperType == 1">
+				      AND IO_AMOUNT > #{ioAmount}
+				   </when>
+				   <when test="ioAmountOperType == 2">
+				      AND #{ioAmount} > IO_AMOUNT
+				   </when>
+				   <when test="ioAmountOperType == 3">
+				      AND IO_AMOUNT = #{ioAmount}
+				   </when>
+				   <when test="ioAmountOperType == 4">
+				      AND IO_AMOUNT >= #{ioAmount}
+				   </when>
+				   <otherwise>
+				      <if test="ioAmountOperType == 5">
+					     AND #{ioAmount} >= IO_AMOUNT
+				      </if>
+				   </otherwise>
+	            </choose> 
+			</if>
+			<if test="rltChannelId != null and rltChannelId != ''">
+				AND RLT_CHANNEL_ID = #{rltChannelId}
+			</if>
+			<if test="operId != null and operId != ''">
+				AND OPER_ID = #{operId}
+			</if>
+			<if test="validTime != null">
+				AND CREATE_TIME >= #{validTime}
+			</if>
+			<if test="expireTime != null">
+			    AND #{expireTime} >= CREATE_TIME
+			</if>
+			<choose>
+		       <when test="acctTypeCodeList != null">
+			      AND ACCT_TYPE_CODE in 
+				   <foreach item="acctTypeCode" index="index" collection="acctTypeCodeList" open="(" separator="," close=")">
+                         #{acctTypeCode}
+                   </foreach>
+			   </when>
+			   <otherwise>
+			       <if test="acctTypeCode != null and acctTypeCode != ''">
+				      AND ACCT_TYPE_CODE = #{acctTypeCode}
+			       </if>
+			   </otherwise>
+	        </choose>
+			<if test="timeSlot != null and timeSlot!='' ">
+			    <choose>
+			       <when test="timeSlot == 1">
+						AND CREATE_TIME >= (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL)
+				   </when>
+				   <when test="timeSlot == 2">
+						AND (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL) > CREATE_TIME
+				   </when>
+	            </choose> 
+			</if> 
+			<if test="remark != null and remark!=''">
+			    AND REMARK LIKE  '%' ||  #{remark} || '%'
+			</if> 
+		</where> 
+	</select>
+	
+	
+	<!-- 查询账目变更历史流水信息 -->
+	<!-- 主要为了解决1.5系统中订单号含有字母的情况-->
+    <!--将rltId（订单id或者退换货id）数据类型由Long,String-->
+    <!--Bug 7732 - 查询账户变动列表记录接口-->
+	<resultMap id="uuc_acct_change_list_resultMap_ext" type="AcctChangeExtPO">
+	    <id property="accountChangeId" column="ACCT_CHANGE_ID" />
+		<result property="acctItemId" column="ACCT_ITEM_ID" />
+		<result property="rltId" column="RLT_ID" />
+		<result property="rltCode" column="RLT_CODE" />
+		<result property="rltSeq" column="RLT_SEQ" />
+		<result property="ioType" column="IO_TYPE" />
+		<result property="busiType" column="BUSI_TYPE" />
+		<result property="ioAmount" column="IO_AMOUNT" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="rltChannelId" column="RLT_CHANNEL_ID" />
+		<result property="operId" column="OPER_ID" />
+		<result property="acctTypeCode" column="ACCT_TYPE_CODE" />
+		<result property="historyIoAmount" column="HISTORY_IO_AMOUNT" />
+		<result property="lastIoAmount" column="LAST_IO_AMOUNT" />
+		<result property="remark" column="REMARK" />
+		<result property="operMode" column="OPER_MODE" />
+	</resultMap>
+	<select id="uuc_acct_change_list_ext" resultMap="uuc_acct_change_list_resultMap_ext" parameterType="AcctChangeExtParam">
+		SELECT 
+		      ACCT_CHANGE_ID, 
+		      ACCT_ITEM_ID, 
+		      RLT_ID, 
+		      RLT_CODE,
+		      RLT_SEQ,
+		      IO_TYPE, 
+		      BUSI_TYPE,
+		      IO_AMOUNT, 
+		      CREATE_TIME, 
+		      UPDATE_TIME, 
+		      RLT_CHANNEL_ID, 
+		      OPER_ID,
+		      ACCT_TYPE_CODE,
+		      HISTORY_IO_AMOUNT,
+		      LAST_IO_AMOUNT,
+		      REMARK,
+		      OPER_MODE
+  		FROM (SELECT A.*, rownum r
+          	  FROM (SELECT
+          	              ACCT_CHANGE_ID, 
+					      ACCT_ITEM_ID, 
+					      RLT_ID, 
+		                  RLT_CODE,
+		                  RLT_SEQ, 
+					      IO_TYPE, 
+					      BUSI_TYPE,
+					      IO_AMOUNT, 
+					      CREATE_TIME,
+					      UPDATE_TIME,  
+					      RLT_CHANNEL_ID, 
+					      OPER_ID,
+					      ACCT_TYPE_CODE,
+		                  HISTORY_IO_AMOUNT,
+		                  LAST_IO_AMOUNT,
+		                  REMARK,
+		                  OPER_MODE
+        			FROM X_UUC_ACCT_CHANGE_INFO t1
+        			<where>
+						<if test="accountChangeId != null">
+							AND ACCT_CHANGE_ID = #{accountChangeId}
+						</if>
+						<choose>
+					       <when test="userId != null">              
+						      AND EXISTS (SELECT 1 FROM X_UUC_ACCT_ITEM_INFO t2 , X_UUC_USER_ACCT_INFO t3
+						                  WHERE t1.ACCT_ITEM_ID = t2.ACCT_ITEM_ID AND t2.ACCT_ID = t3.ACCT_ID AND t3.USER_ID = #{userId})
+						   </when>
+						   <otherwise>
+						      <if test="acctItemId != null">
+							     AND ACCT_ITEM_ID = #{acctItemId}
+						      </if>
+						   </otherwise>
+				        </choose> 
+						<if test="rltId != null">
+							AND RLT_ID = #{rltId}
+						</if>
+						<if test="rltCode != null">
+							AND RLT_CODE = #{rltCode}
+						</if>
+						<if test="rltSeq != null">
+							AND RLT_SEQ = #{rltSeq}
+						</if>
+						<if test="ioType != null and ioType != ''">
+							AND IO_TYPE = #{ioType}
+						</if>
+						<if test="busiType != null and busiType != ''">
+							AND BUSI_TYPE = #{busiType}
+						</if>
+					    <if test="ioAmount != null">
+						    <choose>
+						       <when test="ioAmountOperType == 1">
+							      AND IO_AMOUNT > #{ioAmount}
+							   </when>
+							   <when test="ioAmountOperType == 2">
+							      AND #{ioAmount} > IO_AMOUNT
+							   </when>
+							   <when test="ioAmountOperType == 3">
+							      AND IO_AMOUNT = #{ioAmount}
+							   </when>
+							   <when test="ioAmountOperType == 4">
+							      AND IO_AMOUNT >= #{ioAmount}
+							   </when>
+							   <otherwise>
+							      <if test="ioAmountOperType == 5">
+								     AND #{ioAmount} >= IO_AMOUNT
+							      </if>
+							   </otherwise>
+				            </choose> 
+						</if>
+						<if test="rltChannelId != null and rltChannelId != ''">
+							AND RLT_CHANNEL_ID = #{rltChannelId}
+						</if>
+						<if test="operId != null and operId != ''">
+							AND OPER_ID = #{operId}
+						</if>
+						<if test="validTime != null">
+							AND CREATE_TIME >= #{validTime}
+						</if>
+						<if test="expireTime != null">
+						    AND #{expireTime} >= CREATE_TIME
+						</if>
+						<choose>
+					       <when test="acctTypeCodeList != null">
+						       AND ACCT_TYPE_CODE in 
+							   <foreach item="acctTypeCode" index="index" collection="acctTypeCodeList" open="(" separator="," close=")">
+			                         #{acctTypeCode}
+			                   </foreach>
+						   </when>
+						   <otherwise>
+						       <if test="acctTypeCode != null and acctTypeCode != ''">
+							      AND ACCT_TYPE_CODE = #{acctTypeCode}
+						       </if>
+						   </otherwise>
+				        </choose>
+				        <if test="timeSlot != null and timeSlot!='' ">
+						    <choose>
+						       <when test="timeSlot == 1">
+									AND CREATE_TIME >= (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL)
+							   </when>
+							   <when test="timeSlot == 2">
+									AND (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL) > CREATE_TIME
+							   </when>
+				            </choose> 
+						</if>
+						<if test="remark != null and remark!=''">
+						    AND REMARK LIKE  '%' ||  #{remark} || '%'
+						</if>  
+					</where> 
+        			<choose>
+					    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+						    ORDER BY ${sort} ${order} 
+						</when>
+					    <when test="sort != null and sort != ''">
+						    ORDER BY #{sort} 
+						</when>
+						<otherwise>
+						    ORDER BY CREATE_TIME DESC
+						</otherwise>
+					</choose> 
+                    ) A
+       		   WHERE #{lastRow} >= rownum )
+		WHERE r >= #{firstRow}
+	</select>
+	
+	
+	<!-- 账目变更历史流水信息总数统计查询 -->
+	<!-- 主要为了解决1.5系统中订单号含有字母的情况-->
+    <!--将rltId（订单id或者退换货id）数据类型由Long,String-->
+    <!--Bug 7732 - 查询账户变动列表记录接口-->
+	<select id="uuc_acct_change_count_ext" resultType="int" parameterType="AcctChangeExtParam">
+		SELECT 
+		      COUNT(1)
+  		FROM  X_UUC_ACCT_CHANGE_INFO t1
+		<where>
+			<if test="accountChangeId != null">
+				AND ACCT_CHANGE_ID = #{accountChangeId}
+			</if>
+			<choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_ACCT_ITEM_INFO t2 , X_UUC_USER_ACCT_INFO t3
+						       WHERE t1.ACCT_ITEM_ID = t2.ACCT_ITEM_ID AND t2.ACCT_ID = t3.ACCT_ID AND t3.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="acctItemId != null">
+				     AND ACCT_ITEM_ID = #{acctItemId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+			<if test="rltId != null">
+				AND RLT_ID = #{rltId}
+			</if>
+			<if test="rltCode != null">
+				AND RLT_CODE = #{rltCode}
+			</if>
+			<if test="rltSeq != null">
+				AND RLT_SEQ = #{rltSeq}
+			</if>
+			<if test="ioType != null and ioType != ''">
+				AND IO_TYPE = #{ioType}
+			</if>
+			<if test="busiType != null and busiType != ''">
+				AND BUSI_TYPE = #{busiType}
+			</if>
+			<if test="ioAmount != null">
+			    <choose>
+			       <when test="ioAmountOperType == 1">
+				      AND IO_AMOUNT > #{ioAmount}
+				   </when>
+				   <when test="ioAmountOperType == 2">
+				      AND #{ioAmount} > IO_AMOUNT
+				   </when>
+				   <when test="ioAmountOperType == 3">
+				      AND IO_AMOUNT = #{ioAmount}
+				   </when>
+				   <when test="ioAmountOperType == 4">
+				      AND IO_AMOUNT >= #{ioAmount}
+				   </when>
+				   <otherwise>
+				      <if test="ioAmountOperType == 5">
+					     AND #{ioAmount} >= IO_AMOUNT
+				      </if>
+				   </otherwise>
+	            </choose> 
+			</if>
+			<if test="rltChannelId != null and rltChannelId != ''">
+				AND RLT_CHANNEL_ID = #{rltChannelId}
+			</if>
+			<if test="operId != null and operId != ''">
+				AND OPER_ID = #{operId}
+			</if>
+			<if test="validTime != null">
+				AND CREATE_TIME >= #{validTime}
+			</if>
+			<if test="expireTime != null">
+			    AND #{expireTime} >= CREATE_TIME
+			</if>
+			<choose>
+		       <when test="acctTypeCodeList != null">
+			      AND ACCT_TYPE_CODE in 
+				   <foreach item="acctTypeCode" index="index" collection="acctTypeCodeList" open="(" separator="," close=")">
+                         #{acctTypeCode}
+                   </foreach>
+			   </when>
+			   <otherwise>
+			       <if test="acctTypeCode != null and acctTypeCode != ''">
+				      AND ACCT_TYPE_CODE = #{acctTypeCode}
+			       </if>
+			   </otherwise>
+	        </choose>
+			<if test="timeSlot != null and timeSlot!='' ">
+			    <choose>
+			       <when test="timeSlot == 1">
+						AND CREATE_TIME >= (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL)
+				   </when>
+				   <when test="timeSlot == 2">
+						AND (SELECT ADD_MONTHS(SYSDATE,-3) FROM DUAL) > CREATE_TIME
+				   </when>
+	            </choose> 
+			</if> 
+			<if test="remark != null and remark!=''">
+			    AND REMARK LIKE  '%' ||  #{remark} || '%'
+			</if> 
+		</where> 
+	</select>
+	
+	
+	<!-- ===================================用戶账户信息表======================================= -->
+	<!-- 修改用戶账户信息 -->
+	<update id="uuc_user_acct_update" parameterType="UserAcctPO">
+		UPDATE X_UUC_USER_ACCT_INFO 
+		<set>
+			<if test="userId != null">
+				USER_ID = #{userId},
+			</if>
+			<if test="acctName != null and acctName != ''">
+				ACCT_NAME = #{acctName},
+			</if>
+			<if test="acctState != null and acctState != ''">
+				ACCT_STATE = #{acctState},
+			</if>
+			<if test="operId != null and operId != ''">
+				OPER_ID = #{operId},
+			</if>
+			<if test="dataVersion != null">
+				DATA_VERSION = #{dataVersion}+1,
+			</if>
+			UPDATE_TIME = sysdate
+		</set>
+		<where>
+		    <if test="acctId != null">
+				AND ACCT_ID = #{acctId}
+			</if>
+			<if test="userId != null">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="dataVersion != null">
+				AND DATA_VERSION = #{dataVersion}
+			</if>
+		</where>
+	</update>
+	
+	<!-- 查询用戶账户列表信息 -->
+	<resultMap id="uuc_user_acct_list_resultMap" type="UserAcctPO">
+		<result property="acctId" column="ACCT_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="acctName" column="ACCT_NAME" />
+		<result property="acctState" column="ACCT_STATE" />
+		<result property="operId" column="OPER_ID" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="dataVersion" column="DATA_VERSION" />
+	</resultMap>
+	<select id="uuc_user_acct_list" resultMap="uuc_user_acct_list_resultMap" parameterType="UserAcctParam">
+		SELECT
+       	       ACCT_ID, 
+		       USER_ID, 
+		       ACCT_NAME,  
+		       ACCT_STATE, 
+		       OPER_ID, 
+		       CREATE_TIME,
+		       UPDATE_TIME,
+		       DATA_VERSION 
+     	FROM X_UUC_USER_ACCT_INFO 
+     	<where>
+			<if test="acctId != null">
+				AND ACCT_ID = #{acctId}
+			</if>
+			<if test="userId != null">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="acctState != null and acctState != ''">
+				AND ACCT_STATE = #{acctState}
+			</if>
+		</where> 
+	</select>
+	
+	
+	<!-- ===================================积分规则创建点表======================================= -->
+	<!-- 查询积分规则创建点列表信息 -->
+	<resultMap id="uuc_integeral_rule_list_resultMap" type="IntegeralRulePO">
+		<result property="createPointId" column="CREATE_POINT_ID" />
+		<result property="createPointCode" column="CREATE_POINT_CODE" />
+		<result property="createPointName" column="CREATE_POINT_NAME" />
+		<result property="createPointDesc" column="CREATE_POINT_DESC" />
+		<result property="createPointState" column="CREATE_POINT_STATE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="operId" column="OPER_ID" />
+		<result property="caculateExpression" column="CACULATE_EXPRESSION" />
+		<result property="channelId" column="CHANNEL_ID" />
+		<result property="operType" column="OPER_TYPE" />
+	</resultMap>
+	<select id="uuc_integeral_rule_list" resultMap="uuc_integeral_rule_list_resultMap" parameterType="IntegeralRuleParam">
+		SELECT
+       	       CREATE_POINT_ID, 
+       	       CREATE_POINT_CODE, 
+		       CREATE_POINT_NAME,
+		       CREATE_POINT_DESC,  
+		       CREATE_POINT_STATE, 
+		       CREATE_TIME,
+		       UPDATE_TIME, 
+		       OPER_ID,
+		       CACULATE_EXPRESSION,
+		       CHANNEL_ID,
+		       OPER_TYPE 
+     	FROM   X_UUC_INTEGERAL_RULE_INFO 
+     	<where>
+     	    <if test="createPointId != null">
+				AND CREATE_POINT_ID = #{createPointId}
+			</if>
+			<if test="createPointCode != null">
+				AND CREATE_POINT_CODE = #{createPointCode}
+			</if>
+			<if test="createPointState != null and createPointState!=''">
+				AND CREATE_POINT_STATE = #{createPointState}
+			</if>
+			<if test="operId != null and operId != ''">
+				AND OPER_ID = #{operId}
+			</if>
+			<if test="caculateExpression != null and caculateExpression != ''">
+				AND CACULATE_EXPRESSION = #{caculateExpression}
+			</if>
+			<if test="channelId != null">
+				AND CHANNEL_ID = #{channelId}
+			</if>
+			<if test="operType != null and operType != ''">
+				AND OPER_TYPE = #{operType}
+			</if>
+		</where> 
+	</select>
+	
+	<resultMap id="uuc_acct_item_virtual_resultMap" type="VirtualAcctItemPO">
+		<result property="userId" column="USER_ID" />
+		<result property="custId" column="CUST_ID" />
+		<result property="channelId" column="CHANNEL_ID" />
+		<result property="userLevel" column="USER_LEVEL" />
+		<result property="drawTotalMoney" column="DRAW_TOTAL_MONEY" />
+		<result property="drawFreezeMoney" column="DRAW_FREEZE_MONEY" />
+		<result property="noDrawTotalMoney" column="NODRAW_TOTAL_MONEY" />
+		<result property="noDrawFreezeMoney" column="NODRAW_FREEZE_MONEY" />
+		<result property="unableTotalMoney" column="UNABLE_TOTAL_MONEY" />
+		<result property="totalIntegral" column="TOTAL_INTEGRAL" />
+		<result property="freezeIntegral" column="FREEZE_INTEGRAL" />
+	</resultMap>
+    <!-- 根据用户ID(可选)，查询账目信息统计列表，获取用户可提现总金额，可提现冻结，不可提现总金额，不可提现冻结，总积分，积分冻结 -->
+   <select id="uuc_acct_item_virtual_list" resultMap="uuc_acct_item_virtual_resultMap" parameterType="VirtualAcctItemParam">
+		SELECT 
+			   B.USER_ID                                            AS USER_ID, 
+               B.CUST_ID                                            AS CUST_ID, 
+               B.CHANNEL_ID                                         AS CHANNEL_ID, 
+               B.USER_LEVEL                                         AS USER_LEVEL, 
+               B.DRAW_TOTAL_MONEY                                   AS DRAW_TOTAL_MONEY, 
+               B.DRAW_FREEZE_MONEY                                  AS DRAW_FREEZE_MONEY, 
+               B.NODRAW_TOTAL_MONEY                                 AS NODRAW_TOTAL_MONEY, 
+               B.NODRAW_FREEZE_MONEY                                AS NODRAW_FREEZE_MONEY, 
+               B.TOTAL_INTEGRAL                                     AS TOTAL_INTEGRAL, 
+               B.FREEZE_INTEGRAL                                    AS FREEZE_INTEGRAL 
+	  		FROM (SELECT A.*, rownum r
+	          	  FROM (SELECT
+	          	               t1.USER_ID                                             AS USER_ID, 
+		                       t1.CUST_ID                                             AS CUST_ID,
+		                       t1.CHANNEL_ID                                          AS CHANNEL_ID, 
+		                       t1.USER_LEVEL                                          AS USER_LEVEL,
+		                       Max(Decode(t3.ACCT_TYPE_CODE,'01', t3.TOTAL_AMOUNT))   AS DRAW_TOTAL_MONEY, 
+		                       Max(Decode(t3.ACCT_TYPE_CODE,'01', t3.FREEZE_AMOUNT))  AS DRAW_FREEZE_MONEY, 
+		                       Max(Decode(t3.ACCT_TYPE_CODE,'02', t3.TOTAL_AMOUNT))   AS NODRAW_TOTAL_MONEY,
+		                       Max(Decode(t3.ACCT_TYPE_CODE, '02', t3.FREEZE_AMOUNT)) AS NODRAW_FREEZE_MONEY, 
+		                       Max(Decode(t3.ACCT_TYPE_CODE, '03', t3.TOTAL_AMOUNT))  AS TOTAL_INTEGRAL, 
+		                       Max(Decode(t3.ACCT_TYPE_CODE, '03', t3.FREEZE_AMOUNT)) AS FREEZE_INTEGRAL
+	        			FROM X_UUC_USER_INFO t1, X_UUC_USER_ACCT_INFO t2, X_UUC_ACCT_ITEM_INFO t3  
+	        			WHERE
+	        			       t1.USER_ID = t2.USER_ID 
+	        			       AND t2.ACCT_ID = t3.ACCT_ID
+	        			       <if test="userId != null">
+								  AND t1.USER_ID = #{userId} 
+							   </if>
+						GROUP BY  t1.USER_ID,t1.CUST_ID, t1.CHANNEL_ID ,t1.USER_LEVEL ,t3.ACCT_ID  
+	                    ) A
+	       		   WHERE #{lastRow} >= rownum ) B
+			WHERE r >= #{firstRow}
+	</select>
+	
+	<!-- 根据用户ID（可选），查询账目信息统计列表总记录数 -->
+	<select id="uuc_acct_item_virtual_count" resultType="int" parameterType="VirtualAcctItemParam">
+          SELECT 
+               COUNT(1)
+          FROM
+	          (SELECT
+	      	         t1.USER_ID                                             AS USER_ID, 
+	                 t1.CUST_ID                                             AS CUST_ID,
+	                 t1.CHANNEL_ID                                          AS CHANNEL_ID, 
+	                 t1.USER_LEVEL                                          AS USER_LEVEL,
+	                 Max(Decode(t3.ACCT_TYPE_CODE,'01', t3.TOTAL_AMOUNT))   AS DRAW_TOTAL_MONEY, 
+	                 Max(Decode(t3.ACCT_TYPE_CODE,'01', t3.FREEZE_AMOUNT))  AS DRAW_FREEZE_MONEY, 
+	                 Max(Decode(t3.ACCT_TYPE_CODE,'02', t3.TOTAL_AMOUNT))   AS NODRAW_TOTAL_MONEY,
+	                 Max(Decode(t3.ACCT_TYPE_CODE, '02', t3.FREEZE_AMOUNT)) AS NODRAW_FREEZE_MONEY, 
+	                 Max(Decode(t3.ACCT_TYPE_CODE, '03', t3.TOTAL_AMOUNT))  AS TOTAL_INTEGRAL, 
+	                 Max(Decode(t3.ACCT_TYPE_CODE, '03', t3.FREEZE_AMOUNT)) AS FREEZE_INTEGRAL
+	    	  FROM X_UUC_USER_INFO t1, X_UUC_USER_ACCT_INFO t2, X_UUC_ACCT_ITEM_INFO t3  
+	    	  WHERE
+     			    t1.USER_ID = t2.USER_ID 
+	        	    AND t2.ACCT_ID = t3.ACCT_ID
+      			    <if test="userId != null">
+					  AND t1.USER_ID = #{userId} 
+				    </if>
+			 GROUP BY  t1.USER_ID,t1.CUST_ID, t1.CHANNEL_ID ,t1.USER_LEVEL ,t3.ACCT_ID) 
+	</select>
+	
+</mapper>

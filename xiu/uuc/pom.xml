@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.xiu</groupId>
+  <artifactId>uuc</artifactId>
+  <version>2.1</version>
+  <packaging>pom</packaging>
+
+  <name>uuc</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <distributionManagement>
+	<repository>
+	<id>third-party</id>
+	<uniqueVersion>false</uniqueVersion>
+	<url>http://192.168.80.138:8081/artifactory/third-party</url>
+	</repository>
+  </distributionManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.7</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+	  <groupId>com.xiu</groupId>
+	  <artifactId>commons-dao</artifactId>
+	  <version>2.0</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.xiu</groupId>
+	  <artifactId>commons-command</artifactId>
+	  <version>2.0</version>
+	</dependency>
+	<dependency>
+	  <groupId>log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	  <version>1.2.16</version>
+	</dependency>
+	<dependency> 
+      <groupId>com.xiu.commons</groupId> 
+      <artifactId>commons-core</artifactId> 
+      <version>2.0.0</version> 
+    </dependency>
+  </dependencies>
+  	
+  <build>
+	<plugins>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<configuration>
+		  <source>1.6</source>
+		  <target>1.6</target>
+		  <encoding>${project.build.sourceEncoding}</encoding>
+		</configuration>
+	  </plugin>
+	</plugins>
+  </build>
+  
+  <modules>
+    <module>uuc-biz-common</module>
+    <module>uuc-biz-facade</module>
+    <module>uuc-biz-dal</module>
+    <module>uuc-biz-core</module>
+    <module>uuc-biz-manager</module>
+    <module>uuc-web</module>
+  </modules>
+  
+</project>

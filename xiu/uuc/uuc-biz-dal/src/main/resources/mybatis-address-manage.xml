@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="addressManage">
+
+  
+  <!-- ===================================收货地址信息表======================================= -->	
+	<!-- 新增收货地址信息 -->
+	<insert id="uuc_rcv_address_insert" parameterType="RcvAddressPO">
+		INSERT INTO x_uuc_rcv_address_info(ADDRESS_ID,
+			CUST_ID,
+			CREATE_CHANNEL_ID,
+			PROVINCE_CODE,
+			REGION_CODE,
+			CITY_CODE,
+			ADDRESS_INFO,
+			IS_MASTER,
+			RCVER_NAME,
+			AREA_CODE,
+			PHONE,
+			DIV_CODE,
+			MOBILE,
+			POST_CODE,
+			BOOKER_NAME,
+			BOOKER_PHONE)
+		VALUES(#{addressId},
+			#{custId},
+			#{createChannelId},
+			#{provinceCode, jdbcType=VARCHAR},
+			#{regionCode, jdbcType=VARCHAR},
+			#{cityCode, jdbcType=VARCHAR},
+			#{addressInfo, jdbcType=VARCHAR},
+			#{isMaster, jdbcType=VARCHAR},
+			#{rcverName, jdbcType=VARCHAR},
+			#{areaCode, jdbcType=VARCHAR},
+			#{phone, jdbcType=VARCHAR},
+			#{divCode, jdbcType=VARCHAR},
+			#{mobile, jdbcType=VARCHAR},
+			#{postCode, jdbcType=VARCHAR},
+			#{bookerName, jdbcType=VARCHAR},
+			#{bookerPhone, jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 修改收货地址信息 -->
+	<update id="uuc_rcv_address_modify" parameterType="RcvAddressPO">
+		UPDATE x_uuc_rcv_address_info SET
+			<if test="provinceCode != null and provinceCode != '' ">
+				PROVINCE_CODE = #{provinceCode},
+			</if>
+			<if test="regionCode != null and regionCode != '' ">
+				REGION_CODE = #{regionCode},
+			</if>
+			<if test="cityCode != null and cityCode != '' ">
+				CITY_CODE = #{cityCode},
+			</if>
+			<if test="addressInfo != null and addressInfo != '' ">
+				ADDRESS_INFO = #{addressInfo},
+			</if>
+			<if test="isMaster != null and isMaster != '' ">
+				IS_MASTER = #{isMaster},
+			</if>
+			<if test="rcverName != null and rcverName != '' ">
+				RCVER_NAME = #{rcverName},
+			</if>
+			<if test="areaCode != null">
+				AREA_CODE = #{areaCode},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone},
+			</if>
+			<if test="divCode != null">
+				DIV_CODE = #{divCode},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile},
+			</if>			
+			<if test="postCode != null">
+				POST_CODE = #{postCode},
+			</if>	
+			<if test="bookerName != null">
+				BOOKER_NAME = #{bookerName},
+			</if>		
+			<if test="bookerPhone != null">
+				BOOKER_PHONE = #{bookerPhone},
+			</if>
+			UPDATE_TIME = sysdate
+		<where>
+			<if test="custId != null and custId != '' ">
+				and CUST_ID = #{custId}
+			</if>
+			<if test="addressId != null and addressId != '' ">
+				and ADDRESS_ID = #{addressId}
+			</if>
+		</where>
+	</update>
+		
+	<!-- 修改收货地址关联的客户ID -->
+	<update id="uuc_rcv_address_modify_cust" parameterType="RcvAddressParam">
+		UPDATE x_uuc_rcv_address_info 
+		   SET CUST_ID = #{custId},
+		       UPDATE_TIME = sysdate
+		 WHERE CUST_ID = #{bindCustId},		      
+		   AND ADDRESS_ID = #{addressId}
+	</update>
+	
+	<!-- 删除收货地址信息 -->
+	<delete id="uuc_rcv_address_delete" parameterType="long">
+		DELETE FROM x_uuc_rcv_address_info WHERE ADDRESS_ID = #{value}
+	</delete>
+	
+	  	
+	<!-- 查询收货地址信息 -->
+	<resultMap id="uuc_rcv_address_query_resultMap" type="RcvAddressPO">
+		<id property="addressId" column="ADDRESS_ID" />
+		<result property="custId" column="CUST_ID" />
+		<result property="createChannelId" column="CREATE_CHANNEL_ID" />
+		<result property="provinceCode" column="PROVINCE_CODE" />
+		<result property="regionCode" column="REGION_CODE" />
+		<result property="cityCode" column="CITY_CODE" />
+		<result property="addressInfo" column="ADDRESS_INFO" />
+		<result property="isMaster" column="IS_MASTER" />
+		<result property="rcverName" column="RCVER_NAME" />
+		<result property="areaCode" column="AREA_CODE" />
+		<result property="phone" column="PHONE" />
+		<result property="divCode" column="DIV_CODE" />
+		<result property="mobile" column="MOBILE" />
+		<result property="postCode" column="POST_CODE" />
+		<result property="bookerName" column="BOOKER_NAME" />
+		<result property="bookerPhone" column="BOOKER_PHONE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+	<select id="uuc_rcv_address_query" parameterType="RcvAddressParam" resultMap="uuc_rcv_address_query_resultMap">
+		SELECT ad.ADDRESS_ID,
+		       ad.CUST_ID,
+		       ad.CREATE_CHANNEL_ID,
+		       ad.PROVINCE_CODE,
+		       ad.REGION_CODE,
+		       ad.CITY_CODE,
+		       ad.ADDRESS_INFO,
+		       ad.IS_MASTER,
+		       ad.RCVER_NAME,
+		       ad.AREA_CODE,
+		       ad.PHONE,
+		       ad.DIV_CODE,
+		       ad.MOBILE,
+		       ad.POST_CODE,
+		       ad.BOOKER_NAME,
+		       ad.BOOKER_PHONE,
+		       ad.CREATE_TIME,
+		       ad.UPDATE_TIME
+		  FROM x_uuc_rcv_address_info ad
+			<if test="userId != null">
+				, x_uuc_user_info us
+			</if>
+		<where>
+			<if test="userId != null">
+				    ad.CUST_ID = us.CUST_ID
+				AND us.USER_ID = #{userId}
+			</if>
+			<if test="custId != null">
+				AND ad.CUST_ID = #{custId} 
+			</if>
+			<if test="addressId != null">
+				AND ad.ADDRESS_ID = #{addressId}
+			</if>
+			<if test="isMaster != null and isMaster != '' ">
+				AND ad.IS_MASTER = #{isMaster}
+			</if>
+			<if test="provinceCode != null and provinceCode != '' ">
+				AND ad.PROVINCE_CODE = #{provinceCode}
+			</if>
+			<if test="regionCode != null and regionCode != '' ">
+				AND ad.REGION_CODE = #{regionCode}
+			</if>
+			<if test="cityCode != null and cityCode != '' ">
+				AND ad.CITY_CODE = #{cityCode}
+			</if>
+			<if test="addressInfo != null and addressInfo != '' ">
+				AND ad.ADDRESS_INFO = #{addressInfo}
+			</if>
+			<if test="rcverName != null and rcverName != '' ">
+				AND ad.RCVER_NAME = #{rcverName}
+			</if>
+			<if test="mobile != null and mobile != '' ">
+				AND ad.MOBILE = #{mobile}
+			</if>
+		</where>
+		ORDER BY ad.UPDATE_TIME DESC
+	</select>
+	
+	<!-- 查询收货地址条数 -->
+	<select id="uuc_rcv_address_count" parameterType="RcvAddressParam" resultType="long">
+		SELECT count(*) 
+		  FROM x_uuc_rcv_address_info ad
+			<if test="userId != null">
+				, x_uuc_user_info us
+			</if>
+		<where>
+			<if test="userId != null">
+				    ad.CUST_ID = us.CUST_ID
+				AND us.USER_ID = #{userId}
+			</if>
+			<if test="custId != null">
+				AND ad.CUST_ID = #{custId} 
+			</if>
+			<if test="addressId != null">
+				AND ad.ADDRESS_ID = #{addressId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

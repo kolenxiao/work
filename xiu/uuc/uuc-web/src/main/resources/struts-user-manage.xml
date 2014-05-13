@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="userManage" namespace="/" extends="struts-default">
+	
+		<global-results>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</global-results>	
+		
+        
+       <!--    
+		<action name="userManage" class="com.xiu.uuc.web.action.UserManageAction">
+		</action>
+ 		
+		<action name="modifyUserBaseInfo" method="modifyUserBaseInfo" class="com.xiu.uuc.web.action.ModifyUserBaseInfoAction">
+		</action>
+		
+		<action name="getUserInTargetChannel" method="getUserInTargetChannel" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getUserInTargetChannel.jsp</result>
+		</action>
+									
+		<action name="searchModifyUserBaseInfo" method="getUserBasicInfoByUserId" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/modifyUserBaseInfo.jsp</result>
+		</action>
+																
+		<action name="searchModifyUserDetailInfo" method="getUserDetailInfoByUserId" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/modifyUserDetailInfo.jsp</result>
+		</action>
+		
+		<action name="registerUser" method="registerUser" class="com.xiu.uuc.web.action.RegisterUserAction">
+		</action>
+        
+        <action name="leadPartnerRegister" method="leadPartnerRegister" class="com.xiu.uuc.web.action.RegisterUserAction">
+        </action>
+         -->
+ 
+		
+		<!-- ======================================================================================================== -->								
+		<action name="getPasswordByLogonNameAndChannelId" method="getPasswordByLogonNameAndChannelId" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getPasswordByLogonNameAndChannelId.jsp</result>
+		</action>
+	
+		<action name="isLogonNameExist" method="isLogonNameExist" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/isLogonNameExist.jsp</result>
+		</action>
+			
+		<action name="isAuthentic" method="isAuthentic" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/isAuthentic.jsp</result>
+		</action>
+												
+		<action name="getUserBasicInfoByUserId" method="getUserBasicInfoByUserId" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getUserBasicInfoByUserId.jsp</result>
+		</action>
+		<action name="getUserBaseInfoList" method="getUserBaseInfoList" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getUserBasicInfoList.jsp</result>
+		</action>
+		<action name="getUserDetailInfoByUserId" method="getUserDetailInfoByUserId" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getUserDetailInfoByUserId.jsp</result>
+		</action>
+		<action name="getUserDetailInfoList" method="getUserDetailInfoList" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getUserDetailInfoList.jsp</result>
+		</action>
+		<action name="getUserChannelList" method="getUserChannelList" class="com.xiu.uuc.web.action.UserQueryAction">
+			<result name="success">/test/user/getUserChannelList.jsp</result>
+		</action>
+		
+	</package>
+</struts>

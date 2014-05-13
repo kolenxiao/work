@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="">
+
+	<!-- 新增客户银行卡帐号信息 -->
+	<insert id="uuc_bank_acct_insert" parameterType="BankAcctPO">
+		INSERT INTO X_UUC_BANK_ACCT_INFO ( 
+		  BANK_ACCT_ID,
+		  CUST_ID,
+		  BANK_ACCT_NO,
+		  BANK_ACCT_NAME, 
+		  BANK_NAME,
+		  BANK_NAME_BRANCH,
+		  CREATE_CHANNEL_ID,
+		  PROVINCE_CODE,
+		  CITY_CODE, 
+		  IS_MASTER_CARD,
+		  AREA_CODE,
+		  PHONE,
+		  MOBILE, 
+		  CREATE_TIME) 
+		VALUES ( 
+		  #{bankAcctId},
+		  #{custId},
+		  #{bankAcctNo}, 
+		  #{bankAcctName}, 
+		  #{bankName},
+		  #{bankNameBranch, jdbcType=VARCHAR}, 
+		  #{createChannelId, jdbcType=NUMERIC},
+		  #{provinceCode, jdbcType=VARCHAR}, 
+		  #{cityCode, jdbcType=VARCHAR}, 
+		  #{isMasterCard, jdbcType=VARCHAR},
+		  #{areaCode, jdbcType=VARCHAR},
+		  #{phone, jdbcType=VARCHAR}, 
+		  #{mobile, jdbcType=VARCHAR},  
+		  sysdate)
+	</insert>
+
+	<!-- 删除客户银行卡帐号信息 -->
+	<delete id="uuc_bank_acct_delete" parameterType="BankAcctPO">
+		DELETE X_UUC_BANK_ACCT_INFO WHERE BANK_ACCT_ID = #{bankAcctId}
+	</delete>
+
+	<!-- 修改客户银行卡帐号信息 -->
+	<update id="uuc_bank_acct_update" parameterType="BankAcctPO">
+		UPDATE X_UUC_BANK_ACCT_INFO t1
+		<set>
+			<if test="bankAcctNo != null">
+				BANK_ACCT_NO = #{bankAcctNo},
+			</if>
+			<if test="bankAcctName != null and bankAcctName != ''">
+				BANK_ACCT_NAME = #{bankAcctName},
+			</if>
+			<if test="bankName != null and bankName != ''">
+				BANK_NAME = #{bankName},
+			</if>
+			<if test="bankNameBranch != null and bankNameBranch != ''">
+				BANK_NAME_BRANCH = #{bankNameBranch},
+			</if>
+			<if test="createChannelId != null">
+				CREATE_CHANNEL_ID = #{createChannelId},
+			</if>
+			<if test="provinceCode != null and provinceCode != ''">
+				PROVINCE_CODE = #{provinceCode},
+			</if>
+			<if test="cityCode != null and cityCode != ''">
+				CITY_CODE = #{cityCode},
+			</if>
+			<if test="isMasterCard != null and isMasterCard != ''">
+				IS_MASTER_CARD = #{isMasterCard},
+			</if>
+			<if test="areaCode != null and areaCode != ''">
+				AREA_CODE = #{areaCode},
+			</if>
+			<if test="phone != null and phone != ''">
+				PHONE = #{phone},
+			</if>
+			<if test="mobile != null and mobile != ''">
+				MOBILE = #{mobile},
+			</if>
+			<if test="deleteFlag != null and deleteFlag != ''">
+				DELETE_FLAG = #{deleteFlag},
+			</if>
+			UPDATE_TIME = sysdate
+		</set>
+		<where>
+			<if test="bankAcctId != null">
+				AND BANK_ACCT_ID = #{bankAcctId}
+			</if>
+			<choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_USER_INFO t2 WHERE t1.CUST_ID = t2.CUST_ID AND t2.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="custId != null">
+				      AND CUST_ID = #{custId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+		</where>
+	</update>
+
+	<!-- 查询客户银行卡帐号信息 -->
+	<resultMap id="uuc_bank_acct_list_resultMap" type="BankAcctPO">
+		<result property="bankAcctId" column="BANK_ACCT_ID" />
+		<result property="custId" column="CUST_ID" />
+		<result property="bankAcctNo" column="BANK_ACCT_NO" />
+		<result property="bankAcctName" column="BANK_ACCT_NAME" />
+		<result property="bankName" column="BANK_NAME" />
+		<result property="bankNameBranch" column="BANK_NAME_BRANCH" />
+		<result property="createChannelId" column="CREATE_CHANNEL_ID" />
+		<result property="provinceCode" column="PROVINCE_CODE" />
+		<result property="cityCode" column="CITY_CODE" />
+		<result property="isMasterCard" column="IS_MASTER_CARD" />
+		<result property="areaCode" column="AREA_CODE" />
+		<result property="phone" column="PHONE" />
+		<result property="mobile" column="MOBILE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="deleteFlag" column="DELETE_FLAG" />
+	</resultMap>
+	<select id="uuc_bank_acct_list" resultMap="uuc_bank_acct_list_resultMap" parameterType="BankAcctParam">
+		SELECT 
+		      BANK_ACCT_ID,
+		      CUST_ID,
+		      BANK_ACCT_NO,
+		      BANK_ACCT_NAME, 
+		      BANK_NAME,
+		      BANK_NAME_BRANCH,
+		      CREATE_CHANNEL_ID,
+		      PROVINCE_CODE,
+		      CITY_CODE, 
+		      IS_MASTER_CARD,
+		      AREA_CODE,
+		      PHONE,
+		      MOBILE, 
+		      CREATE_TIME, 
+		      UPDATE_TIME,
+		      DELETE_FLAG
+		FROM X_UUC_BANK_ACCT_INFO t1
+		<where>
+			<if test="bankAcctId != null">
+				AND BANK_ACCT_ID = #{bankAcctId}
+			</if>
+			<choose>
+		       <when test="userId != null">
+			      AND EXISTS (SELECT 1 FROM X_UUC_USER_INFO t2 WHERE t1.CUST_ID = t2.CUST_ID AND t2.USER_ID = #{userId})
+			   </when>
+			   <otherwise>
+			      <if test="custId != null">
+				      AND CUST_ID = #{custId}
+			      </if>
+			   </otherwise>
+	        </choose> 
+			<if test="bankAcctNo != null">
+				AND BANK_ACCT_NO = #{bankAcctNo}
+			</if>
+			<if test="bankAcctName != null and bankAcctName != ''">
+				AND BANK_ACCT_NAME LIKE '%' ||  #{bankAcctName} || '%'
+			</if>
+			<if test="bankName != null and bankName != ''">
+				AND BANK_NAME LIKE  '%' ||  #{bankName} || '%'
+			</if>
+			<if test="bankNameBranch != null and bankNameBranch != ''">
+				AND BANK_NAME_BRANCH LIKE  '%' ||  #{bankNameBranch} || '%'
+			</if>
+			<if test="createChannelId != null ">
+				AND CREATE_CHANNEL_ID = #{createChannelId}
+			</if>
+			<if test="provinceCode != null and provinceCode != ''">
+				AND PROVINCE_CODE = #{provinceCode}
+			</if>
+			<if test="cityCode != null and cityCode != ''">
+				AND CITY_CODE = #{cityCode}
+			</if>
+			<if test="isMasterCard != null and isMasterCard != ''">
+				AND IS_MASTER_CARD = #{isMasterCard}
+			</if>
+			<if test="areaCode != null and areaCode != ''">
+				AND AREA_CODE = #{areaCode}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND PHONE = #{phone}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND MOBILE = #{mobile}
+			</if>
+			<if test="deleteFlag != null and deleteFlag != ''">
+				AND DELETE_FLAG = #{deleteFlag}
+			</if>
+		</where>
+		<choose>
+		    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+			    ORDER BY ${sort} ${order} 
+			</when>
+		    <when test="sort != null and sort != ''">
+			    ORDER BY #{sort} 
+			</when>
+			<otherwise>
+			    ORDER BY CREATE_TIME DESC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

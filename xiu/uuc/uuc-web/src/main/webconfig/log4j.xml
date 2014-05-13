@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- 以下是appender的定义  -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="encoding" value="UTF-8" />
+		<param name="threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%n%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${uuc.loggingRoot}/uuc.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="GBK" />
+		<param name="threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%n%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="PROJECT-DEBUG" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${uuc.loggingRoot}/uuc-debug.log" />
+		<param name="append" value="false" />
+		<param name="encoding" value="GBK" />
+		<param name="threshold" value="DEBUG" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%n%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="IBATIS" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${uuc.loggingRoot}/uuc-ibatis.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="GBK" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 记录数据里异常的脏数据 -->
+	<appender name="dbDataExceptionAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${uuc.loggingRoot}/uuc-db-data-exception.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="GBK" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	<appender name="APACHE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${uuc.loggingRoot}/uuc-apache.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="GBK" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d [%X{requestURIWithQueryString}] %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	<!--  以下是logger的定义  -->
+	<logger name="com.mybatis" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="IBATIS" />
+	</logger>
+	<logger name="java.sql" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="IBATIS" />
+	</logger>
+	<logger name="java.sql.ResultSet" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="IBATIS" />
+	</logger>
+	<logger name="dbDataException" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="dbDataExceptionAppender" />
+	</logger>
+	<logger name="org.apache" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="APACHE" />
+	</logger>
+	<!-- Root logger的定义-->
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="PROJECT" />
+	</root>
+</log4j:configuration>

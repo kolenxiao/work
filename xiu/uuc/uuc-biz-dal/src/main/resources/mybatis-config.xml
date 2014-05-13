@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<!-- changes from the defaults -->
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.xiu.uuc.dal.po.StationLettersPO" alias="stationLettersPO"/>
+		<typeAlias type="com.xiu.uuc.dal.param.StationLettersParameter" alias="stationLettersParameter"/>
+
+		<typeAlias type="com.xiu.uuc.dal.po.AcctItemPO" alias="AcctItemPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.AcctChangePO" alias="AcctChangePO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.AcctChangeExtPO" alias="AcctChangeExtPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.BankAcctPO" alias="BankAcctPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.UserAcctPO" alias="UserAcctPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.IntegeralRulePO" alias="IntegeralRulePO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.VirtualAcctItemPO" alias="VirtualAcctItemPO"/>
+
+		<typeAlias type="com.xiu.uuc.dal.param.AcctItemParam" alias="AcctItemParam"/>
+		<typeAlias type="com.xiu.uuc.dal.param.AcctChangeParam" alias="AcctChangeParam"/>
+		<typeAlias type="com.xiu.uuc.dal.param.AcctChangeExtParam" alias="AcctChangeExtParam"/>
+		<typeAlias type="com.xiu.uuc.dal.param.BankAcctParam" alias="BankAcctParam"/>
+		<typeAlias type="com.xiu.uuc.dal.param.UserAcctParam" alias="UserAcctParam"/>
+		<typeAlias type="com.xiu.uuc.dal.param.IntegeralRuleParam" alias="IntegeralRuleParam"/>
+		<typeAlias type="com.xiu.uuc.dal.param.VirtualAcctItemParam" alias="VirtualAcctItemParam"/>
+		
+		<typeAlias type="com.xiu.uuc.dal.po.CustInfoPO" alias="CustInfoPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.UserInfoPO" alias="UserInfoPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.CustExtInfoPO" alias="CustExtInfoPO"/>
+		<typeAlias type="com.xiu.uuc.dal.po.UserBaseInfo" alias="UserBaseInfo"/>
+		<typeAlias type="com.xiu.uuc.dal.po.UserDetailInfo" alias="UserDetailInfo"/>		
+		<typeAlias type="com.xiu.uuc.dal.param.UserInfoParam" alias="UserInfoParam"/>
+		
+		<typeAlias type="com.xiu.uuc.dal.po.RcvAddressPO" alias="RcvAddressPO"/>
+		<typeAlias type="com.xiu.uuc.dal.param.RcvAddressParam" alias="RcvAddressParam"/>
+		
+		<typeAlias type="com.xiu.uuc.dal.po.AbnormalLogPO" alias="AbnormalLogPO"/>
+		<typeAlias type="com.xiu.uuc.dal.param.AbnormalLogParam" alias="AbnormalLogParam"/>
+		
+		<typeAlias type="com.xiu.uuc.dal.po.TractPO" alias="TractPO"/>
+		<typeAlias type="com.xiu.uuc.dal.param.TractParam" alias="TractParam"/>
+
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mybatis-common.xml"/>
+		<mapper resource="mybatis-user-manage.xml"/>
+		<mapper resource="mybatis-assets-manage.xml"/>
+		<mapper resource="mybatis-stationLetters.xml"/>
+		<mapper resource="mybatis-bank-acct.xml"/>
+		<mapper resource="mybatis-address-manage.xml"/>
+		<mapper resource="mybatis-abnormal-log.xml"/>
+		<mapper resource="mybatis-uuc-log.xml"/>
+		<mapper resource="mybatis-acct-tract.xml"/>
+	</mappers>
+	
+</configuration>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="log" >
+
+	<!-- 插入业务操作日志 -->
+	<insert id="uuc_busi_log_insert" parameterType="com.xiu.uuc.facade.dto.BusiLogDTO">
+		INSERT INTO X_UUC_BUSI_LOG(LOG_ID,
+		    BUSI_TYPE_CODE,
+		    KEY_WORD,
+		    KEY_WORD_TYPE,
+		    BEFORE_CONTENT,
+		    AFTER_CONTENT,
+			OPER_ID,
+			OPER_IP,
+			REMARK,
+			X_STR,
+			CREATE_TIME)
+		values(#{logId, jdbcType=VARCHAR},
+			#{busiTypeCode, jdbcType=VARCHAR},
+			#{keyWord, jdbcType=VARCHAR},
+			#{keyWordType, jdbcType=VARCHAR},
+			#{beforeContent, jdbcType=VARCHAR},
+			#{afterContent, jdbcType=VARCHAR},
+			#{operId, jdbcType=VARCHAR},
+			#{operIp, jdbcType=VARCHAR},
+			#{remark, jdbcType=VARCHAR},
+			#{xstr, jdbcType=VARCHAR},
+			#{createTime, jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 查询业务操作日志列表 -->
+	<resultMap id="uuc_busi_log_query_resultMap" type="com.xiu.uuc.facade.dto.BusiLogDTO">
+		<id property="logId" column="LOG_ID" />
+		<result property="busiTypeCode" column="BUSI_TYPE_CODE" />
+		<result property="busiTypeDesc" column="BUSI_TYPE_DESC" />
+		<result property="keyWord" column="KEY_WORD" />
+		<result property="keyWordType" column="KEY_WORD_TYPE" />
+		<result property="beforeContent" column="BEFORE_CONTENT" />
+		<result property="afterContent" column="AFTER_CONTENT" />
+		<result property="operId" column="OPER_ID" />
+		<result property="operIp" column="OPER_IP" />
+		<result property="remark" column="REMARK" />
+		<result property="xstr" column="X_STR" />
+		<result property="createTime" column="CREATE_TIME" />		
+	</resultMap>
+		
+	<select id="uuc_busi_log_list_query" parameterType="com.xiu.uuc.facade.dto.BusiLogQueryDTO" resultMap="uuc_busi_log_query_resultMap">  
+		  SELECT *
+		  FROM( SELECT A.*, rownum r
+				  FROM( SELECT  log.LOG_ID,
+							    log.BUSI_TYPE_CODE,
+							    log.KEY_WORD,
+							    log.KEY_WORD_TYPE,
+							    log.BEFORE_CONTENT,
+							    log.AFTER_CONTENT,
+								log.OPER_ID,
+								log.OPER_IP,
+								log.REMARK,
+								log.X_STR,
+								log.CREATE_TIME,
+								busi.DESCRIPTION BUSI_TYPE_DESC
+					      FROM X_UUC_BUSI_LOG log, X_UUC_BUSI_TYPE_TBL busi
+					      WHERE log.BUSI_TYPE_CODE = busi.CODE
+					      	<if test="busiTypeCode != null and busiTypeCode !='' ">
+								AND BUSI_TYPE_CODE = #{busiTypeCode}
+							</if>
+					      	<if test="busiTypeDesc != null and busiTypeDesc !='' ">
+								AND busi.DESCRIPTION like '%'||#{busiTypeDesc}||'%'
+							</if>
+							<if test="keyWord != null and keyWord !='' ">
+								AND KEY_WORD = #{keyWord}
+							</if>
+							<if test="keyWordType != null and keyWordType !='' ">
+								AND KEY_WORD_TYPE = #{keyWordType}
+							</if>
+							<if test="beforeContent != null and beforeContent !='' ">
+								AND BEFORE_CONTENT like '%'||#{beforeContent}||'%'
+							</if>
+                            <if test="afterContent != null and afterContent !='' ">
+                                AND AFTER_CONTENT like '%'||#{afterContent}||'%'
+                            </if>
+							<if test="operIp != null and operIp !='' ">
+								AND OPER_IP = #{operIp}
+							</if>
+							<if test="createTimeMin != null and createTimeMin !='' ">
+								AND CREATE_TIME >= #{createTimeMin}
+							</if>
+							<if test="createTimeMax != null and createTimeMax !='' ">
+								AND #{createTimeMax} >= CREATE_TIME
+							</if>
+							<choose>
+							    <when test="sort != null and sort != '' and  order !=null and order!='' ">
+								    ORDER BY ${sort} ${order}
+								</when>
+							    <when test="sort != null and sort != ''">
+								    ORDER BY #{sort} 
+								</when>
+								<otherwise>
+								    ORDER BY CREATE_TIME DESC
+								</otherwise>
+							</choose>
+					  	) A
+				  	WHERE #{lastRow} >= rownum )
+	    	WHERE r >= #{firstRow}
+	</select>
+			
+	<select id="uuc_busi_log_list_count" parameterType="com.xiu.uuc.facade.dto.BusiLogQueryDTO" resultType="long">  
+		  SELECT  count(1)        
+	      FROM X_UUC_BUSI_LOG
+		    <where>
+		      	<if test="busiTypeCode != null and busiTypeCode !='' ">
+					AND BUSI_TYPE_CODE like '%'||#{busiTypeCode}||'%'
+				</if>
+				<if test="keyWord != null and keyWord !='' ">
+					AND KEY_WORD = #{keyWord}
+				</if>
+				<if test="keyWordType != null and keyWordType !='' ">
+					AND KEY_WORD_TYPE = #{keyWordType}
+				</if>
+                <if test="beforeContent != null and beforeContent !='' ">
+                    AND BEFORE_CONTENT like '%'||#{beforeContent}||'%'
+                </if>
+				<if test="afterContent != null and afterContent !='' ">
+					AND AFTER_CONTENT like '%'||#{afterContent}||'%'
+				</if>
+				<if test="operIp != null and operIp !='' ">
+					AND OPER_IP = #{operIp}
+				</if>
+				<if test="createTimeMin != null and createTimeMin !='' ">
+					AND CREATE_TIME >= #{createTimeMin}
+				</if>
+				<if test="createTimeMax != null and createTimeMax !='' ">
+					AND #{createTimeMax} >= CREATE_TIME
+				</if>
+			</where>
+	</select>
+	
+		
+	<!-- 查询业务操作类型列表 -->
+	<resultMap id="uuc_busi_type_query_resultMap" type="com.xiu.uuc.facade.dto.BusiTypeDTO">
+		<id property="code" column="CODE" />
+		<result property="description" column="DESCRIPTION" />
+	</resultMap>
+				
+	<select id="uuc_busi_type_query" parameterType="com.xiu.uuc.facade.dto.BusiTypeDTO" resultMap="uuc_busi_type_query_resultMap">  
+		  SELECT  CODE,
+		          DESCRIPTION		          
+	      FROM X_UUC_BUSI_TYPE_TBL
+		    <where>
+		      	<if test="code != null and code !='' ">
+					AND CODE = #{code}
+				</if>
+				<if test="description != null and description !='' ">
+					AND DESCRIPTION like '%'||#{description}||'%'
+				</if>
+			</where>
+		 ORDER BY IDX
+	</select>
+
+
+</mapper>

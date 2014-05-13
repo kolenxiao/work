@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="letters" namespace="/" extends="struts-default">
+<!-- 		<action name="sendLetters" class="com.xiu.uuc.web.action.StationLettersAction" method="sendLetters">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="deleteLetters" class="com.xiu.uuc.web.action.StationLettersAction" method="deleteLetters">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action> -->
+		<action name="findLetters" class="com.xiu.uuc.web.action.StationLettersAction" method="findLetters">
+			<result name="success">/findLetters.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="lettersList" class="com.xiu.uuc.web.action.StationLettersAction" method="lettersList">
+			<result name="lettersList">/lettersList.jsp</result>
+		</action>
+		<action name="noRead" class="com.xiu.uuc.web.action.StationLettersAction" method="noRead">
+			<result name="success">/noRead.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="read" class="com.xiu.uuc.web.action.StationLettersAction" method="read">
+			<result name="success">/read.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="size" class="com.xiu.uuc.web.action.StationLettersAction" method="size">
+			<result name="success">/size.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+</struts>

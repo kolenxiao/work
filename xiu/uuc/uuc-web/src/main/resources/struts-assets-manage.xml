@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="assets" namespace="/" extends="struts-default">
+	
+	   <global-results>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</global-results>
+	
+	    <action name="assetsManager" class="com.xiu.uuc.web.action.AddVirtualAccountAction">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+		<action name="checkIsFreezeUserAcct" method="checkIsFreezeUserAcct" class="com.xiu.uuc.web.action.CheckIsFreezeUserAcctAction">
+			<result name="success">/test/assets/checkIsFreezeUserAcct.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	
+	    <action name="getVirtualChangeList" method="getVirtualChangeList" class="com.xiu.uuc.web.action.AcctChangeAction">
+			<result name="success">/test/assets/getVirtualChangeList.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+		<action name="getVirtualItemList" method="getVirtualItemList" class="com.xiu.uuc.web.action.AcctItemAction">
+			<result name="success">/test/assets/getVirtualItemList.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+		<action name="getVirtualAccountInfo" method="getVirtualAccountInfo" class="com.xiu.uuc.web.action.VirtualAccountAction">
+			<result name="success">/test/assets/getVirtualAccountInfo.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+	</package>
+</struts>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="dataSources_auth" class="com.jolbox.bonecp.BoneCPDataSource"	destroy-method="close">
+		<!-- 数据库驱动 -->
+		<property name="driverClass" value="${sec.db.driverClass}" />
+		<!--相应驱动的jdbcUrl,你懂的 -->
+		<property name="jdbcUrl" value="${sec.db.jdbcUrl}" />
+		<!-- 数据库的用户名-->
+		<property name="username" value="${sec.db.username}" />
+		<!-- 数据库的密码-->
+		<property name="password" value="${sec.db.password}" />
+		<!--检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+		<property name="idleConnectionTestPeriod" value="${sec.db.idleConnectionTestPeriod}" />
+		<!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+		<property name="idleMaxAge" value="${sec.db.idleMaxAge}" />
+		<!-- 每个分区最大的连接数-->
+		<property name="maxConnectionsPerPartition" value="${sec.db.maxConnectionsPerPartition}" />
+		<!-- 每个分区最小的连接数 -->
+		<property name="minConnectionsPerPartition" value="${sec.db.minConnectionsPerPartition}" />
+		<!-- 分区数 ，默认值2，最小1，推荐3-4，视应用而定-->
+		<property name="partitionCount" value="${sec.db.partitionCount}"/>
+		<!-- 当连接池中的连接耗尽的时候 BoneCP一次同时获取的连接数，每次去拿数据库连接的时候一次性要拿几个,默认值：2 -->
+		<property name="acquireIncrement" value="${sec.db.acquireIncrement}" />
+		<!--缓存prepared statements的大小，默认值：0 -->
+		<property name="statementsCacheSize" value="${sec.db.statementsCacheSize}" />
+		<!--每个分区释放链接助理进程的数量，默认值：3，除非你的一个数据库连接的时间内做了很多工作，不然过多的助理进程会影响你的性能-->
+		<property name="releaseHelperThreads" value="${sec.db.releaseHelperThreads}" />
+    </bean>
+    
+        	
+	<bean id="authenticationHelper" class="com.xiu.security.AuthenticationHelper">
+		<property name="authen">
+			<value>false</value>
+		</property>
+		<property name="getIpAuto">
+			<value>false</value>
+		</property>
+		<property name="effect">
+			<value>false</value>
+		</property>
+		<property name="dataSource"  ref="dataSources_auth" />
+		<property name="serverSql" value="${sec.server.sql}" />
+	</bean>
+    
+</beans>

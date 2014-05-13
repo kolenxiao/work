@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="abnormal" namespace="/" extends="struts-default">
+	
+	    <global-results>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</global-results>
+
+        <!--
+        <action name="abnormalLogManager" class="com.xiu.uuc.web.action.AbnormalLogAction">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+        -->
+        
+		<action name="auditAccountBalance" method="auditAccountBalance" class="com.xiu.uuc.web.action.AbnormalLogAction">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+								
+		<action name="auditAccountPayLimit" method="auditAccountPayLimit" class="com.xiu.uuc.web.action.AbnormalLogAction">
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+	
+	<include file="struts-common.xml"></include>
+	<include file="struts-user-manage.xml"></include>
+	<include file="struts-address-manage.xml"></include>
+	<include file="struts-assets-manage.xml"></include>
+	<include file="struts-bankAcct-manage.xml"></include>
+	<include file="struts-stationLetters-action.xml"></include>
+	<include file="struts-abnormal-manager.xml"></include>
+	<include file="struts-log.xml"></include>
+</struts>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> 
+<beans> 
+
+    <bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    
+    <!-- 用户管理 -->
+    <bean name="/userManageFacade" class="org.springframework.remoting.caucho.HessianServiceExporter"> 
+        <property name="service" ref="userManageFacade"/> 
+        <property name="serviceInterface" value="com.xiu.uuc.facade.UserManageFacade"/> 
+    </bean>
+        
+    <!-- 地址管理 -->
+    <bean name="/addressManageFacade" class="org.springframework.remoting.caucho.HessianServiceExporter"> 
+        <property name="service" ref="addressManageFacade"/> 
+        <property name="serviceInterface" value="com.xiu.uuc.facade.AddressManageFacade"/> 
+    </bean>
+    	
+    <!-- 站内信 -->
+	<bean name="/stationLetters" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="stationLettersFacade" />
+		<property name="serviceInterface" value="com.xiu.uuc.facade.StationLettersFacade" />
+	</bean> 
+	
+	<!-- 虚拟账户账目信息管理 -->
+    <bean name="/acctItemFacade" class="com.xiu.remoting.hessian.AuthHessianServiceExporter"> 
+		 <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="acctItemFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.AcctItemFacade"/> 
+    </bean>
+    
+    <!-- 虚拟账户账目变更信息管理 -->
+    <bean name="/acctChangeFacade" class="com.xiu.remoting.hessian.AuthHessianServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="acctChangeFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.AcctChangeFacade"/> 
+    </bean>
+    
+    <!-- 用户虚拟账户银行卡管理 -->
+    <bean name="/bankAcctFacade" class="com.xiu.remoting.hessian.AuthHessianServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="bankAcctFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.BankAcctFacade"/> 
+    </bean>
+    
+    <!-- 换货支付管理 -->
+    <bean name="/changePayFacade" class="com.xiu.remoting.hessian.AuthHessianServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="changePayFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.ChangePayFacade"/> 
+    </bean>
+    
+    <!-- ======================对秀团的接口JSON服务============================ -->   
+    <!-- 用户管理 -->
+    <bean name="/userManageFacade.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter"> 
+        <property name="service" ref="userManageFacade"/> 
+        <property name="serviceInterface" value="com.xiu.uuc.facade.UserManageFacade"/> 
+    </bean>
+            
+    <!-- 地址管理 -->
+    <bean name="/addressManageFacade.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter"> 
+       <property name="service" ref="addressManageFacade"/> 
+       <property name="serviceInterface" value="com.xiu.uuc.facade.AddressManageFacade"/> 
+    </bean>
+    	
+    <!-- 站内信 -->
+	<bean name="/stationLetters.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter">
+		<property name="service" ref="stationLettersManager" />
+		<property name="serviceInterface" value="com.xiu.uuc.manager.StationLettersManager" />
+	</bean> 
+	
+	<!-- 虚拟账户账目信息管理 -->
+    <bean name="/acctItemFacade.json" class="com.xiu.remoting.hessian.JsonServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="acctItemFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.AcctItemFacade"/> 
+    </bean>
+    
+    <!-- 虚拟账户账目变更信息管理 -->
+    <bean name="/acctChangeFacade.json" class="com.xiu.remoting.hessian.JsonServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="acctChangeFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.AcctChangeFacade"/> 
+    </bean>
+    
+    <!-- 用户虚拟账户银行卡管理 -->
+    <bean name="/bankAcctFacade.json" class="com.xiu.remoting.hessian.JsonServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="bankAcctFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.BankAcctFacade"/> 
+    </bean>
+    
+    <!-- 换货支付管理 -->
+    <bean name="/changePayFacade.json" class="com.xiu.remoting.hessian.JsonServiceExporter"> 
+         <property name="authenticationHelper"  ref="authenticationHelper" />
+         <property name="service" ref="changePayFacade"/> 
+         <property name="serviceInterface" value="com.xiu.uuc.facade.ChangePayFacade"/> 
+    </bean>
+
+</beans>

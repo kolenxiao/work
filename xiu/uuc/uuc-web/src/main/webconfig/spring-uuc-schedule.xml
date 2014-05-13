@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context 
+				http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx 
+				http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+	default-autowire="byName">
+	
+	<bean id ="auditAccountBalancesSchedule"   class ="com.xiu.uuc.core.schedule.AuditAccountBalancesSchedule">
+	</bean>
+	
+	<bean id="auditAccountBalances"    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="auditAccountBalancesSchedule" />
+		</property>
+		<property name="targetMethod">
+			<value>auditAccountBalances</value>
+		</property>
+	</bean>
+	
+	<bean id="auditAccountBalancesScheduleTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="auditAccountBalances" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+			<!--  <value>0 0 2 * * ?</value>-->
+            <!-- 0 0/5 * * * ?  每5分钟触发一次(建议测试时候使用) -->
+			<!-- 0 0 2 * * ?  每天凌晨2点触发（建议线上生产环境使用） -->
+			<!-- 0 15 10 ? * 6L 2099-2999   2099年至2999年的每月的最后一个星期五上午10:15触发(目前不可能执行)-->
+			<!-- "0 15 10 * * ? 2099" 2099年的每天上午10:15触发(目前不可能执行) -->
+		</property>
+	</bean>
+
+	<bean autowire="no"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+			    <!-- 此job已通过调度平台调度 -->
+				<!-- <ref local="auditAccountBalancesScheduleTrigger"/> -->
+			</list>
+		</property>
+	</bean>
+</beans>

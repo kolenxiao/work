@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="">
+    
+    <!-- ===================================虚拟账户异动信息表======================================= -->
+	<!-- 新增账户异动信息 -->
+	<insert id="uuc_abnormal_log_insert" parameterType="AbnormalLogPO">
+		INSERT INTO X_UUC_ABNORAML_LOG (
+		      ABNORAML_ID,
+		      ABNORAML_TYPE, 
+		      ABNORAML_DESC, 
+		      CREATE_TIME, 
+		      ACCT_ITEM_ID,
+		      ACCT_ID, 
+		      USER_ID,
+		      ACCT_TYPE_CODE,
+		      SUM_IO_AMOUNT,
+		      SUM_CHANGE_COUNT,
+		      LAST_IO_AMOUNT,
+		      SEND_EMAIL_FLAG,
+		      BEGTIME,
+		      ENDTIME,
+		      PET_NAME,
+		      MOBILE,
+		      E_MAIL,
+		      CHANNEL_ID) 
+		VALUES (
+		      #{abnormalId}, 
+		      #{abnormalType}, 
+		      #{abnormalDesc, jdbcType=VARCHAR}, 
+		      sysdate, 
+		      #{acctItemId, jdbcType=VARCHAR}, 
+		      #{acctId, jdbcType=VARCHAR},
+		      #{userId, jdbcType=VARCHAR},
+		      #{acctTypeCode, jdbcType=VARCHAR}, 
+		      #{sumIoAmount, jdbcType=VARCHAR},
+		      #{sumChangeCount, jdbcType=VARCHAR},
+		      #{lastIoAmount, jdbcType=VARCHAR},
+		      #{sendEmailFlag, jdbcType=VARCHAR},
+		      #{begTime, jdbcType=VARCHAR},
+		      #{endTime, jdbcType=VARCHAR},
+		      #{petName, jdbcType=VARCHAR},
+		      #{mobile, jdbcType=VARCHAR},
+		      #{email, jdbcType=VARCHAR},
+		      #{channelId, jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 查询没有发送告警邮件的异动信息 -->
+	<resultMap id="uuc_abnormal_log_list_resultMap" type="AbnormalLogPO">
+	    <id property="abnormalId" column="ABNORAML_ID" />
+		<result property="abnormalType" column="ABNORAML_TYPE" />
+		<result property="abnormalDesc" column="ABNORAML_DESC" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="acctItemId" column="ACCT_ITEM_ID" />
+		<result property="acctId" column="ACCT_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="acctTypeCode" column="ACCT_TYPE_CODE" />
+		<result property="sumIoAmount" column="SUM_IO_AMOUNT" />
+		<result property="sumChangeCount" column="SUM_CHANGE_COUNT" />
+		<result property="lastIoAmount" column="LAST_IO_AMOUNT" />
+		<result property="sendEmailFlag" column="SEND_EMAIL_FLAG" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="begTime" column="BEGTIME" />
+		<result property="endTime" column="ENDTIME" />
+		<result property="petName" column="PET_NAME" />
+		<result property="mobile" column="MOBILE" />
+		<result property="email" column="E_MAIL" />
+		<result property="channelId" column="CHANNEL_ID" />
+	</resultMap>
+	<select id="uuc_abnormal_log_list" resultMap="uuc_abnormal_log_list_resultMap" parameterType="AbnormalLogParam">
+		SELECT 
+		      ABNORAML_ID,
+		      ABNORAML_TYPE, 
+		      ABNORAML_DESC, 
+		      CREATE_TIME, 
+		      ACCT_ITEM_ID,
+		      ACCT_ID, 
+		      USER_ID,
+		      ACCT_TYPE_CODE,
+		      SUM_IO_AMOUNT,
+		      SUM_CHANGE_COUNT,
+		      LAST_IO_AMOUNT,
+		      SEND_EMAIL_FLAG,
+		      UPDATE_TIME,
+		      BEGTIME,
+		      ENDTIME,
+		      PET_NAME,
+		      MOBILE,
+		      E_MAIL,
+		      CHANNEL_ID
+        FROM X_UUC_ABNORAML_LOG
+        WHERE SEND_EMAIL_FLAG = '0'
+        <choose>
+	        <when test="abnormalIdList != null">
+		        AND ABNORAML_ID in 
+			   <foreach item="abnormalId" index="index" collection="abnormalIdList" open="(" separator="," close=")">
+	                #{abnormalId}
+	           </foreach>
+		     </when>
+		     <otherwise>
+		       <if test="abnormalId != null">
+			     AND ABNORAML_ID = #{abnormalId}
+		       </if>
+		     </otherwise>
+	    </choose>
+        <if test="userId != null and userId!=''">
+			  AND #{userId} = USER_ID
+		 </if>
+		 <if test="acctId != null and acctId!=''">
+			  AND #{acctId} = ACCT_ID
+		 </if>
+		 <if test="acctItemId != null and acctItemId!=''">
+			  AND #{acctItemId} = ACCT_ITEM_ID
+		 </if>
+		 <if test="payCountValidDateTime != null">
+			  AND CREATE_TIME >= SYSDATE - #{payCountValidDateTime}/24/60
+		  </if>
+	</select>
+	
+	<!-- 修改异动信息是否发送邮件标志状态为 已发邮件 -->
+	<update id="uuc_abnormal_log_update" parameterType="AbnormalLogPO">
+		UPDATE X_UUC_ABNORAML_LOG
+		SET SEND_EMAIL_FLAG = '1',
+		    UPDATE_TIME = sysdate
+	    WHERE SEND_EMAIL_FLAG = '0'
+	    <choose>
+	        <when test="abnormalIdList != null">
+		        AND ABNORAML_ID in 
+			   <foreach item="abnormalId" index="index" collection="abnormalIdList" open="(" separator="," close=")">
+	                #{abnormalId}
+	           </foreach>
+		     </when>
+		     <otherwise>
+		       <if test="abnormalId != null">
+			     AND ABNORAML_ID = #{abnormalId}
+		       </if>
+		     </otherwise>
+	    </choose>
+        <if test="userId != null and userId!=''">
+			  AND #{userId} = USER_ID
+		 </if>
+		 <if test="acctId != null and acctId!=''">
+			  AND #{acctId} = ACCT_ID
+		 </if>
+		 <if test="acctItemId != null and acctItemId!=''">
+			  AND #{acctItemId} = ACCT_ITEM_ID
+		 </if>
+		 <if test="payCountValidDateTime != null">
+			  AND CREATE_TIME >= SYSDATE - #{payCountValidDateTime}/24/60
+		 </if>
+	</update>
+	
+	<!-- ===================================虚拟账户账目信息表======================================= -->
+    <!-- 查询待审核的账目列表信息 -->
+	<resultMap id="uuc_acct_item_list_audit_result" type="AcctItemPO">
+		<result property="acctItemId" column="ACCT_ITEM_ID" />
+		<result property="acctTypeCode" column="ACCT_TYPE_CODE" />
+		<result property="acctId" column="ACCT_ID" />
+		<result property="totalAmount" column="TOTAL_AMOUNT" />
+		<result property="freezeAmount" column="FREEZE_AMOUNT" />
+		<result property="acctItemState" column="ACCT_ITEM_STATE" />
+		<result property="operId" column="OPER_ID" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="dataVersion" column="DATA_VERSION" />
+		<result property="userId" column="USER_ID" />
+		<result property="petName" column="PET_NAME" />
+		<result property="mobile" column="MOBILE" />
+		<result property="email" column="E_MAIL" />
+		<result property="channelId" column="CHANNEL_ID" />
+	</resultMap>
+	<select id="uuc_acct_item_list_audit" resultMap="uuc_acct_item_list_audit_result" parameterType="AcctItemParam">
+		SELECT 
+		      t1.ACCT_ITEM_ID, 
+		      t1.ACCT_TYPE_CODE, 
+		      t1.ACCT_ID, 
+		      t1.TOTAL_AMOUNT,
+		      t1.FREEZE_AMOUNT, 
+		      t1.ACCT_ITEM_STATE, 
+		      t1.OPER_ID, 
+		      t1.CREATE_TIME,
+		      t1.UPDATE_TIME,
+		      t1.DATA_VERSION,
+		      t2.USER_ID,
+		      t3.PET_NAME,
+		      t3.MOBILE,
+		      t3.E_MAIL,
+		      t3.CHANNEL_ID
+  		FROM X_UUC_ACCT_ITEM_INFO t1, X_UUC_USER_ACCT_INFO t2, X_UUC_USER_INFO t3
+        WHERE t1.ACCT_ID = t2.ACCT_ID
+          AND t2.USER_ID = t3.USER_ID
+          <if test="validTime != null and validTime!=''">
+			 AND t1.UPDATE_TIME >= #{validTime}
+		  </if>
+          <if test="expireTime != null and expireTime!=''">
+			  AND #{expireTime} >= t1.UPDATE_TIME
+		  </if>
+		  <if test="userId != null and userId!=''">
+			  AND #{userId} = t3.USER_ID
+		  </if>
+		  <if test="acctTypeCode != null and acctTypeCode!=''">
+			  AND #{acctTypeCode} = t1.ACCT_TYPE_CODE
+		  </if>
+		  <if test="payCountValidDateTime != null">
+			  AND t1.UPDATE_TIME >= SYSDATE - #{payCountValidDateTime}/24/60
+		  </if>
+		  ORDER BY t1.UPDATE_TIME DESC
+	</select>
+
+	
+	<!-- ===================================虚拟账户变更历史信息表======================================= -->
+	<!-- 通过账目id累计求和该账目对应的账目流水进出帐总额及其进出账笔数(一段时间内) -->
+	<select id="uuc_acct_change_sum_audit" resultType="AbnormalLogPO" parameterType="AbnormalLogParam">
+         SELECT
+               t1.ACCT_ITEM_ID as acctItemId,
+               t1.ACCT_TYPE_CODE as acctTypeCode,
+               SUM(DECODE(t1.IO_TYPE,'01',t1.IO_AMOUNT,'02',-t1.IO_AMOUNT)) as sumIoAmount,
+               COUNT(1) as sumChangeCount
+         FROM X_UUC_ACCT_CHANGE_INFO t1
+         WHERE  t1.IO_TYPE in ('01','02')
+           <if test="acctItemId != null and acctItemId!=''">
+			 AND t1.ACCT_ITEM_ID = #{acctItemId}
+		   </if>
+	       <if test="acctTypeCode != null and acctTypeCode!=''">
+			 AND t1.ACCT_TYPE_CODE = #{acctTypeCode}
+		   </if>
+	       <if test="validTime != null and validTime!=''">
+			 AND t1.CREATE_TIME >= #{validTime}
+		   </if>
+		   <if test="expireTime != null and expireTime!=''">
+			  AND #{expireTime} >= t1.CREATE_TIME
+		   </if>
+		   <if test="payCountValidDateTime != null">
+			  AND t1.CREATE_TIME >= SYSDATE - #{payCountValidDateTime}/24/60 
+		   </if>
+         GROUP BY t1.ACCT_ITEM_ID, t1.ACCT_TYPE_CODE
+	</select>
+	
+	<!-- 虚拟账户异动审计表-->
+	<!-- 统计查询虚拟账户账目变更流水信息 在一段时间内账目不平衡的列表信息-->
+	<select id="uuc_abnormal_log_list_not_balance" resultMap="uuc_abnormal_log_list_resultMap" parameterType="AbnormalLogParam">
+		 SELECT 
+		       a.*,
+		       b.LAST_IO_AMOUNT,
+		       c.HISTORY_IO_AMOUNT 
+		 FROM
+         (SELECT 
+                w.*,
+                p.acct_id,
+                q.user_id,
+                r.pet_name,
+                r.mobile,
+                r.e_mail,
+                r.channel_id
+          FROM 
+             (SELECT
+	                t1.ACCT_ITEM_ID ,
+	                t1.ACCT_TYPE_CODE ,
+	                SUM(DECODE(t1.IO_TYPE,'01',t1.IO_AMOUNT,'02',-t1.IO_AMOUNT)) as SUM_IO_AMOUNT,
+	                COUNT(1) as SUM_CHANGE_COUNT
+	          FROM X_UUC_ACCT_CHANGE_INFO t1  
+	          WHERE t1.CREATE_TIME >= #{validTime}
+	          AND #{expireTime} >= t1.CREATE_TIME
+	          GROUP BY t1.ACCT_ITEM_ID, t1.ACCT_TYPE_CODE) w,
+	          X_UUC_ACCT_ITEM_INFO p,
+	          X_UUC_USER_ACCT_INFO q,
+	          X_UUC_USER_INFO r 
+	      WHERE w.ACCT_ITEM_ID = p.ACCT_ITEM_ID
+          AND  p.ACCT_ID = q.ACCT_ID
+          AND  q.USER_ID = r.USER_ID
+          )  a,
+         (SELECT * 
+          FROM( 
+               SELECT  
+                     t.ACCT_ITEM_ID, 
+                     t.ACCT_TYPE_CODE,
+                     t.CREATE_TIME , 
+                     t.LAST_IO_AMOUNT,
+                     row_number() over (partition by t.ACCT_ITEM_ID,t.ACCT_TYPE_CODE order by t.CREATE_TIME DESC) as time_order
+               FROM X_UUC_ACCT_CHANGE_INFO t
+               WHERE t.CREATE_TIME >= #{validTime}
+               AND #{expireTime} >= t.CREATE_TIME)
+          WHERE 2>time_order
+          )  b,
+          (SELECT * 
+           FROM( 
+                SELECT  
+                      t.ACCT_ITEM_ID, 
+                      t.ACCT_TYPE_CODE,
+                      t.CREATE_TIME , 
+                      t.HISTORY_IO_AMOUNT,
+                      row_number() over (partition by t.ACCT_ITEM_ID,t.ACCT_TYPE_CODE order by t.CREATE_TIME ASC) as time_order
+                FROM X_UUC_ACCT_CHANGE_INFO t
+                WHERE t.CREATE_TIME >= #{validTime}
+                AND #{expireTime} >= t.CREATE_TIME)
+           WHERE 2>time_order
+          ) c
+          WHERE a.ACCT_ITEM_ID=b.ACCT_ITEM_ID 
+            AND a.ACCT_TYPE_CODE=b.ACCT_TYPE_CODE
+            AND a.ACCT_ITEM_ID=c.ACCT_ITEM_ID 
+            AND a.ACCT_TYPE_CODE=c.ACCT_TYPE_CODE
+            AND c.HISTORY_IO_AMOUNT != b.LAST_IO_AMOUNT - a.SUM_IO_AMOUNT 
+	</select>
+	
+</mapper>

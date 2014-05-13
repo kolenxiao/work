@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+     
+     
+	<!-- =========================================Facade============================================== -->
+	<bean id="userManageFacade" class="com.xiu.uuc.facade.impl.UserManageFacadeImpl"/>
+	
+	<bean id="addressManageFacade" class="com.xiu.uuc.facade.impl.AddressManageFacadeImpl"/>
+	
+	<bean id="acctItemFacade" class="com.xiu.uuc.facade.impl.AcctItemFacadeImpl"/>
+	
+	<bean id="acctChangeFacade" class="com.xiu.uuc.facade.impl.AcctChangeFacadeImpl"/>
+	
+	<bean id="bankAcctFacade" class="com.xiu.uuc.facade.impl.BankAcctFacadeImpl"/>
+	
+	<bean id="stationLettersFacade" class="com.xiu.uuc.facade.impl.StationLettersFacadeImpl"/>
+	
+	<bean id="changePayFacade" class="com.xiu.uuc.facade.impl.ChangePayFacadeImpl"/>
+	
+	
+	
+	<!-- =========================================Manager============================================== -->
+	<bean id="userManager" class="com.xiu.uuc.manager.impl.UserManagerImpl"/>
+	
+	<bean id="modifyUserToCustManager" class="com.xiu.uuc.manager.impl.ModifyUserToCustManagerImpl"/>
+	
+	<bean id="addressManager" class="com.xiu.uuc.manager.impl.AddressManagerImpl"/>
+	
+	<bean id="assetsManager" class="com.xiu.uuc.manager.impl.AssetsManagerImpl"/>
+	
+	<bean id="bankAcctManager" class="com.xiu.uuc.manager.impl.BankAcctManagerImpl"/>
+	
+	<bean id="stationLettersManager" class="com.xiu.uuc.manager.impl.StationLettersManagerImpl"/>
+	
+	<bean id="logManager" class="com.xiu.uuc.manager.impl.LogManagerImpl"/>
+	
+	<bean id="changePayManager" class="com.xiu.uuc.manager.impl.ChangePayManagerImpl"/>
+	
+	
+	<!-- =========================================Log============================================== -->
+	<bean id="userManagerLog" class="com.xiu.uuc.manager.util.UserManagerLog"/>
+	<bean id="addressManagerLog" class="com.xiu.uuc.manager.util.AddressManagerLog"/>
+	
+	
+	<!-- =========================================调用CSP============================================== -->
+	<bean id="sysParamFacade" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="${csp.server.url}" />
+		<property name="serviceInterface" value="com.xiu.csp.facade.SysParamFacade" />
+	</bean>
+
+	
+</beans>

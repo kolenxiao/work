@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="log" namespace="/" extends="struts-default">
+	
+		<global-results>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/error.jsp</result>
+		</global-results>	
+	
+		<!-- 查询虚拟账户业务日志 -->		
+		<action name="goQueryBusiLogList" method="goQueryBusiLogList" class="com.xiu.uuc.web.action.LogQueryAction">
+			<result name="success">/test/log/queryBusiLogList.jsp</result>
+		</action>
+        
+        <action name="queryBusiLogList" method="queryBusiLogList" class="com.xiu.uuc.web.action.LogQueryAction">
+            <result name="success">/test/log/queryBusiLogList.jsp</result>
+        </action>	
+
+	</package>
+</struts>

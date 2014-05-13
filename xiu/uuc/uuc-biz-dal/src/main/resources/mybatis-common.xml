@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="common" >
+
+	<!-- 通过sequenceName生成一个sequence值 -->
+	<select id="uuc_get_sequence_by_name" parameterType="java.lang.String" resultType="Long">
+		select ${value} from dual
+	</select>
+  
+  
+	<!-- 插入业务操作日志 -->
+	<insert id="uuc_busi_log_insert" parameterType="com.xiu.uuc.dal.po.BusiLogPO">
+		insert into X_UUC_BUSI_LOG(LOG_ID,
+			OPERATOR_ID,
+			OPERATOR_NAME,
+			OPERATOR_IP,
+			OPERATION_NAME,
+			CONTENT,
+			TYPE,
+			REMARK)
+		values(#{logId},
+			#{operatorId, jdbcType=VARCHAR},
+			#{operatorName, jdbcType=VARCHAR},
+			#{operatorIp, jdbcType=VARCHAR},
+			#{operationName, jdbcType=VARCHAR},
+			#{content, jdbcType=VARCHAR},
+			#{type, jdbcType=VARCHAR},
+			#{remark, jdbcType=VARCHAR})
+	</insert>
+	  
+  
+	<!-- 插入接口日志 -->
+	<insert id="uuc_interface_log_insert" parameterType="com.xiu.uuc.dal.po.InterfaceLogPO">
+		insert into X_UUC_INTERFACE_LOG(LOG_ID,
+			OPERATOR_ID,
+			OPERATOR_IP,
+			METHOD,
+			PARAMETERS,
+			RESULTS,
+			REMARK)
+		values(#{logId},
+			#{operatorId, jdbcType=VARCHAR},
+			#{operatorIp, jdbcType=VARCHAR},
+			#{method, jdbcType=VARCHAR},
+			#{parameters, jdbcType=VARCHAR},
+			#{results, jdbcType=VARCHAR},
+			#{remark, jdbcType=VARCHAR})
+	</insert>
+
+</mapper>

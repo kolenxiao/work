@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="">
+	<!-- 发送信件 -->
+	<insert id="uuc_stationLetters_insert" parameterType="stationLettersPO">
+		insert into x_uuc_stationletters(ADDRESSEE,
+			RECEIVCHANNEL,
+			SENDER,
+			SENDCHANNEL,
+			TITLE,
+			CONTENT,
+			READ,
+			SENDTIME,
+			RECEIVTIME,
+			OPERATION,
+			CUSTOMER_ID,
+			CUSTOMERNAME,
+			TELPHONE,
+			EMAIL)
+		values(#{addressee},
+			#{receivChannel},
+			#{sender},
+			#{sendChannel},
+			#{title},
+			#{content},
+			#{read},
+			#{sendTime},
+			#{receivTime},
+			#{operation},
+			#{customerId},
+			#{customerName},
+			#{telphone},
+			#{email})
+  	</insert>
+  	
+  	<!-- 更新信件状态  -->
+  	<update id="uuc_update_letters" parameterType="stationLettersPO">
+		update x_uuc_stationletters set read=1 where letters_id = #{lettersId}
+  	</update>
+  
+	<!-- 删除信件 -->
+	<delete id="uuc_stationLetters_delete" parameterType="String">
+		delete x_uuc_stationLetters where letters_id= #{lettersId}
+	</delete>
+	
+	<!-- 查看某封信件 -->
+	<resultMap id="one_stationLetters_map" type="StationLettersPO">
+		<id property="lettersId" column="letters_id" />
+		<result property="addressee" column="addressee" />
+		<result property="receivChannel" column="receivChannel" />
+		<result property="sender" column="sender" />
+		<result property="sendChannel" column="sendChannel" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="read" column="read" />
+		<result property="sendTime" column="sendTime" />
+		<result property="receivTime" column="receivTime" />
+		<result property="operation" column="operation" />
+		<result property="customerId" column="customer_id" />
+		<result property="customerName" column="customerName" />
+		<result property="telphone" column="telphone" />
+		<result property="email" column="email" />
+	</resultMap>
+	<select id="one_stationLetters" parameterType="stationLettersParameter" resultMap="one_stationLetters_map">
+		SELECT letters_id,
+			addressee,
+		    receivChannel,
+			sender,
+			sendChannel,
+			title,
+			content,
+			read,
+			sendTime,
+			receivTime,
+			operation,
+			customer_id,
+			customerName,
+			telphone,
+			email
+		  FROM x_uuc_stationletters
+		where letters_id = #{lettersId}
+	</select>
+	
+	<!-- 获取信件的列表 -->
+	<resultMap id="letters_all_result" type="StationLettersPO">
+		<id property="lettersId" column="letters_id" />
+		<result property="addressee" column="addressee" />
+		<result property="receivChannel" column="receivChannel" />
+		<result property="sender" column="sender" />
+		<result property="sendChannel" column="sendChannel" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="read" column="read" />
+		<result property="sendTime" column="sendTime" />
+		<result property="receivTime" column="receivTime" />
+		<result property="operation" column="operation" />
+		<result property="customerId" column="customer_id" />
+		<result property="customerName" column="customerName" />
+	</resultMap>	
+	<select id="uuc_stationLetters_List" parameterType="StationLettersParameter" resultMap="letters_all_result">
+		SELECT letters_id,
+			addressee,
+		    receivChannel,
+			sender,
+			sendChannel,
+			title,
+			content,
+			read,
+			sendTime,
+			receivTime,
+			operation,
+			customer_id,
+			customerName
+		<![CDATA[
+  		from (select A.*, rownum r
+          		from (select letters_id,
+							addressee,
+						    receivChannel,
+							sender,
+							sendChannel,
+							title,
+							content,
+							read,
+							sendTime,
+							receivTime,
+							operation,
+							customer_id,
+							customerName	 
+          				from x_uuc_stationletters where customer_id = #{customerId} and sendChannel='1' order by sendTime desc) A
+         				where rownum <= #{lastRow})
+         			]]>
+		where r >= #{firstRow}
+	</select>
+	
+	<!-- 获取未读信件的列表 -->
+	<resultMap id="letters_unread_result" type="StationLettersPO">
+		<id property="lettersId" column="letters_id" />
+		<result property="addressee" column="addressee" />
+		<result property="receivChannel" column="receivChannel" />
+		<result property="sender" column="sender" />
+		<result property="sendChannel" column="sendChannel" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="read" column="read" />
+		<result property="sendTime" column="sendTime" />
+		<result property="receivTime" column="receivTime" />
+		<result property="operation" column="operation" />
+		<result property="customerId" column="customer_id" />
+		<result property="customerName" column="customerName" />
+	</resultMap>
+	<select id="uuc_stationLetters_unreaList" parameterType="StationLettersParameter" resultMap="letters_unread_result">
+		select letters_id,
+			addressee,
+		    receivChannel,
+			sender,
+			sendChannel,
+			title,
+			content,
+			read,
+			sendTime,
+			receivTime,
+			operation,
+			customer_id,
+			customerName	
+  	<![CDATA[
+  		from (select A.*, rownum r
+          		from (select letters_id,
+							addressee,
+						    receivChannel,
+							sender,
+							sendChannel,
+							title,
+							content,
+							read,
+							sendTime,
+							receivTime,
+							operation,
+							customer_id,
+							customerName	 
+          				from x_uuc_stationletters where customer_id = #{customerId} and read = 0 and sendChannel='1' order by sendTime desc) A
+         				where rownum <= #{lastRow} )
+         			]]>
+		where r >= #{firstRow}
+	</select>
+	
+	
+	<!-- 获取已读信件的列表 -->
+	<resultMap id="letters_read_result" type="StationLettersPO">
+		<id property="lettersId" column="letters_id" />
+		<result property="addressee" column="addressee" />
+		<result property="receivChannel" column="receivChannel" />
+		<result property="sender" column="sender" />
+		<result property="sendChannel" column="sendChannel" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="read" column="read" />
+		<result property="sendTime" column="sendTime" />
+		<result property="receivTime" column="receivTime" />
+		<result property="operation" column="operation" />
+		<result property="customerId" column="customer_id" />
+		<result property="customerName" column="customerName" />
+	</resultMap>	
+	<select id="uuc_stationLetters_readList" parameterType="StationLettersParameter" resultMap="letters_read_result">
+		select letters_id,
+			addressee,
+		    receivChannel,
+			sender,
+			sendChannel,
+			title,
+			content,
+			read,
+			sendTime,
+			receivTime,
+			operation,
+			customer_id,
+			customerName	
+  	<![CDATA[
+  		from (select A.*, rownum r
+          		from (select letters_id,
+						addressee,
+					    receivChannel,
+						sender,
+						sendChannel,
+						title,
+						content,
+						read,
+						sendTime,
+						receivTime,
+						operation,
+						customer_id,
+						customerName	
+        			from x_uuc_stationletters where customer_id = #{customerId} and read = 1 and sendChannel='1' order by sendTime desc) A
+       				where rownum <= #{lastRow})
+      			]]>
+		where r >= #{firstRow}
+	</select>
+	
+	<!-- 查看未读信件的条数 -->
+	<select id="uuc_stationLetters_noReadSize" parameterType="String" resultType="int">
+		select count(*) from x_uuc_stationletters where customer_id = #{customerId} and read = 0 and sendChannel='1'
+	</select>
+	
+	<!-- 查看已读信件的条数 -->
+	<select id="uuc_stationLetters_readSize" parameterType="String" resultType="int">
+		select count(*) from x_uuc_stationletters where customer_id = #{customerId} and read = 1 and sendChannel='1'
+	</select>
+	
+	<!-- 查看所有信件的条数 -->
+	<select id="uuc_stationLetters_allSize" parameterType="String" resultType="int">
+		select count(*) from x_uuc_stationletters where customer_id = #{customerId} and sendChannel='1'
+	</select>
+
+</mapper>
