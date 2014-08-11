@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="appCertificate" extends="dp-default">
+		<action name="certificate"
+			class="com.coship.sdp.sce.dp.action.certificate.AppCertificateAction">		
+			<result name="addOrEdit">/app/certificate/certificateAdd.jsp</result>	
+			<result name="doList">/app/certificate/certificateList.jsp</result>
+			<result name="addOrEditRevoke">/app/certificate/revokeAdd.jsp</result>				
+			<result name="doRevokeList">/app/certificate/revokeList.jsp</result>		
+
+			<interceptor-ref name="dpDefault"></interceptor-ref>
+		</action>
+	</package>
+</struts>

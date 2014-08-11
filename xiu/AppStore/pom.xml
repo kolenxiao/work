@@ -1,0 +1,881 @@
+﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.coship.sdp.sce</groupId>
+	<version>V100R003B009</version>
+	<artifactId>dp</artifactId>
+	<packaging>pom</packaging>
+	<name>dp</name>
+	<modules>
+		<module>dp_resource</module>
+		<module>dp_admin</module>
+		<module>dp_portal</module>
+		<module>appstore_service</module>
+	</modules>
+
+	<organization>
+		<name>coship</name>
+		<url>http://www.coship.com</url>
+	</organization>
+
+	<!-- 设定除中央仓�?repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查�? -->
+	<repositories>
+		<!-- 2011-12-22 持续集成 -->
+		<!--<repository> <id>artifactory</id> <name>localArtifactory</name> <url>http://10.10.91.115:8081/artifactory/repo</url>
+			</repository> -->
+		<!--<repository> <id>nexus</id> <name>nexus</name> <url>http://10.10.91.115:8082/nexus/content/groups/public</url>
+			</repository> -->
+		<!--<repository>
+			<id>nexus</id>
+			<name>nexus</name>
+			<url>http://10.10.91.157:8081/nexus/content/groups/public</url>
+		</repository> -->
+
+		<!-- 2011-12-22 持续集成 -->
+		<!--<repository>
+			<id>nexus 115</id>
+			<name>nexus115</name>
+			<url>http://10.10.91.157:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository> -->
+
+		<repository>
+			<id>offical</id>
+			<name>Maven Official Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>jboss</id>
+			<name>Jboss Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/
+			</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>java.net</id>
+			<name>Java.net Repository</name>
+			<url>http://download.java.net/maven/2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>Codehaus repository</id>
+			<name>Codehaus repository</name>
+			<url>http://repository.codehaus.org/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<!-- 2011-12-22 持续集成 -->
+		<!-- <pluginRepository> <id>artifactory</id> <name>localArtifactory</name>
+			<url>http://10.10.91.115:8081/artifactory/repo</url> <snapshots> <enabled>false</enabled>
+			</snapshots> </pluginRepository> -->
+
+		<!--<pluginRepository> <id>nexus</id> <name>nexus</name> <url>http://10.10.91.115:8082/nexus/content/groups/public</url>
+			<snapshots> <enabled>false</enabled> </snapshots> </pluginRepository> -->
+		<pluginRepository>
+			<id>nexus</id>
+			<name>nexus</name>
+			<url>http://10.10.91.157:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+
+		<!-- 2011-12-22 持续集成 -->
+	</pluginRepositories>
+
+	<!-- 设定团队持续集成发布包服务器 -->
+	<distributionManagement>
+		<!-- 2011-12-22 持续集成 -->
+		<!--<repository> <id>c903588b</id> <name>c903588b-releases</name> <url>http://10.10.91.115:8081/artifactory/libs-release-local</url>
+			</repository> <snapshotRepository> <id>c903588b</id> <name>c903588b-snapshots</name>
+			<url>http://10.10.91.115:8081/artifactory/libs-snapshot-local</url> <uniqueVersion>false</uniqueVersion>
+			</snapshotRepository> -->
+		<!--<repository> <id>nexus</id> <name>c903588b-releases-nexus</name> <url>http://10.10.91.115:8082/nexus/content/repositories/releases/</url>
+			</repository> <snapshotRepository> <id>nexus</id> <name>c903588b-snapshots-nexus</name>
+			<url>http://10.10.91.115:8082/nexus/content/repositories/snapshots/</url>
+			<uniqueVersion>false</uniqueVersion> </snapshotRepository> -->
+
+		<repository>
+			<id>nexus</id>
+			<name>c903588b-releases-nexus</name>
+			<url>http://10.10.91.157:8081/nexus/content/repositories/releases/</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>c903588b-snapshots-nexus</name>
+			<url>http://10.10.91.157:8081/nexus/content/repositories/snapshots/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+
+
+		<site>
+			<id>www.coship.com</id>
+			<url>file:///</url>
+		</site>
+		<!-- 2011-12-22 持续集成 -->
+	</distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>
+			UTF-8
+		</project.build.sourceEncoding>
+		<!-- 2012-03-08 -->
+		<report.outputPath>target/staging/localhost</report.outputPath>
+		<!-- 2012-03-08 -->
+		<!-- 2011-12-22 持续集成 -->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- 2011-12-22 持续集成 -->
+		<project.war.outputPath>output</project.war.outputPath>
+		<!-- <sdp.infrastructure.version>20120104</sdp.infrastructure.version> -->
+		<sdp.infrastructure.version>20120928</sdp.infrastructure.version>
+		<spring.version>2.5.6</spring.version>
+		<struts2.version>2.2.3</struts2.version>
+		<hibernate.version>3.5.6-Final</hibernate.version>
+
+		<!-- 2011-12-22 持续集成 -->
+		<!-- 站点生成报告 版本 -->
+		<maven-site-plugin.version>2.1</maven-site-plugin.version>
+		<maven-project-info-reports-plugin.version>2.1</maven-project-info-reports-plugin.version>
+		<maven-checkstyle-plugin.version>2.3</maven-checkstyle-plugin.version>
+		<findbugs-maven-plugin.version>2.0.1</findbugs-maven-plugin.version>
+		<maven-surefire-report-plugin.version>2.5</maven-surefire-report-plugin.version>
+		<cobertura-maven-plugin.version>2.4</cobertura-maven-plugin.version>
+		<jdepend-maven-plugin.version>2.0-beta-2</jdepend-maven-plugin.version>
+		<javancss-maven-plugin.version>2.0-beta-2</javancss-maven-plugin.version>
+		<dashboard-maven-plugin.version>1.0.0-beta-1</dashboard-maven-plugin.version>
+		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+		<!-- 2011-12-22 持续集成 -->
+	</properties>
+
+	<!-- dependencyManagement 以这种方式来管理要加载的�?��jar依赖，然后在具体的模块中直接引用�?��的jar即可 -->
+	<dependencyManagement>
+		<dependencies>
+		<dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+		  <version>4.1</version>
+		</dependency>
+        <dependency>
+		  <groupId>com.thoughtworks.xstream</groupId>
+		  <artifactId>xstream</artifactId>
+		  <version>1.3.1</version>
+		</dependency>
+			<!--2011-10-18 added of 添加权限和日志还有core�? -->
+			<dependency>
+				<groupId>com.coship.sdp</groupId>
+				<artifactId>sdp-core</artifactId>
+				<version>${sdp.infrastructure.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.coship.sdp</groupId>
+				<artifactId>sdp-permission</artifactId>
+				<version>20121024</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.coship.sdp</groupId>
+				<artifactId>sdp-log</artifactId>
+				<version>${sdp.infrastructure.version}</version>
+			</dependency>
+			<!-- ended of 2011-10-18 -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.16</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<version>2.3</version>
+				<classifier>jdk15</classifier>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.1.37</version>
+			</dependency>
+
+			<!-- spring*.jar start -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- spring*.jar end -->
+
+			<!-- org.apache.struts jar -->
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-core</artifactId>
+				<version>${struts2.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.sun</groupId>
+						<artifactId>tools</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-spring-plugin</artifactId>
+				<version>${struts2.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+					</exclusion>
+
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-web</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-convention-plugin</artifactId>
+				<version>${struts2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-vfs</groupId>
+				<artifactId>commons-vfs</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<!-- struct2.jar end -->
+
+			<!-- hibernate.jar start -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-ehcache</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<!-- hibernate.jar end -->
+
+			<!-- javax.*.jar start -->
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>jsr250-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.5</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- javax.*.jar end -->
+
+			<!-- commons-logging.jar -->
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>1.8.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.4</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>1.6</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>1.4</version>
+			</dependency>
+			<!-- commons*.jar end -->
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.5.8</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.5.8</version>
+			</dependency>
+
+			<dependency>
+				<groupId>wsdl4j</groupId>
+				<artifactId>wsdl4j</artifactId>
+				<version>1.6.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.15</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.jms</groupId>
+						<artifactId>jms</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jdmk</groupId>
+						<artifactId>jmxtools</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jmx</groupId>
+						<artifactId>jmxri</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.12.1.GA</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.4</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>5.3.1</version>
+			</dependency>
+
+			<!-- oracle jar -->
+
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>11.2.0</version>
+			</dependency>
+			<!-- dbunit jar -->
+			<dependency>
+				<groupId>org.dbunit</groupId>
+				<artifactId>dbunit</artifactId>
+				<version>2.4.8</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Findbugs annotations.jar jsr305.jar -->
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>1.3.8</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>annotations</artifactId>
+				<version>1.3.8</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Findbugs annotations.jar jsr305.jar -->
+			<!-- 部署包排除xercesImpl-2.6.2.jar 2012-3-14 -->
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>2.6.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- 部署包排除xercesImpl-2.6.2.jar 2012-3-14 -->
+
+			<dependency>
+				<groupId>fakepath</groupId>
+				<artifactId>pinyin4j</artifactId>
+				<version>2.5.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.android</groupId>
+				<artifactId>apktool</artifactId>
+				<version>1.4.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>3.0</version>
+				<scope>test</scope>
+			</dependency>
+					
+			<!-- 生成缩略图 -->
+			<dependency>
+				<groupId>net.coobird</groupId>
+				<artifactId>thumbnailator</artifactId>
+				<version>0.4.7</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<!-- 2011.07.15 added of 添加 -->
+	<build>
+		<!-- 命令行输入mvn时，默认执行mvn package -->
+		<defaultGoal>package</defaultGoal>
+
+		<!-- 设定Web应用中编译结果输出到WEB-INF/classes �?与使用Eclipse时相�? -->
+		<outputDirectory>webapp/WEB-INF/classes</outputDirectory>
+
+		<pluginManagement>
+			<plugins>
+				<!-- ended of 2012-03-08 -->
+				<!-- war插件, 设定webapp目录�?webapp -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.1-beta-1</version>
+					<configuration>
+						<warSourceDirectory>webapp</warSourceDirectory>
+					</configuration>
+				</plugin>
+
+				<!-- compiler插件, 设定JDK版本与编�? -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<encoding>UTF-8</encoding>
+						<showWarnings>true</showWarnings>
+						<verbose>false</verbose>
+						<compilerArguments>
+							<extdirs>dp_admin\webapp\WEB-INF\lib</extdirs>
+							<extdirs>dp_portal\webapp\WEB-INF\lib</extdirs>
+						</compilerArguments>
+
+					</configuration>
+				</plugin>
+
+
+				<!-- surefire插件, 设定单元测试时只执行service目录下的用例, 增加执行测试的内�? -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.4.3</version>
+					<configuration>
+						<skip>false</skip>
+						<argLine>-Xmx256M</argLine>
+						<testFailureIgnore>true</testFailureIgnore>
+						<includes>
+							<include>**/*Test*.java</include>
+							<!-- <include>**/*UT*.java</include> -->
+						</includes>
+					</configuration>
+				</plugin>
+
+				<!-- resource插件, 设定编码 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.4.1</version>
+					<configuration>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+
+				<!-- dependency插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.1</version>
+				</plugin>
+
+				<!-- archetype插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-archetype-plugin</artifactId>
+					<version>2.0-alpha-4</version>
+				</plugin>
+
+				<!-- jetty插件 -->
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>maven-jetty-plugin</artifactId>
+					<version>6.1.21</version>
+				</plugin>
+
+				<!-- cargo插件 -->
+				<plugin>
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<version>1.0</version>
+				</plugin>
+
+				<!-- selenium插件 -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>selenium-maven-plugin</artifactId>
+					<version>1.0</version>
+				</plugin>
+
+				<!-- dbunit插件 -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>dbunit-maven-plugin</artifactId>
+					<version>1.0-beta-3</version>
+					<configuration>
+						<driver>${jdbc.driver}</driver>
+						<url>${jdbc.url}</url>
+						<username>${jdbc.user}</username>
+						<password>${jdbc.password}</password>
+						<schema>${jdbc.schema}</schema>
+						<type>CLEAN_INSERT</type>
+						<src>src/test/resources/test-data.xml</src>
+						<dest>src/test/resources/test-data.xml</dest>
+						<format>${dbunit.format}</format>
+						<transaction>true</transaction>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<dataTypeFactoryName>${dbunit.datatype}</dataTypeFactoryName>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>${jdbc.driver.groupId}</groupId>
+							<artifactId>${jdbc.driver.artifactId}</artifactId>
+							<version>${jdbc.driver.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<!-- sql插件 -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.3</version>
+					<configuration>
+						<driver>${jdbc.driver}</driver>
+						<url>${jdbc.url}</url>
+						<username>${jdbc.user}</username>
+						<password>${jdbc.password}</password>
+						<onError>continue</onError>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>${jdbc.driver.groupId}</groupId>
+							<artifactId>${jdbc.driver.artifactId}</artifactId>
+							<version>${jdbc.driver.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<!-- #############################站点报告定义 �?��############################# -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${maven-site-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>2.1</version>
+					<configuration>
+						<dependencyLocationEnabled>false</dependencyLocationEnabled>
+					</configuration>
+				</plugin>
+
+				<!-- 代码样式 插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${maven-checkstyle-plugin.version}</version>
+				</plugin>
+
+				<!-- FINDBUGS 插件 -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>${findbugs-maven-plugin.version}</version>
+				</plugin>
+				<!-- 单元测试报告 插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>${maven-surefire-report-plugin.version}</version>
+				</plugin>
+
+				<!-- 代码覆盖率插�? -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>${cobertura-maven-plugin.version}</version>
+					<configuration>
+						<instrumentation>
+							<excludes>
+								<exclude>**/*Action.class</exclude>
+								<!-- <exclude>**/SynServiceServlet.class</exclude> -->
+								<!-- <exclude>**/LogoOperationType.class</exclude> -->
+								<exclude>%regex[.*[Dto].class]</exclude>
+
+								<!-- <exclude>%regex[.*[Dto|DTO].class]</exclude> -->
+								<!-- <exclude>**/WSException.class</exclude> -->
+								<!-- <exclude>**/WSFault.class</exclude> -->
+								<!-- <exclude>**/PermissionInterceptor.class</exclude> -->
+								<exclude>**/ws/*WS.class</exclude>
+								<!--<exclude>**/Token.class</exclude> -->
+							</excludes>
+						</instrumentation>
+					</configuration>
+				</plugin>
+
+				<!-- 代码相似度检�? -->
+				<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>maven-simian-plugin</artifactId>
+					<version>1.6.1</version> </plugin> -->
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jdepend-maven-plugin</artifactId>
+					<version>${jdepend-maven-plugin.version}</version>
+				</plugin>
+				<!-- 圈复杂度�?�� -->
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>javancss-maven-plugin</artifactId>
+					<version>${javancss-maven-plugin.version}</version>
+					<configuration>
+						<failOnViolation>false</failOnViolation>
+						<ccnLimit>12</ccnLimit>
+						<ncssLimit>90</ncssLimit>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>${maven-jxr-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>dashboard-maven-plugin</artifactId>
+					<version>${dashboard-maven-plugin.version}</version>
+				</plugin>
+				<!-- #############################站点报告定义 结束############################# -->
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.4.1</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>${project.war.outputPath}</directory>
+
+								<followSymlinks>false</followSymlinks>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+				
+                <!-- eclipse插件,设定下载Source -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>2.9</version>
+                    <configuration>
+                        <downloadSources>true</downloadSources>
+                        <downloadJavadocs>false</downloadJavadocs>
+                        <wtpversion>2.0</wtpversion>
+                        <additionalConfig>
+                            <file>
+                                <name>.settings/org.eclipse.core.resources.prefs</name>
+                                <content>
+                              <![CDATA[
+eclipse.preferences.version=1
+encoding//<project>=UTF-8
+                      ]]>
+                                </content>
+                            </file>
+                        </additionalConfig>
+                    </configuration>
+                </plugin>
+            </plugins>
+		</pluginManagement>
+	</build>
+
+	<!-- ended of 2011.07.15 -->
+
+	<!-- SCE.DP持续集成 �?�� 2011-12-22 -->
+	<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+					<!-- <dependencyDetailsEnabled>false</dependencyDetailsEnabled> -->
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>summary</report>
+							<!-- <report>project-team</report> <report>mailing-list</report> <report>cim</report>
+								<report>issue-tracking</report> <report>license</report> -->
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>config/maven_checks.xml</configLocation>
+				</configuration>
+				<version>${maven-checkstyle-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${maven-surefire-report-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-maven-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${findbugs-maven-plugin.version}</version>
+				<configuration>
+					<xmlOutput>true</xmlOutput>
+					<effort>Max</effort>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin.version}</version>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>maven-simian-plugin</artifactId>
+				<version>1.6.1</version> </plugin> -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>${jdepend-maven-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javancss-maven-plugin</artifactId>
+				<version>${javancss-maven-plugin.version}</version>
+				<configuration>
+					<failOnViolation>true</failOnViolation>
+					<ccnLimit>15</ccnLimit>
+					<ncssLimit>90</ncssLimit>
+					<lineThreshold>10000</lineThreshold>
+					<excludes>
+						<exclude>**/DeployUtil.java</exclude>
+						<exclude>**/FRServlet.java</exclude>
+						<exclude>**/*Action.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>dashboard-maven-plugin</artifactId>
+				<version>${dashboard-maven-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<!-- SCE.DP持续集成 结束 2011-12-22 -->
+
+
+</project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="role"  extends="dp-default">
+	  	<action name="role" class="com.coship.sdp.sce.dp.action.permission.RoleAction">
+
+	  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">addRole</param>
+            </interceptor-ref>
+            <result name="invalid.token" type="redirectAction">role!searchRole.action</result>
+			<result name="Success" type="redirectAction">role!searchRole.action</result>
+
+	    	<result name="wlsList">/app/role/roleList.jsp</result>
+	    	<result name="roleList">/app/role/roleList.jsp</result>
+	    	<result name="roleAdd">/app/role/roleAdd.jsp</result>
+	    	<result name="roleModify">/app/role/roleModify.jsp</result>
+	    	<result name="rolePermission">/app/role/rolePermission.jsp</result>
+	    	<result name="showRoleDetail">/app/role/roleDetail.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

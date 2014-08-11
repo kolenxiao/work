@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="DpAppSignAction" extends="dp-default">
+		<action name="appsign"
+			class="com.coship.sdp.sce.dp.action.ap.DpAppSignAction">			
+			<result name="addOrEdit">/app/sign/signAdd.jsp</result>	
+			<result name="doList">/app/sign/signList.jsp</result>		
+
+			<interceptor-ref name="dpDefault"></interceptor-ref>
+		</action>
+	</package>
+</struts>

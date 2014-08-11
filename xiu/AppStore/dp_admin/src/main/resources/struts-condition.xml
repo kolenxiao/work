@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="condition" extends="dp-default">
+	  	<action name="condition" class="com.coship.sdp.sce.dp.action.plan.ConditionAction">
+	  		  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">save</param>
+            	<param name="includeMethods">update</param>
+            </interceptor-ref>
+
+			<result name="invalid.token" type="redirectAction">condition!list.action</result>
+			<result name="Success" type="redirectAction">condition!list.action</result>
+	    	<result name="list">/app/plan/condition_list.jsp</result>
+	    	<result name="listForPlan">/app/plan/plan_condition_list.jsp</result>
+	    	<result name="edit">/app/plan/condition_edit.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

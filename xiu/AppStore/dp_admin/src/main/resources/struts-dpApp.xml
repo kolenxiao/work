@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="dpApp" extends="dp-default">
+	  	<action name="dpAppInfo" class="com.coship.sdp.sce.dp.action.ap.DpAppInfoAction">
+	  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">doAudit</param>
+            </interceptor-ref>
+
+			<result name="Success" type="redirectAction">dpAppInfo!doList.action</result>
+			
+			<result name="invalid.token">/login.jsp</result>
+	    	<result name="doList">/app/ap/appInfoList.jsp</result>
+	    	<result name="doAppList">/app/ap/appInfoListByItem.jsp</result>
+	    	<result name="doSearchList">/app/ap/appInfoList.jsp</result>
+	    	<result name="doNotAuditList">/app/ap/appInfoNotAuditList.jsp</result>
+	    	<result name="gotoAudit">/app/ap/appInfoAudit.jsp</result>
+	    	<result name="doAudit">/app/ap/appInfoNotAuditList.jsp</result>
+	    	<result name="doSearchNotAuditList">/app/ap/appInfoNotAuditList.jsp</result>
+	    	<result name="gotoDetail">/app/ap/appInfoDetail.jsp</result>
+	    	<result name="doOnOrOffLineList">/app/ap/appInfoToOnlineList.jsp</result>
+	    	<result name="toAddRecommandList">/app/ap/recommentAppInfoList.jsp</result>
+	    	<result name="addUploadApp">/app/ap/createAppDocument.jsp</result>
+	    	<result name="doAdminList">/app/ap/adminAppInfoList.jsp</result>
+	    	<result name="toAddAppToSubject">/app/subject/subjectAppInfoList.jsp</result>
+	    	<result name="toAddTypeRecommandList">/app/ap/recommentAppTypeList.jsp</result>
+	    	<result name="modifyOnline">/app/ap/modifyAppOnline.jsp</result>
+	    	<result name="relateAppListReplace">/app/ap/relate_app_list_replace.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    <action name="dpAppInfoStore" class="com.coship.sdp.sce.dp.action.ap.DpAppInfoAction"  method="doOnlineStore">
+	    </action>
+
+	    <action name="dpAppInfoStat" class="com.coship.sdp.sce.dp.action.ap.DpAppInfoStatisticsAction">
+	    	<result name="doSearchList">/app/statistics/appStatisticsList.jsp</result>
+	    	<result name="gotoDetail">/app/statistics/appStatisticsDetail.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    <action name="appRecommend" class="com.coship.sdp.sce.dp.action.recommend.AppRecommentAction">
+	    	<result name="doSearchRecommandList">/app/ap/appInfoRecommandList.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    <action name="appTypeRecommend" class="com.coship.sdp.sce.dp.action.recommend.AppTypeRecommendAction">
+	    	<result name="doSearchAppTypeRecommandList">/app/ap/appTypeRecommandList.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+        
+        <action name="appRecommendPanel" class="com.coship.sdp.sce.dp.action.recommend.AppRecommendPanelAction">
+	    	<result name="doListPanel">/app/panel/appRecommandPanelList.jsp</result>
+	    	<result name="toSave">/app/panel/createRecommendPanel.jsp</result>
+	    	<result name="toEdit">/app/panel/editRecommendPanel.jsp</result> 	
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    
+	    <action name="appRecommendPanelItem" class="com.coship.sdp.sce.dp.action.recommend.AppRecommendPanelItemAction">
+	    	<result name="doPanelItemList">/app/panel/appPanelItemList.jsp</result>	
+	    	<result name="doUseFulItemList">/app/panel/userFulItemList.jsp</result>
+	    	<result name="doListItem">/app/panel/appItemList.jsp</result>
+	    	<result name="toSave">/app/panel/createItem.jsp</result>
+	    	<result name="toEdit">/app/panel/editItem.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

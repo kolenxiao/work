@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="appStore" extends="appstore-default">
+		<action name="appStoreV1" class="com.coship.appstore.service.AppStoreAction"></action>
+		<action name="appStoreV2" class="com.coship.appstore.service.AppStoreActionV2"></action>
+		<action name="appStore" class="com.coship.appstore.service.AppStoreActionV3"></action>
+	</package>
+</struts>

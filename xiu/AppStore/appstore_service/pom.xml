@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>dp</artifactId>
+		<groupId>com.coship.sdp.sce</groupId>
+		<version>V100R003B009</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>com.coship.sdp.sce</groupId>
+	<artifactId>appstore_service</artifactId>
+	<packaging>war</packaging>
+	<name>appstore_service Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<scm>
+		<connection>scm:svn:http://127.0.0.1/none</connection>
+		<developerConnection>
+			scm:svn:https://127.0.0.1/none
+		</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://127.0.0.1/isaynone</url>
+	</scm>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.coship.sdp.sce</groupId>
+			<artifactId>dp_resource</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+		</dependency>
+
+		<!-- struts jar -->
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+		</dependency>
+		<!-- end of struts jar -->
+
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<!-- 2011.06.28 -->
+		
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+
+
+	<!-- oracle jar -->
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+
+			</dependency>
+
+		<!-- ended of 2011.06.28 -->
+
+		<!-- 部署包排除xercesImpl-2.6.2.jar 2012-3-14 -->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 部署包排除xercesImpl-2.6.2.jar 2012-3-14 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		   <groupId>org.apache.httpcomponents</groupId>
+		   <artifactId>httpclient</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+
+			<!-- 生成时间戳 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.0-beta-4</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<format>{0,date,yyyy-MM-dd}</format>
+					<items>
+						<item>timestamp</item>
+					</items>
+					<buildNumberPropertyName>
+						current.timestamp
+					</buildNumberPropertyName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1-beta-1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<outputDirectory>output/安装包/工程/</outputDirectory>
+				</configuration>
+			</plugin>
+			<!-- 生成 数据库脚本 -->
+			<!-- run mvn clean compile hibernate3:hbm2ddl -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<dependencies>
+					 <dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.16</version>
+					</dependency>
+
+					 <!--<dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId>
+						<version>11.2.0</version> </dependency> -->
+				</dependencies>
+				<configuration>
+					<!-- <executions> <execution> <phase>process-classes</phase> <goals>
+						<goal>hbm2ddl</goal> </goals> </execution> </executions> -->
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>annotationconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<!-- Create Drop Statements -->
+						<drop>true</drop>
+						<!-- Format SQL Code -->
+						<format>true</format>
+						<export>false</export>
+						<namingstrategy>com.coship.sdp.access.hibernate.DPNamingStrategy</namingstrategy>
+						<!-- Define Database Properties to Use -->
+						<propertyfile>/src/main/resources/jdbc.properties</propertyfile>
+						<configurationfile>/src/test/resources/hibernate.cfg.xml
+            			</configurationfile>
+						<!-- Output filename -->
+						<outputfilename>initUspDataBase.sql</outputfilename>
+					</componentProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+		<!-- 打war包后的名字 ：usp.war -->
+		<finalName>appstore_service_${version}</finalName>
+	</build>
+</project>

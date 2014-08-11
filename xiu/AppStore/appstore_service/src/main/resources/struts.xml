@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- Constants -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.multipart.maxSize" value="1048576000" />
+
+	<package name="appstore-default" extends="struts-default">
+		<!-- 处理全局异常 -->
+		<global-results>
+			<result name="unhandledException">/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="unhandledException" />
+			<exception-mapping exception="java.lang.Runtime"
+				result="unhandledException" />
+		</global-exception-mappings>
+	</package>
+	<include file="struts-appStore.xml" />
+</struts>

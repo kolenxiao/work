@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>dp</artifactId>
+		<groupId>com.coship.sdp.sce</groupId>
+		<version>V100R003B009</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>com.coship.sdp.iag</groupId>
+	<artifactId>dp_admin</artifactId>
+	<packaging>war</packaging>
+	<name>dp_admin Java EE 6 Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<scm>
+		<connection>scm:svn:http://127.0.0.1/none</connection>
+		<developerConnection>
+			scm:svn:https://127.0.0.1/none
+		</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://127.0.0.1/isaynone</url>
+	</scm>
+	<dependencies>
+		<dependency>
+			<groupId>com.coship.sdp.sce</groupId>
+			<artifactId>dp_resource</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>quartz</groupId>
+		  <artifactId>quartz</artifactId>
+		  <version>1.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- log.jar -->
+			<dependency>
+				<groupId>com.coship.sdp</groupId>
+				<artifactId>sdp-log</artifactId>
+			</dependency>
+
+		<!-- permission.jar -->
+			<dependency>
+				<groupId>com.coship.sdp</groupId>
+				<artifactId>sdp-permission</artifactId>
+			</dependency>
+		<!-- core.jar -->
+		<dependency>
+				<groupId>com.coship.sdp</groupId>
+				<artifactId>sdp-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+
+		<!-- struts jar -->
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+		</dependency>
+		<!-- end of struts jar -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<!-- 2011.06.28 -->
+
+		<dependency>
+			<groupId>org.apache.ws.commons.schema</groupId>
+			<artifactId>XmlSchema</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+	<!-- 	<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency> -->
+
+		<!-- jaxb-api.jar -->
+		<!-- <dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.2</version>
+		</dependency> -->
+
+		<!-- jaxb-impl.jar 最高版本2.2.2 -->
+<!-- 		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.ws</groupId>
+			<artifactId>jaxws-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.soap</groupId>
+			<artifactId>saaj-api</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.messaging.saaj</groupId>
+			<artifactId>saaj-impl</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax-api</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>stax2-api</artifactId>
+			<version>3.1.1</version>
+		</dependency> -->
+
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ws.xmlschema</groupId>
+			<artifactId>xmlschema-core</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<!--neethi.jar -->
+		<dependency>
+			<groupId>org.apache.neethi</groupId>
+			<artifactId>neethi</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xml-resolver</groupId>
+			<artifactId>xml-resolver</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- ended of 2011.06.28 -->
+			<!-- web service -->
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.ws</groupId>
+			<artifactId>jaxws-api</artifactId>
+			<version>2.1-1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.jws</groupId>
+					<artifactId>jsr181</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Library from java.net, integrate Spring with JAX-WS -->
+		<dependency>
+			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+			<artifactId>jaxws-spring</artifactId>
+			<version>1.8</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.xml.stream.buffer</groupId>
+					<artifactId>streambuffer</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jvnet.staxex</groupId>
+					<artifactId>stax-ex</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!-- 2011.12.19 ant begin -->
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		<!-- 2011.12.19 ant end -->
+
+		<!-- ws client.jar -->
+
+		<dependency>
+			<groupId>com.coship.sdp.sce</groupId>
+			<artifactId>ws-client</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<!-- oracle jar -->
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+
+			</dependency>
+		<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<version>2.3</version>
+				<classifier>jdk15</classifier>
+		</dependency>
+		<!-- Findbugs annotations.jar jsr305.jar -->
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>annotations</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Findbugs annotations.jar jsr305.jar -->
+		<!-- 部署包排除xercesImpl-2.6.2.jar 2012-3-14 -->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 部署包排除xercesImpl-2.6.2.jar 2012-3-14 -->
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<!-- 生成时间戳 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.0-beta-4</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<format>{0,date,yyyy-MM-dd}</format>
+					<items>
+						<item>timestamp</item>
+					</items>
+					<buildNumberPropertyName>
+						current.timestamp
+					</buildNumberPropertyName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1-beta-1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<outputDirectory>output/安装包/工程/</outputDirectory>
+				</configuration>
+			</plugin>
+
+
+			<!-- 生成 数据库脚本 -->
+			<!-- run mvn clean compile hibernate3:hbm2ddl -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<dependencies>
+					<!-- <dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.16</version>
+					</dependency> -->
+
+					 <dependency> <groupId>com.oracle</groupId>
+					 <artifactId>ojdbc6</artifactId>
+						<version>11.2.0</version>
+						</dependency>
+				</dependencies>
+				<configuration>
+					<!-- <executions> <execution> <phase>process-classes</phase> <goals>
+						<goal>hbm2ddl</goal> </goals> </execution> </executions> -->
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>annotationconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<!-- Create Drop Statements -->
+						<drop>true</drop>
+						<!-- Format SQL Code -->
+						<format>true</format>
+						<export>false</export>
+						<namingstrategy>com.coship.sdp.access.hibernate.DPNamingStrategy</namingstrategy>
+						<!-- Define Database Properties to Use -->
+						<propertyfile>/src/test/resources/jdbc.properties</propertyfile>
+						<configurationfile>/src/test/resources/hibernate.cfg.xml
+            			</configurationfile>
+						<!-- Output filename -->
+						<outputfilename>initDpDataBase_mysql.sql</outputfilename>
+					</componentProperties>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="make ..." />
+								<mkdir dir="dist" />
+								<zip destfile="dist/save.zip">
+									<zipfileset dir="../save/dp" prefix="save/dp" />
+								</zip>
+								<copy file="dist/save.zip" todir="../output/安装包/工程/" />
+								<copy todir="../output/安装包/数据库脚本/">
+									<fileset dir="../SQL" />
+								</copy>
+								<copy todir="../output/更新说明/" file="../release_doc/应用商店平台升级说明.doc"/>
+								<copy todir="../output/变更说明/" file="../release_doc/应用商店平台版本变更说明.txt"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店安装指南（Linux）.doc"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店安装指南（Windows）.doc"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店管理系统__操作手册.doc"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店客户端_操作手册.doc"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店平台版本配套表.xls"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店平台接口文档.doc"/>
+								<copy todir="../output/配套说明/" file="../release_doc/应用商店前端自测试报告.xls"/>
+								<copy todir="../output/安装包/签名证书/" file="../release_doc/cacert.x509.cer"/>
+								<copy todir="../output/安装包/签名证书/" file="../release_doc/usercert.x509.cer"/>
+								<copy todir="../output/安装包/签名证书/" file="../release_doc/userkey.pk8"/>
+								<delete dir="dist" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<!-- 打war包后的名字 ：usp.war -->
+		<finalName>dp_admin_${version}</finalName>
+	</build>
+	<profiles>
+		<profile>
+			<id>endorsed</id>
+			<activation>
+				<property>
+					<name>sun.boot.class.path</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.5.1</version>
+						<configuration>
+							<!-- javaee6 contains upgrades of APIs contained within the JDK itself.
+								As such these need to be placed on the bootclasspath, rather than classpath
+								of the compiler. If you don't make use of these new updated API, you can
+								delete the profile. On non-SUN jdk, you will need to create a similar profile
+								for your jdk, with the similar property as sun.boot.class.path in Sun's JDK. -->
+							<compilerArguments>
+								<bootclasspath>${settings.localRepository}/javax/javaee-endorsed-api/6.0/javaee-endorsed-api-6.0.jar${path.separator}${sun.boot.class.path}
+								</bootclasspath>
+							</compilerArguments>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>javax</groupId>
+								<artifactId>javaee-endorsed-api</artifactId>
+								<version>6.0</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+					<!-- 2012-02-23 单元覆盖率-->
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<skip>false</skip>
+					<argLine>-Xmx256M</argLine>
+					<testFailureIgnore>true</testFailureIgnore>
+					<additionalClasspathElements>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.core.runtime_3.4.0.v20080512.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.emf.common_2.6.0.v20100914-1218.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.emf.ecore_2.6.1.v20100914-1218.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.equinox.app_1.1.0.v20080421-2006.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.equinox.common_3.4.0.v20080421-2006.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.equinox.preferences_3.2.201.R34x_v20080709.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.osgi_3.4.3.R34x_v20081215-1030.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.wst.ws_1.1.203.v201004211805.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.wst.ws.explorer_1.0.507.v201004220342.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.wst.ws.parser_1.0.403.v201004211805.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.wst.wsdl_1.2.103.v201008201724.jar</additionalClasspathElement>
+						<additionalClasspathElement>${basedir}/lib/org.eclipse.xsd_2.6.0.v20100914-1218.jar</additionalClasspathElement>
+					</additionalClasspathElements>
+					<includes>
+						<include>**/*Test*.java</include>
+						<include>**/*UT*.java</include>
+					</includes>
+				</configuration>
+			</plugin> -->
+
+			<!-- ended of 2012-02-23 -->
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+					<!-- <dependencyDetailsEnabled>false</dependencyDetailsEnabled> -->
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>summary</report>
+							<!-- <report>project-team</report> <report>mailing-list</report> <report>cim</report>
+								<report>issue-tracking</report> <report>license</report> -->
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>config/maven_checks.xml</configLocation>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<configuration>
+					<xmlOutput>true</xmlOutput>
+					<effort>Max</effort>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>maven-simian-plugin</artifactId>
+				<version>1.6.1</version> </plugin> -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>javancss-maven-plugin</artifactId>
+				<version>${javancss-maven-plugin.version}</version> <configuration> <failOnViolation>true</failOnViolation>
+				<ccnLimit>12</ccnLimit> <ncssLimit>90</ncssLimit> </configuration> </plugin> -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>dashboard-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>

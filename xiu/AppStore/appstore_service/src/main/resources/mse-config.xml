@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mse-config>
+	<routes>
+		<route id="IUC">http://172.30.25.245:8080/iuc/services/receive/index.html</route>
+	</routes>
+
+	<context>
+		<!-- 失败重发次数 -->
+		<retry-times>3</retry-times>
+		<!-- 消息表扫描间隔,单位秒 -->
+		<scan-sleep-time>120</scan-sleep-time>
+		<!-- 每次扫描取出的数据条数 -->
+		<scan-limit>100</scan-limit>
+		<!--是否扫描数据库表 -->
+		<database-scan>false</database-scan>
+		<!--发送历史表数据保留天数 -->
+		<history-keep-days>30</history-keep-days>
+		<!--发送的消息是否加密 -->
+		<encrypt>true</encrypt>
+		<!--接收的消息是否解密 -->
+		<decrypt>true</decrypt>
+		<!--加密密钥 -->
+		<key>UfusO4tzWO4t8PCHKNPbw==</key>
+		<!-- 是否可测试，上线后需设置为false -->
+		<test>true</test>
+	</context>
+</mse-config>

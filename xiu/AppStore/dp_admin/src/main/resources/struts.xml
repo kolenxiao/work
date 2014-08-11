@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- Constants -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.multipart.maxSize" value="1048576000" />
+
+	<package name="dp-default" extends="struts-default">
+		<interceptors>
+			<interceptor name="permission" class="com.coship.sdp.sce.dp.interceptor.PermissionInterceptor"></interceptor>
+			<interceptor-stack name="dpDefault">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="permission"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- 设为默认拦截器栈 -->
+		<default-interceptor-ref name="dpDefault"></default-interceptor-ref>
+
+		<!-- 处理全局异常 -->
+		<global-results>
+			<result name="error">/exception.jsp</result>
+			<result name="pub_failed">/pub_failed.jsp</result>
+			<result name="unhandledException">/exception.jsp</result>
+			<result name="gotologin">/login.jsp</result>
+			<result name="interceptorError">/interceptorError.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="unhandledException" />
+			<exception-mapping exception="java.lang.Runtime"
+				result="unhandledException" />
+		</global-exception-mappings>
+	</package>
+
+	<include file="struts-user.xml" />
+	<include file="struts-resource.xml" />
+	<include file="struts-role.xml" />
+	<include file="struts-rand.xml" />
+	<include file="struts-logger.xml" />
+	<include file="struts-news.xml"/>
+	<include file="struts-dpStaff.xml" />
+	<include file="struts-dpType.xml" />
+	<include file="struts-download.xml" />
+	<include file="struts-dpApp.xml"></include>
+	<include file="struts-dpAppSubjectType.xml"></include>
+	<include file="struts-certificate.xml"></include>
+	<include file="struts-sign.xml"></include>
+	<include file="struts-appStoreClient.xml"></include>
+	<include file="struts-implicitApp.xml"></include>
+	<include file="struts-device.xml"></include>
+	<include file="struts-upload.xml"></include>
+	<include file="struts-feedback.xml"></include>
+	<include file="struts-system.xml"></include>
+	<include file="struts-plan.xml"></include>
+	<include file="struts-condition.xml"></include>
+	<include file="struts-item.xml"></include>
+</struts>

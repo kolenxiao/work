@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+<!-- ap信息表 -->
+	<!-- 审核通过状态 1003 -->
+	<T_DP_STAFF C_ID="1" C_USER_NAME="admin" C_EMAIL="admin@coship.com"
+		C_ADDRESS="shenzhen" C_BANK_ACCOUNT_NAME="中国银行" C_IDENTITY_CARD="450212156905735209"
+		C_MOBILE_NUM="26990000" C_NICK_NAME="coship" C_PASS_WORD="0b9530c150355c9577aae21764f319c3"
+		C_STAFF_STATUS="1003" C_BEGIN_DP_STAFF_TIME="2012-01-05 10:31:30"></T_DP_STAFF>
+<!-- 草稿核状态 1004 -->
+	<T_DP_STAFF C_ID="2" C_USER_NAME="test" C_EMAIL="test@coship.com"
+		C_ADDRESS="shenzhen" C_BANK_ACCOUNT_NAME="中国银行" C_IDENTITY_CARD="450212156905735209"
+		C_MOBILE_NUM="26990000" C_NICK_NAME="同洲视讯" C_PASS_WORD="0b9530c150355c9577aae21764f319c3"
+		C_STAFF_STATUS="1001" C_BEGIN_DP_STAFF_TIME="2012-01-10 10:31:30"></T_DP_STAFF>
+<!-- 待审核状态 1002 -->
+		<T_DP_STAFF C_ID="3" C_USER_NAME="test1" C_EMAIL="test1@coship.com"
+		C_ADDRESS="shenzhen" C_BANK_ACCOUNT_NAME="中国银行" C_IDENTITY_CARD="450212156905735209"
+		C_MOBILE_NUM="26990000" C_NICK_NAME="同洲" C_PASS_WORD="0b9530c150355c9577aae21764f319c3"
+		C_STAFF_STATUS="1002" C_BEGIN_DP_STAFF_TIME="2012-01-11 10:31:30"></T_DP_STAFF>
+
+
+	<!-- 服务组 -->
+	<T_USP_SERV_GROUP C_ID="2c949c8a3472000701347202df400002"
+		C_USP_GROUP_NAME="广电服务" C_USP_GROUP_DESC="广电服务分组，包括点播、推流、回看等服务"
+		C_CREATE_DATE="2011-09-17 10:31:30" C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+	<T_USP_SERV_GROUP C_ID="2" C_USP_GROUP_NAME="电信服务"
+		C_USP_GROUP_DESC="电信服务分组，包括点播、推流、回看等服务" C_CREATE_DATE="2011-09-17 10:31:30"
+		C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+	<T_USP_SERV_GROUP C_ID="3" C_USP_GROUP_NAME="互联网服务"
+		C_USP_GROUP_DESC="互联网服务分组，包括天气预报、QQ在线、手机归属地等服务" C_CREATE_DATE="2011-09-17 10:31:30"
+		C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+	<T_USP_SERV_GROUP C_ID="4" C_USP_GROUP_NAME="同洲电子服务"
+		C_USP_GROUP_DESC="同洲电子服务分组，包括点播、推流、回看等服务" C_CREATE_DATE="2011-09-17 10:31:30"
+		C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+	<T_USP_SERV_GROUP C_ID="5" C_USP_GROUP_NAME="测试服务_5"
+		C_USP_GROUP_DESC="测试服务_5" C_CREATE_DATE="2011-09-17 10:31:30"
+		C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+	<T_USP_SERV_GROUP C_ID="6" C_USP_GROUP_NAME="测试服务_6"
+		C_USP_GROUP_DESC="测试服务_6" C_CREATE_DATE="2011-09-17 10:31:30"
+		C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+	<T_USP_SERV_GROUP C_ID="7" C_USP_GROUP_NAME="测试服务_7"
+		C_USP_GROUP_DESC="测试服务_7" C_CREATE_DATE="2011-09-17 10:31:30"
+		C_CREATE_USER="admin"></T_USP_SERV_GROUP>
+
+
+
+	<!-- GROUP 1 ESB 服务 草稿状态 1000 -->
+	<T_USP_SERVICE C_ID="1" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?WSDL"
+		C_USP_SERV_NAME="天气预报" C_USP_GROUP_ID="2c949c8a3472000701347202df400002"
+		C_USP_SERV_TYPE="3" C_USP_SERV_CTIME="2011-09-16 10:59:28"
+		C_USP_SERV_STATUS="1000">
+	</T_USP_SERVICE>
+
+	<!-- GROUP 2 ESB 服务 草稿状态 1000 -->
+	<T_USP_SERVICE C_ID="2" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/webservices/DomesticAirline.asmx?wsdl"
+		C_USP_SERV_NAME="国内飞机航班时刻表WEB服务" C_USP_GROUP_ID="2" C_USP_SERV_TYPE="3"
+		C_USP_SERV_CTIME="2011-09-16 10:59:28" C_USP_SERV_STATUS="1000"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 ESB 服务 草稿状态 1000 -->
+	<T_USP_SERVICE C_ID="3" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/webservices/qqOnlineWebService.asmx?wsdl"
+		C_USP_SERV_NAME="test" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="3"
+		C_USP_SERV_CTIME="2011-09-16 10:59:28" C_USP_SERV_STATUS="1000"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 ESB 服务 服务待审核 1001 -->
+	<T_USP_SERVICE C_ID="4" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl"
+		C_USP_SERV_NAME="国内手机号码归属地查询WEB服务" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="3"
+		C_USP_SERV_CTIME="2011-09-17 10:59:28" C_USP_SERV_STATUS="1001"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 ESB 服务 服务待审核 1001 -->
+	<T_USP_SERVICE C_ID="5" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/ChinaOpenFundWS.asmx?wsdl"
+		C_USP_SERV_NAME="中国开放式基金数据 WEB 服务" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="3"
+		C_USP_SERV_CTIME="2011-09-17 10:59:28" C_USP_SERV_STATUS="1001"
+		>
+	</T_USP_SERVICE>
+
+<!-- 	GROUP 3 ESB 服务 服务待审核 1001 -->
+	<T_USP_SERVICE C_ID="6" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/StockInfoWS.asmx?wsdl"
+		C_USP_SERV_NAME="股票行情数据 WEB 服务" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="3"
+		C_USP_SERV_CTIME="2011-09-18 10:59:28" C_USP_SERV_STATUS="1001"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 WEB 服务 服务待审核 1001 -->
+	<T_USP_SERVICE C_ID="7" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/StockInfoWS1.asmx?wsdl"
+		C_USP_SERV_NAME="股票行情数据 WEB 服务1" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="1"
+		C_USP_SERV_CTIME="2011-09-18 10:59:28" C_USP_SERV_STATUS="1001"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 WEB 服务 服务待审核 1001 -->
+	<T_USP_SERVICE C_ID="8" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/StockInfoWS12.asmx?wsdl"
+		C_USP_SERV_NAME="股票行情数据 WEB 服务11" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="1"
+		C_USP_SERV_CTIME="2011-09-18 10:59:28" C_USP_SERV_STATUS="1001"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 API 服务 服务待审核 1001 -->
+	<T_USP_SERVICE C_ID="9" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/StockInfoWS13.asmx?wsdl"
+		C_USP_SERV_NAME="股票行情数据 WEB 服务2" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="2"
+		C_USP_SERV_CTIME="2011-09-18 10:59:28" C_USP_SERV_STATUS="1001"
+		>
+	</T_USP_SERVICE>
+
+	<!-- GROUP 3 API 服务 服务审核通过 1002 -->
+	<T_USP_SERVICE C_ID="10" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/StockInfoWS4.asmx?wsdl"
+		C_USP_SERV_NAME="股票行情数据 WEB 服务22" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="2"
+		C_USP_SERV_CTIME="2011-09-18 10:59:28" C_USP_SERV_STATUS="1002"
+		C_USP_SERV_DESC = "股票行情数据 WEB 服务22">
+	</T_USP_SERVICE>
+
+
+<!-- GROUP 3 ESB 服务 服务审核通过 1002 -->
+	<T_USP_SERVICE C_ID="11" C_USP_NAME_SPACE="http://WebXml.com.cn/"
+		C_USP_SERV_ADDR="http://webservice.webxml.com.cn/WebServices/StockInfoWS5.asmx?wsdl"
+		C_USP_SERV_NAME="天气预报  服务23" C_USP_GROUP_ID="3" C_USP_SERV_TYPE="3"
+		C_USP_SERV_MTIME="2011-09-18 10:59:28" C_USP_SERV_STATUS="1002"
+		C_USP_SERV_DESC = "天气预报  服务23">
+	</T_USP_SERVICE>
+<!-- 方法 -->
+	<T_USP_SERV_OPERATION C_ID="10" C_USP_OPER_NAME="opration"
+		C_USP_SERV_ID="10" C_USP_OPER_DESC="opration Desciption">
+	</T_USP_SERV_OPERATION>
+
+	<!-- 方法 -->
+	<T_USP_SERV_OPERATION C_ID="11" C_USP_OPER_NAME="opration11"
+		C_USP_SERV_ID="11" C_USP_OPER_DESC="opration Desciption11" >
+	</T_USP_SERV_OPERATION>
+
+	<!-- 参数 -->
+	<T_USP_SERV_PARAMETERS C_ID="1"
+		C_USP_ORDER_FIELD="1" C_USP_PRM_FLAG="1" C_USP_PRM_NAME="input"
+		C_USP_OPER_ID="10">
+	</T_USP_SERV_PARAMETERS>
+
+	<T_USP_SERV_PARAMETERS C_ID="2"
+		C_USP_ORDER_FIELD="2" C_USP_PRM_FLAG="2" C_USP_PRM_NAME="output"
+		C_USP_OPER_ID="10" C_USP_PRM_DESC="testete">
+	</T_USP_SERV_PARAMETERS>
+
+		<!-- 参数 -->
+	<T_USP_SERV_PARAMETERS C_ID="3"
+		C_USP_ORDER_FIELD="1" C_USP_PRM_FLAG="1" C_USP_PRM_NAME="input"
+		C_USP_OPER_ID="11" C_USP_PRM_TYPE="1">
+	</T_USP_SERV_PARAMETERS>
+
+			<!-- 参数 -->
+	<T_USP_SERV_PARAMETERS C_ID="4"
+		C_USP_ORDER_FIELD="4" C_USP_PRM_FLAG="2" C_USP_PRM_NAME="output"
+		C_USP_OPER_ID="11">
+	</T_USP_SERV_PARAMETERS>
+	<!-- 绑定 -->
+	<T_USP_SERV_BIND C_ID="1" C_USP_SERV_BIND_NAME="ServiceBind"
+		C_USP_SERV_BIND_PORTTYPE="SOAP" C_USP_SERV_BIND_TRANSPORT="SOAP12"
+		C_USP_SERV_ID="10">
+	</T_USP_SERV_BIND>
+
+	<!-- 附件表 -->
+	<T_ATTACHMENT_FILE C_ID="1" C_CREATE_DATE="2011-09-18 10:59:28"
+		C_FILE_DESC="Attachment File" C_FILE_NAME="serviceAttachment.txt"
+		C_FILE_SAVE_NAME="service_attachment_save.txt" C_FILE_SIZE="20458"
+		C_FILE_TYPE="text/plain" C_USP_SERV_ID="10">
+	</T_ATTACHMENT_FILE>
+
+	<T_ATTACHMENT_FILE C_ID="2" C_CREATE_DATE="2011-09-18 10:59:28"
+		C_FILE_DESC="Attachment File" C_FILE_NAME="AppAttachment.txt"
+		C_FILE_SAVE_NAME="app_attachment_save.txt" C_FILE_SIZE="20458"
+		C_FILE_TYPE="text/plain" C_USP_SERV_ID="9">
+	</T_ATTACHMENT_FILE>
+
+
+</dataset>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="appStoreClient" extends="dp-default">
+	  	<action name="appStoreClient" class="com.coship.sdp.sce.dp.action.appstore.AppStoreClientAction">
+	  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">doAdd,doEdit</param>
+            </interceptor-ref>
+            <result name="invalid.token" type="redirectAction">appStoreClient!doList.action</result>
+			<result name="Success" type="redirectAction">appStoreClient!doList.action</result>
+	    	<result name="doList">/app/appstore/appStoreClientList.jsp</result>
+	    	<result name="toEdit">/app/appstore/appStoreClientEdit.jsp</result>
+	    	<result name="doDetail">/app/appstore/appStoreClientDetail.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

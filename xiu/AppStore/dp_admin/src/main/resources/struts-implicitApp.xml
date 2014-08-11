@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="implicit" extends="dp-default">
+	  	<action name="implicit" class="com.coship.sdp.sce.dp.action.implicitapp.ImplicitAppAction">
+			<result name="Success" type="redirectAction">implicit!doList.action</result>
+	    	<result name="doList">/app/implicitapp/implicitAppList.jsp</result>
+	    	<result name="toEdit">/app/implicitapp/implicitAppEdit.jsp</result>
+	    	<result name="doDetail">/app/implicitapp/implicitAppDetail.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

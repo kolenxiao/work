@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="plan" extends="dp-default">
+	  	<action name="planManage" class="com.coship.sdp.sce.dp.action.plan.PlanAction">
+	  		<result name="invalid.token" type="redirectAction">planManage!list.action</result>
+	  		<result name="list">/app/plan/plan_list.jsp</result>
+	  		<result name="listForApp">/app/plan/plan_app_list.jsp</result>
+	  		<result name="create">/app/plan/plan_create.jsp</result>
+	  		<result name="modify">/app/plan/plan_modify.jsp</result>
+	  		<result name="detail">/app/plan/plan_detail.jsp</result>
+	  		<result name="successToList" type="redirectAction">planManage!list.action</result>
+	  		<result name="listForPlan" type="redirectAction">
+	  			<param name="actionName">condition!listForPlan.action</param>  
+        		<param name="planId">${plan.id}</param>
+	  		</result>
+	  		<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    
+	    <action name="planItemManage" class="com.coship.sdp.sce.dp.action.plan.PlanItemAction">
+	    	<result name="invalid.token" type="redirectAction">planItemManage!list.action</result>
+	  		<result name="list">/app/plan/plan_item_list.jsp</result>
+	  		<result name="unSelectedPanelList">/app/plan/unselect_panel_list.jsp</result>
+	  		<result name="unSelectedSubjectList">/app/plan/unselect_subject_list.jsp</result>
+	  		<result name="unSelectedDpTypeList">/app/plan/unselect_dptype_list.jsp</result>
+	  		<result name="unSelectedSelfTypeList">/app/plan/unselect_selftype_list.jsp</result>
+	  		<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    	    
+	    <action name="planItemAppManage" class="com.coship.sdp.sce.dp.action.plan.PlanItemAppAction">
+	  		<result name="selectedAppList">/app/plan/selected_app_list.jsp</result>
+	  		<result name="unSelectAppList">/app/plan/unselect_app_list.jsp</result>
+	  		<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	    
+	</package>
+</struts>

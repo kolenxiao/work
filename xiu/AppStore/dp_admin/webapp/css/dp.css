@@ -1,0 +1,227 @@
+@charset "utf-8";
+
+.style-red {
+	color: red;
+	padding: 0 5px;
+}
+
+.input2 {
+	border: 1px solid #fff;
+}
+
+.data_edit td {
+	padding: 0px 0px 0px 0px;
+	border: 0px solid #97B8E0;
+}
+
+#nav_top li#home a {
+	background: url("../images/bg_home.gif") no-repeat scroll 0 0
+		transparent;
+	padding: 0 0 0 18px;
+}
+
+body#index_body {
+	background: #f3f7fd url(../images/bg_index.jpg) no-repeat right bottom
+		fixed;
+}
+
+#user_name_error,#user_login_error {
+	position: absolute;
+	height: 26px;
+	width: 140px;
+	left: 145px;
+	top: 0px;
+}
+
+#user_pwd_error{
+	position: absolute;
+	height: 26px;
+	width: 140px;
+	left: 145px;
+	top: 0px;
+}
+ 
+ #vcode_pic_error {
+	position: absolute;
+	height: 26px;
+	width: 140px;
+	left: 145px;
+	top: 0px;
+} 
+
+#vcode_pic_error1 ,#errMsg_validateCode{
+	position: absolute;
+	height: 26px;
+	width: 140px;
+	left: 65px;
+	top: 0px;
+}
+.error_class{
+	position: absolute;
+	height: 26px;
+	width: 140px;
+	left: 145px;
+	top: 0px;
+}
+#login_error {
+	position: absolute;
+	left: 120px;
+	top: 65px;
+	width: 200px;
+}
+
+.data_service1 {
+	-moz-border-bottom-colors: none;
+	-moz-border-image: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: #EAF2FD;
+	background-image: none;
+	background-origin: padding-box;
+	background-position: 0 0;
+	background-repeat: repeat;
+	background-size: auto auto;
+	border-bottom-color: #97B9DF;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-color: #97B9DF;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-color: #97B9DF;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-color: #97B9DF;
+	border-top-style: solid;
+	border-top-width: 1px;
+	margin-top: 2px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 10px;
+}
+
+.data_service1 .bg_order_ad1 {
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: transparent;
+	background-image: url("../images/order_ad1.gif");
+	background-origin: padding-box;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: auto auto;
+	height: 35px;
+}
+
+.data_service1 .bg_order_ad2 {
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: transparent;
+	background-image: url("../images/order_ad2.gif");
+	background-origin: padding-box;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: auto auto;
+	height: 35px;
+}
+
+.data_service1 .bg_order_ad3 {
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: transparent;
+	background-image: url("../images/order_ad3.gif");
+	background-origin: padding-box;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: auto auto;
+	height: 35px;
+}
+
+.data_service1 .bg_order_ad4 {
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-color: transparent;
+	background-image: url("../images/order_ad4.gif");
+	background-origin: padding-box;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: auto auto;
+	height: 35px;
+}
+
+.data_service1 li {
+	float: left;
+	font-weight: bold;
+	margin-left: 20px;
+	margin-right: 50px;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 10px;
+	text-align: center;
+}
+
+input.input_style {
+	width: 116px;
+	font-size: 12px;
+	height: 20px;
+	overflow: hidden;
+	line-height: 20px;
+	text-align: center;
+	border: none;
+	color: #006DC1;
+	margin: 0 20px 0 0;
+	padding: 0;
+	cursor: pointer;
+	background: url(../images/bg_btn_long.gif) top center no-repeat;
+}
+input.input_style:hover{background:url(../images/bg_btn_long_over.gif) top center no-repeat;}
+.uploadlist th {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url("../images/bg_datath.jpg");
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    background-size: auto auto;
+    border-bottom-color: #97B8E0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color-ltr-source: physical;
+    border-left-color-rtl-source: physical;
+    border-left-color-value: #97B8E0;
+    border-left-style-ltr-source: physical;
+    border-left-style-rtl-source: physical;
+    border-left-style-value: solid;
+    border-left-width-ltr-source: physical;
+    border-left-width-rtl-source: physical;
+    border-left-width-value: 1px;
+    border-right-color-ltr-source: physical;
+    border-right-color-rtl-source: physical;
+    border-right-color-value: #97B8E0;
+    border-right-style-ltr-source: physical;
+    border-right-style-rtl-source: physical;
+    border-right-style-value: solid;
+    border-right-width-ltr-source: physical;
+    border-right-width-rtl-source: physical;
+    border-right-width-value: 1px;
+    border-top-color: #97B8E0;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: #3B64A4;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;    
+}
+.uploadlist td,.uploadlist th{text-align: center;}
+.uploadTd{padding:4px 4px 4px 10px; border:1px solid #97B8E0;}
+.btnlistbar_step {padding-top: 5px;margin-top: 0px;}

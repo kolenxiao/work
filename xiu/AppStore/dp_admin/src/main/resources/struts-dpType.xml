@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="news"  extends="dp-default" >
+	  	<action name="dpType" class="com.coship.sdp.sce.dp.action.type.DpTypeAction">
+	  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">doEdit,doAdd</param>
+            </interceptor-ref>
+            <result name="invalid.token" type="redirectAction">dpType!doList.action</result>
+			<result name="Success" type="redirectAction">dpType!doList.action</result>
+
+	  		<result name="list">/app/type/typeList.jsp</result>
+	  		<result name="addOrEdit">/app/type/typeAdd.jsp</result>
+	  		<result name="doAdd">/app/type/typeList.jsp</result>
+	  		<result name="doFind">/app/type/typeDetail.jsp</result>
+			<result name="doSearchRecommandList">/app/type/appDpTypeList.jsp</result>
+	    	<result name="doSearchUncludeTypeRecommend">/app/type/createAppDpTypeList.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

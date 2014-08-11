@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+			<!-- SDP LOG -->
+			<mapping class="com.coship.sdp.common.log.entity.OpLogger" />
+
+			<!-- SDP PERMISSION -->
+			<mapping class="com.coship.sdp.permission.entity.Resource" />
+			<mapping class="com.coship.sdp.permission.entity.Role" />
+			<mapping class="com.coship.sdp.permission.entity.RoleResource" />
+			<mapping class="com.coship.sdp.permission.entity.User" />
+			<mapping class="com.coship.sdp.permission.entity.UserRole" />
+
+			<!--DP RESOURCE -->
+			<mapping class="com.coship.sdp.sce.dp.ap.entity.DpAppInfo" />
+			<mapping class="com.coship.sdp.sce.dp.ap.entity.DpStaff" />
+			<mapping class="com.coship.sdp.sce.dp.atachmentfile.entity.AttachmentFile" />
+			<mapping class="com.coship.sdp.sce.dp.audit.entity.DpAuditRecord" />
+			<mapping class="com.coship.sdp.sce.dp.download.entity.DpDownloadInfo" />
+			<mapping class="com.coship.sdp.sce.dp.news.entity.DpNews" />
+			<mapping class="com.coship.sdp.sce.dp.type.entity.DpType" />
+			<mapping class="com.coship.sdp.sce.dp.comment.entity.AppCommentInfo" />
+			<mapping class="com.coship.sdp.sce.dp.recommend.entity.AppRecommend" />
+			<mapping class="com.coship.sdp.sce.dp.subject.entity.AppSubjectType" />
+			<mapping class="com.coship.sdp.sce.dp.appstore.entity.AppStoreClient" />
+			<mapping class="com.coship.sdp.sce.dp.subject.entity.SubjectAppRelation" />
+	</session-factory>
+</hibernate-configuration>

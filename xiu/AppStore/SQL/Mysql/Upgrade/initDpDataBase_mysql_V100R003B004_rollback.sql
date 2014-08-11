@@ -1,0 +1,19 @@
+-- V100R003B004 rollback.  
+ALTER TABLE t_app_comment_info ADD CONSTRAINT FK9CB9B4B72AC9F70B FOREIGN KEY (c_app_id) REFERENCES t_dp_app_info (c_id);
+ALTER TABLE t_app_recommend ADD CONSTRAINT FK7D0000148C341342 FOREIGN KEY (c_type_id) REFERENCES t_dp_type (c_id);
+ALTER TABLE t_app_recommend ADD CONSTRAINT FK53DBFB332AC9F70B FOREIGN KEY (c_app_id) REFERENCES t_dp_app_info (c_id);
+ALTER TABLE t_app_recommend_panel_item ADD CONSTRAINT FKA7B6151AD7E5A263 FOREIGN KEY (c_panel_id) REFERENCES t_app_recommend_panel (c_id);
+ALTER TABLE t_app_sign ADD CONSTRAINT FK7D0237148C341345 FOREIGN KEY (c_app_id) REFERENCES t_dp_app_info (c_id);
+ALTER TABLE t_app_tag_relation ADD CONSTRAINT fk_r_app_tag_appid FOREIGN KEY (c_app_id) REFERENCES t_dp_app_info (c_id);
+ALTER TABLE t_app_tag_relation ADD CONSTRAINT fk_r_app_tag_tagid FOREIGN KEY (c_tag_id) REFERENCES t_tag_info (c_id);
+alter table t_attachment_file add constraint FK49154D2D674CCA9 foreign key (c_dpappinfo_id) references t_dp_app_info (c_id);
+ALTER TABLE t_dp_app_info ADD CONSTRAINT FK7D0237148C341342 FOREIGN KEY (c_type_id) REFERENCES t_dp_type (c_id);
+ALTER TABLE t_dp_download_info ADD CONSTRAINT FKFCE7FC1D8C341342 FOREIGN KEY (c_type_id) REFERENCES t_dp_type (c_id);
+ALTER TABLE t_dp_news ADD CONSTRAINT FKCE0EBDBB8C341342 FOREIGN KEY (c_type_id) REFERENCES t_dp_type (c_id);
+ALTER TABLE t_resource ADD CONSTRAINT FK47D00399B6E20216 FOREIGN KEY (c_parent_id) REFERENCES t_resource (c_id);
+ALTER TABLE t_role_resource ADD CONSTRAINT FK3E7E410C3F916D2B FOREIGN KEY (c_res_role_id) REFERENCES t_resource (c_id);
+ALTER TABLE t_role_resource ADD CONSTRAINT FK3E7E410CC1219FB1 FOREIGN KEY (c_role_res_id) REFERENCES t_role (c_id);
+ALTER TABLE t_subject_appinfo_relation ADD CONSTRAINT FK80E41D8D6028B97 FOREIGN KEY (c_subject_id) REFERENCES t_app_subject_type (c_id);
+ALTER TABLE t_subject_appinfo_relation ADD CONSTRAINT FK80E41D82AC9F70B FOREIGN KEY (c_app_id) REFERENCES t_dp_app_info (c_id);
+ALTER TABLE t_user_role ADD CONSTRAINT FK3E62963F66D6BE2C FOREIGN KEY (c_role_user_id) REFERENCES t_role (c_id);
+ALTER TABLE t_user_role ADD CONSTRAINT FK3E62963F5CE174B FOREIGN KEY (c_user_role_id) REFERENCES t_user (c_id);

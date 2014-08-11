@@ -1,0 +1,19 @@
+<!DOCTYPE jboss-web PUBLIC
+   "-//JBoss//DTD Web Application 5.0//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss-web_5_0.dtd">
+   
+<jboss-web>
+   <!-- Uncomment the security-domain to enable security. You will
+      need to edit the htmladaptor login configuration to setup the
+      login modules used to authentication users.
+      <security-domain>java:/jaas/jmx-console</security-domain>
+   -->
+   <class-loading java2ClassLoadingCompliance="true">  
+        <loader-repository>  
+            com.coship.sdp.sce.dp.admin:archive= dp_admin.war  
+            <loader-repository-config>  
+                java2ParentDelegation=true  
+            </loader-repository-config>  
+        </loader-repository>  
+    </class-loading>  
+</jboss-web>

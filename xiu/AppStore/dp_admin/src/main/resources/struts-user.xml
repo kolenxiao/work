@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="user" extends="dp-default" >
+	  	<action name="user" class="com.coship.sdp.sce.dp.action.permission.UserAction">
+	  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">addUser</param>
+            </interceptor-ref>
+            <result name="invalid.token" type="redirectAction">user!searchUser.action</result>
+			<result name="Success" type="redirectAction">user!searchUser.action</result>
+
+	    	<result name="loginSuccess">/main.jsp</result>
+	    	<result name="loginFail">/login.jsp</result>
+	    	<result name="logout">/login.jsp</result>
+	    	<result name="gotoEditPassword">/editPassword.jsp</result>
+	    	<result name="editPassword">/editPassword.jsp</result>
+	    	<result name="userList">app/user/userList.jsp</result>
+	    	<result name="userAdd">app/user/userAdd.jsp</result>
+	    	<result name="userRoleList">app/user/roleList.jsp</result>
+	    	<result name="assignRolesToUser">app/user/userRoleList.jsp</result>
+	    	<result name="editUser">app/user/userEdit.jsp</result>
+	    	<result name="errorMsg">app/user/delete_failed.jsp</result>
+	        <result name="editUserPage">app/user/updateUser.jsp</result>
+	        <result name="userDetail">app/user/userDetail.jsp</result>
+	        <result name="gotoUserselfEdit">app/user/userselfEdit.jsp</result>
+	        <result name="viewUserDetail">app/user/viewUserDetail.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

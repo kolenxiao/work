@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!-- ********************************************************************* -->
+<!-- Ant build script for save -->
+<!-- ********************************************************************* -->
+
+<project name="save" default="output" basedir=".">
+	<description>save</description>
+
+	<!-- Enable access to build.properties variables -->
+	<property file="build.properties" />
+	<property name="project.name" value="save" />
+	<property name="version" value="V100R001B022" />
+	<property name="filename" value="${project.name}_${version}" />
+	<property name="zipfile" value="${filename}.zip"/>
+	<property name="dist.dir" location="dist" />
+	<property name="output.dir" location="../output" />
+	<property name="save.dir" value="../save" />
+	<property name="sql.script.dir" value="../SQL" />
+
+	<!-- Init -->
+	<target name="init" depends="clean">
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<!-- Clean -->
+	<target name="clean" description="clean-up">
+		<delete dir="${dist.dir}" />
+		<delete file="${output.dir}/${zipfile}" />
+		<delete dir="${output.dir}/SQL" />
+
+	</target>
+	<!-- Dist -->
+	<target name="dist" depends="init" description="Generates the distribution file">
+		<zip destfile="${dist.dir}/${zipfile}">
+			<zipfileset dir="${save.dir}/dp"  prefix="save/dp"/>
+		</zip>
+	</target>
+	<!-- Output 2011-12-30 -->
+		<target name="output" depends="dist" description="Copies WAR File into your Container">
+			<copy file="${dist.dir}/${zipfile}" todir="${output.dir}" />
+			<copy todir="${output.dir}/SQL">
+				<fileset dir="${sql.script.dir}"/>
+			</copy>
+			<delete dir="${dist.dir}" />
+	</target>
+</project>

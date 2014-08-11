@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="dpAppSubjectType" extends="dp-default">
+	  	<action name="dpAppSubjectType" class="com.coship.sdp.sce.dp.action.subject.AppSubjectAction">
+	  		<!-- 表单重复提交 -->
+            <interceptor-ref name="token">
+            	<param name="includeMethods">doSaveEidt</param>
+            </interceptor-ref>
+            <result name="invalid.token" type="redirectAction">dpAppSubjectType!doSearchAppSubjectTypeList.action</result>
+			<result name="Success" type="redirectAction">dpAppSubjectType!doSearchAppSubjectTypeList.action</result>
+
+	    	<result name="appSubjectTypeList">/app/subject/appSubjectTypeList.jsp</result>
+	    	<result name="doDisplayDetail">/app/subject/appSubjectTypeDetail.jsp</result>
+	    	<result name="toEdit">/app/subject/appSubjectTypeEdit.jsp</result>
+	    	<result name="toAddAppToSubject">/app/subject/subjectAppInfoList.jsp</result>
+	    	<result name="doSearchAppSubjectTypeListByItem">/app/subject/appSubjectTypeListByItem.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+
+	    <action name="subjectAppinfoRelationAction" class="com.coship.sdp.sce.dp.action.relation.SubjectAppinfoRelationAction">
+	    	<result name="toEdit">/app/subject/appSubjectTypeEdit.jsp</result>
+	    	<interceptor-ref name="dpDefault"></interceptor-ref>
+	    </action>
+	</package>
+</struts>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 2011.07.12 added of 添加随机验证码 -->
+	<package name="myPackage2" extends="struts-default">
+		<!-- Random验证码 -->
+		<action name="rand" class="com.coship.sdp.sce.dp.common.RandomAction" method="rand">
+			<result type="stream">
+				<param name="contentType">image/jpeg</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+	</package>
+	<!-- ended of 2011.07.12 -->
+</struts>
