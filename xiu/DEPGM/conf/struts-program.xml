@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="program" extends="BasePackage" >
+		<!-- 节目分类 -->
+	    <action name="programType_*" class="com.coship.depgm.action.ProgramTypeAction" method="{1}"/>
+	    
+	    <!-- 节目内容 -->
+	    <action name="programContent_*" class="com.coship.depgm.action.ProgramContentAction" method="{1}"/>
+	    
+	    <!-- 节目剧集 -->
+	    <action name="programContentChapter_*" class="com.coship.depgm.action.ProgramContentChapterAction" method="{1}"/>
+
+	    <!-- 节目单 -->
+	    <action name="pgm_*" class="com.coship.depgm.action.ProgramAction" method="{1}"/>
+
+	    <!-- 频道 -->
+	    <action name="channel_*" class="com.coship.depgm.action.ChannelAction" method="{1}"/>
+	    
+	    <!-- 调用DEPG接口 -->
+	    <action name="depg_*" class="com.coship.depgm.action.DepgAction" method="{1}">
+	    	<result name="typeList">/content/depg/getProgramTypeList.jsp</result>
+	    </action>
+ 
+	</package>
+</struts>

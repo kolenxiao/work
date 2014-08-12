@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="debugLog"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="depgm/log/debug/depgm-log.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}][%C-%M]%m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+			<param name="LevelMax" value="DEBUG" />  
+			<param name="LevelMin" value="DEBUG" />  
+		</filter>  
+	</appender>
+	
+	<appender name="infoLog"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="depgm/log/info/depgm-log.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}][%C-%M]%m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+			<param name="LevelMax" value="INFO" />  
+			<param name="LevelMin" value="INFO" />  
+		</filter>  
+	</appender>
+
+	<appender name="warnLog"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="depgm/log/warn/depgm-log.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}][%C-%M]%m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+			<param name="LevelMax" value="WARN" />  
+			<param name="LevelMin" value="WARN" />  
+		</filter>  
+	</appender>
+	
+	<appender name="errorLog"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="depgm/log/error/depgm-log.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}][%C-%M]%m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+			<param name="LevelMax" value="ERROR" />  
+			<param name="LevelMin" value="ERROR" />  
+		</filter>  
+	</appender>
+
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n" />
+		</layout>
+	</appender>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="debugLog" />
+		<appender-ref ref="infoLog" />
+		<appender-ref ref="warnLog" />
+		<appender-ref ref="errorLog" />
+	</root>
+</log4j:configuration>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="common" extends="BasePackage" >
+
+		<!-- 用户登录 -->
+		<action name="user_*" class="com.coship.depgm.action.UserAction" method="{1}">
+	    	<result name="loginSuccess">/index.jsp</result>
+	    	<result name="loginFail">/login.jsp</result>
+	    	<result name="logout">/login.jsp</result>
+	    </action>
+
+		<!-- comboBox -->
+	    <action name="comboBox_*" class="com.coship.depgm.action.ComboBoxAction" method="{1}"/>
+ 
+	</package>
+</struts>

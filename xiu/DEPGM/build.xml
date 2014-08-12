@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="appbuild" name="depgm">
+	<property file="build.properties" />
+
+	<!--编译classpath设置 -->
+	<path id="build.classpath">
+		<fileset dir="WebRoot/WEB-INF/lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement path="${webapp.build.classesdir}" />
+	</path>
+
+	<!-- 以下代码为自动打包 -->
+	<target name="appbuild" depends="ant">
+		<echo message="生成产品安装包..." />
+		<!--放入运行包-->
+		<copy file="${webapp.output}/${webapp.version}.tar.gz" todir="${webapp.output}" failonerror="true" />
+	</target>
+
+	<!-- 清除文件夹 编译build、output安装包-->
+	<target name="clean">
+		<delete dir="${webapp.build}" />
+		<delete dir="${webapp.output}" />
+		<mkdir dir="${webapp.build}" />
+		<mkdir dir="${webapp.output}" />
+	</target>
+
+	<!-- jetty解包-->
+	<target name="untarjetty">
+		<gunzip src="${webapp.jetty}.gz" dest="${webapp.output}" />
+		<untar src="${webapp.output}/depgm.tar" dest="${webapp.output}/install" overwrite="true" />
+		<delete file="${webapp.output}/depgm.tar">
+		</delete>
+	</target>
+
+	<!-- java源码编译-->
+	<target name="compile">
+		<mkdir dir="${webapp.build.classesdir}" />
+
+		<javac debug="on" deprecation="yes" destdir="${webapp.build.classesdir}"  includes="**" optimize="on" srcdir="src">
+			<classpath refid="build.classpath" />
+			<compilerarg line="-encoding UTF-8 " />
+		</javac>
+	</target>
+
+	<!-- 编译打包-->
+	<target name="webbuild" depends="clean,untarjetty,compile">
+		<mkdir dir="${webapp.output.webctx}" />
+		<touch file="${webapp.output.webctx}/${webapp.version}.version"/>
+		<!-- 拷贝原工程下的webroot到待打包的目录-->
+		<copy todir="${webapp.output.webctx}">
+			<fileset dir="${webapp.src.WebRoot}/">
+			</fileset>
+		</copy>
+
+		<!-- 拷贝源码编译后的相关class和resource配置文件到待打包的目录-->
+		<copy todir="${webapp.output.webctx}/WEB-INF/classes/">
+			<fileset dir="${webapp.build.classesdir}">
+				<exclude name="**/*.src" />
+			</fileset>
+			
+			<fileset dir="${webapp}/conf">
+				<include name="**/*.properties" />
+				<include name="**/*.xml" />
+				<include name="**/*.txt" />
+			</fileset>
+		</copy>
+
+		<!-- jar拷贝-->
+		<copy todir="${webapp.output.webctx}/WEB-INF/lib">
+			<fileset dir="${webapp.lib}" />
+		</copy>
+
+		<!-- 源码conf配置文件拷贝到打包的jetty目录-->
+		<delete dir="${webapp.output}/conf">
+		</delete>
+		<copy todir="${webapp.output}/install/depgm-jetty/depgm/conf" overwrite="true">
+			<fileset dir="${webapp}/depgm/conf">
+				<exclude name="**/*.svn" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- 配置文件xml拷贝-->
+	<target name="ant" depends="webbuild">
+		<!--生成WAR包-->
+		<zip destfile="${webapp.output}/depgm.war" basedir="${webapp.output.webctx}" encoding="UTF-8" />
+
+		<delete dir="${webapp.output.webctx}/WEB-INF/lib/WEB-INF" />
+		<tar destfile="${webapp.output}/${webapp.version}.tar">
+			<tarfileset dir="${webapp.output}/install" preserveLeadingSlashes="true">
+			</tarfileset>
+		</tar>
+		<gzip destfile="${webapp.output}/${webapp.version}.tar.gz" src="${webapp.output}/${webapp.version}.tar" />
+		<delete file="${webapp.output}/${webapp.version}.tar" />
+		<delete dir="${webapp.output}/install" />
+		<delete dir="${webapp.build}" />
+	</target>
+</project>
