@@ -1,0 +1,1 @@
+存储过程(mybatis调用等)mybatisfileUtilsNIO(MINA,Netty)微信公众平台JDK新特性springsidemaven的几个插件Email和短信xstream解析APKJAX-RSOpenfireannotations过滤器thradLoacal Executor地图CDN熟悉netty，mina等nio开发框架-----------------多线程和线程池集合类、ConcurrentHashMapJVM知识，包括堆、栈、垃圾回收、调优、类加载机制大数据、高并发、分库分表http协议、socket/tcp/udpNIOJDK版本变化Redis

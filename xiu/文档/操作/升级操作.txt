@@ -1,0 +1,29 @@
+1.停止后台服务
+ps aux|grep /app/
+
+2.备份数据库
+ssh root@192.168.20.140
+
+cd /usr/local/appstore/backup
+mkdir AppStore_MS_20140624
+mysqldump -R -u root -p appstore > /usr/local/appstore/backup/AppStore_MS_20140624/appstore_20140624.sql
+
+3.执行sql更新脚本
+source /tmp/initDpDataBase_mysql_V100R003B007.sql
+
+4.备份war包
+tar zcfv appstore_service.$(date +%Y%m%d)01.tar.gz appstore_service
+mv appstore_service.$(date +%Y%m%d)01.tar.gz ../backup/
+
+tar zcfv dp_admin.$(date +%Y%m%d)01.tar.gz dp_admin
+mv dp_admin.$(date +%Y%m%d)01.tar.gz ../backup/
+
+scp -r /home/lifanghua/appstore/AppStore_MS_V100R003B007_git.10ebeb64_20140623101042.zip root@192.168.20.31:/tmp/
+
+cd /tmp
+unzip AppStore_MS_V100R003B007_git.10ebeb64_20140623101042.zip -d AppStore_MS_V100R003B007
+mv appstore_service /usr/local/app/webapps/
+mv dp_admin /usr/local/app_offline/webapps/
+
+
+5.启动后台服务
